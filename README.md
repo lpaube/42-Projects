@@ -7,7 +7,7 @@
 - [ ] ft_memmove
 - [ ] ft_memchr
 - [ ] ft_memcmp
-- [ ] ft_strlen
+- [x] ft_strlen
 - [ ] ft_strdup
 - [ ] ft_strcpy
 - [ ] ft_strncpy
@@ -47,7 +47,7 @@
 - [ ] ft_strsplit
 - [ ] ft_itoa
 - [x] ft_putchar
-- [ ] ft_putstr
+- [x] ft_putstr
 - [ ] ft_putendl
 - [ ] ft_putnbr
 - [ ] ft_putchar_fd

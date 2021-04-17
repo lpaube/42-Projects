@@ -70,7 +70,7 @@ for ((remain=$mainres; remain <= 10; remain++));
 do
 	printf " "
 done
-printf "\033[0m|%i%%)\n(Support |" "$((mainres * 10))"
+printf "\033[0m|%i%%)    [$main/26]\n(Support |" "$((mainres * 10))"
 
 for ((done=0; done <= $supres; done++));
 do
@@ -80,4 +80,4 @@ for ((remain=$supres; remain <= 10; remain++));
 do
 	printf " "
 done
-printf "\033[0m|%i%%)\n" "$((supres*10))"
+printf "\033[0m|%i%%)    [$sup/23]\n" "$((supres*10))"
