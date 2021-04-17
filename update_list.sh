@@ -66,18 +66,34 @@ for ((done=0; done <= $mainres; done++));
 do
 	printf "\033[0;32m▇"
 done
-for ((remain=$mainres; remain <= 10; remain++));
+for ((remain=$mainres; remain < 10; remain++));
 do
 	printf " "
 done
-printf "\033[0m|%i%%)    [$main/26]\n(Support |" "$((mainres * 10))"
+if (($mainres == 0))
+then
+	printf "\033[0m|  %i%%)    [$main/26]\n(Support |" "$((mainres * 10))"
+elif (( $mainres < 10 ))
+then
+	printf "\033[0m| %i%%)    [$main/26]\n(Support |" "$((mainres * 10))"
+else
+	printf "\033[0m|%i%%)    [$main/26]\n(Support |" "$((mainres * 10))"
+fi
 
 for ((done=0; done <= $supres; done++));
 do
 	printf "\033[0;32m▇"
 done
-for ((remain=$supres; remain <= 10; remain++));
+for ((remain=$supres; remain < 10; remain++));
 do
 	printf " "
 done
-printf "\033[0m|%i%%)    [$sup/23]\n" "$((supres*10))"
+if (($supres == 0))
+then
+	printf "\033[0m|  %i%%)    [$sup/23]\n" "$((supres*10))"
+elif (( $supres < 10 ))
+then
+	printf "\033[0m| %i%%)    [$sup/23]\n" "$((supres*10))"
+else
+	printf "\033[0m|%i%%)    [$sup/23]\n" "$((supres*10))"
+fi

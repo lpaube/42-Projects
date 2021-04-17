@@ -29,7 +29,7 @@
 - [ ] ft_toupper
 - [ ] ft_tolower
 ---
-### Supporting functions: (2 / 23)
+### Supporting functions: (3 / 23)
 - [ ] ft_memalloc
 - [ ] ft_memdel
 - [ ] ft_strnew
@@ -49,7 +49,7 @@
 - [x] ft_putchar
 - [x] ft_putstr
 - [ ] ft_putendl
-- [ ] ft_putnbr
+- [x] ft_putnbr
 - [ ] ft_putchar_fd
 - [ ] ft_putstr_fd
 - [ ] ft_putendl_fd
