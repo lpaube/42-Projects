@@ -1,6 +1,6 @@
 # libft (42 project_01)
 ---
-### Libc functions:
+### Libc functions: (0 / 26)
 - [ ] ft_memset
 - [ ] ft_bzero
 - [ ] ft_memcpy
@@ -29,7 +29,7 @@
 - [ ] ft_toupper
 - [ ] ft_tolower
 ---
-### Supporting functions:
+### Supporting functions: (1 / 23)
 - [ ] ft_memalloc
 - [ ] ft_memdel
 - [ ] ft_strnew
