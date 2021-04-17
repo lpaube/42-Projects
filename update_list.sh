@@ -54,8 +54,8 @@ do
 	add_to_list;
 done
 
-sed -i '' "s|(\d+ / 26)|($main / 26)|" README.md
-sed -i '' "s|(\d+ / 23)|($sup / 23)|" README.md
+sed -E -i '' "s|\([0-9]+ \/ 26\)|($main \/ 26)|g" README.md
+sed -E -i '' "s|\([0-9]+ \/ 23\)|($sup \/ 23)|g" README.md
 
 echo "README.md is now up to date."
 
