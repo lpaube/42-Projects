@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_memalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/17 14:19:21 by laube             #+#    #+#             */
-/*   Updated: 2021/04/17 15:21:02 by laube            ###   ########.fr       */
+/*   Created: 2021/04/17 16:29:28 by laube             #+#    #+#             */
+/*   Updated: 2021/04/17 20:08:18 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr(int n)
+void	*ft_memalloc(size_t size)
 {
-	if (n >= 10)
-		ft_putnbr(n / 10);
-	ft_putchar((n % 10) + '0');
+	void	*arr;
+	arr = malloc(size);
+	if (!arr)
+		return (NULL);
+
 }

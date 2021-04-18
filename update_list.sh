@@ -57,7 +57,7 @@ done
 sed -E -i '' "s|\([0-9]+ \/ 26\)|($main \/ 26)|g" README.md
 sed -E -i '' "s|\([0-9]+ \/ 23\)|($sup \/ 23)|g" README.md
 
-echo "README.md is now up to date."
+echo "\033[0;32m--- README.md is now up to date ---\033[0m"
 
 ((mainres= $main * 10 / 26))
 ((supres= $sup * 10 / 23))

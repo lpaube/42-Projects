@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_strclr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/17 14:19:21 by laube             #+#    #+#             */
-/*   Updated: 2021/04/17 15:21:02 by laube            ###   ########.fr       */
+/*   Created: 2021/04/17 15:30:41 by laube             #+#    #+#             */
+/*   Updated: 2021/04/17 16:13:54 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr(int n)
+void	ft_strclr(char *s)
 {
-	if (n >= 10)
-		ft_putnbr(n / 10);
-	ft_putchar((n % 10) + '0');
+	int	len;
+	int	i;
+
+	len = ft_strlen(s);
+	i = 0;
+	while (i < len)
+	{
+		s[i] = '\0';
+		i++;
+	}
 }
