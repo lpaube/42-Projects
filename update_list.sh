@@ -17,10 +17,10 @@ function add_to_list() {
 			state=1
 		fi
 	done < README.md
-	if [ $state == 1 ]
+	if [ $state = 1 ]
 	then
 		((sup++))
-	elif [ $state == 0 ]
+	elif [ $state = 0 ]
 	then
 		((main++))
 	fi
@@ -29,19 +29,19 @@ function add_to_list() {
 
 while read line;
 do
-	if [[ "$line" == *"- [x]"* ]]
+	if [[ "$line" = *"- [x]"* ]]
 	then
 		state=0
 		for file in *.c;
 		do
 			file_from_list=$(grep -oE "[^ ]+$" <<< "$line")
 			file=${file%.*}
-			if [ $file_from_list == $file ]
+			if [[ $file_from_list == $file ]]
 			then
 				state=1
 			fi
 		done
-		if [ $state == 0 ]
+		if [[ $state = 0 ]]
 		then
 			sed -i '' "s/- \[x]/- \[ ]/g" README.md
 		fi
@@ -70,7 +70,7 @@ for ((remain=$mainres; remain < 10; remain++));
 do
 	printf " "
 done
-if (($mainres == 0))
+if [[ $mainres -eq 0 ]]
 then
 	printf "\033[0m|  %i%%)    [$main/26]\n(Support |" "$((mainres * 10))"
 elif (( $mainres < 10 ))
@@ -88,7 +88,7 @@ for ((remain=$supres; remain < 10; remain++));
 do
 	printf " "
 done
-if (($supres == 0))
+if [[ $supres -eq 0 ]]
 then
 	printf "\033[0m|  %i%%)    [$sup/23]\n" "$((supres*10))"
 elif (( $supres < 10 ))

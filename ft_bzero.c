@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memalloc.c                                      :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/17 16:29:28 by laube             #+#    #+#             */
-/*   Updated: 2021/04/18 00:21:52 by laube            ###   ########.fr       */
+/*   Created: 2021/04/17 20:06:14 by laube             #+#    #+#             */
+/*   Updated: 2021/04/18 00:35:14 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memalloc(size_t size)
+void	ft_bzero(void *s, size_t n)
 {
-	void	*arr;
-
-	arr = malloc(size);
-	if (!arr)
-		return (NULL);
-	ft_bzero(arr, size);
+	while (n > 0)
+	{
+		*(char *)s++ = 0;
+		n--;
+	}
 }

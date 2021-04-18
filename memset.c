@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memalloc.c                                      :+:      :+:    :+:   */
+/*   memset.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/17 16:29:28 by laube             #+#    #+#             */
-/*   Updated: 2021/04/18 00:21:52 by laube            ###   ########.fr       */
+/*   Created: 2021/04/18 00:24:09 by laube             #+#    #+#             */
+/*   Updated: 2021/04/18 00:34:26 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "libft.h"
 
-void	*ft_memalloc(size_t size)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	void	*arr;
-
-	arr = malloc(size);
-	if (!arr)
-		return (NULL);
-	ft_bzero(arr, size);
+	c = (unsigned char)c;
+	while (len > 0)
+	{
+		*(char *)b++ = c;
+		len--;
+	}
+	return (b);
 }

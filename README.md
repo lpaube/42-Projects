@@ -1,8 +1,8 @@
 # libft (42 project_01)
 ---
-### Libc functions: (1 / 26)
+### Libc functions: (3 / 26)
 - [ ] ft_memset
-- [ ] ft_bzero
+- [x] ft_bzero
 - [ ] ft_memcpy
 - [ ] ft_memmove
 - [ ] ft_memchr
@@ -29,17 +29,17 @@
 - [ ] ft_toupper
 - [ ] ft_tolower
 ---
-### Supporting functions: (10 / 23)
+### Supporting functions: (14 / 23)
 - [x] ft_memalloc
-- [ ] ft_memdel
-- [ ] ft_strnew
-- [ ] ft_strdel
+- [x] ft_memdel
+- [x] ft_strnew
+- [x] ft_strdel
 - [x] ft_strclr
 - [ ] ft_striter
 - [ ] ft_striteri
 - [ ] ft_strmap
 - [ ] ft_strmapi
-- [ ] ft_strequ
+- [x] ft_strequ
 - [ ] ft_strnequ
 - [ ] ft_strsub
 - [ ] ft_strjoin
