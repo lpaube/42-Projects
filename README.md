@@ -29,7 +29,7 @@
 - [ ] ft_toupper
 - [ ] ft_tolower
 ---
-### Supporting functions: (14 / 23)
+### Supporting functions: (16 / 23)
 - [x] ft_memalloc
 - [x] ft_memdel
 - [x] ft_strnew
@@ -40,8 +40,8 @@
 - [ ] ft_strmap
 - [ ] ft_strmapi
 - [x] ft_strequ
-- [ ] ft_strnequ
-- [ ] ft_strsub
+- [x] ft_strnequ
+- [x] ft_strsub
 - [ ] ft_strjoin
 - [ ] ft_strtrim
 - [ ] ft_strsplit
