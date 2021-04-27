@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/26 22:25:00 by laube             #+#    #+#             */
-/*   Updated: 2021/04/26 23:12:18 by laube            ###   ########.fr       */
+/*   Created: 2021/04/26 23:08:59 by laube             #+#    #+#             */
+/*   Updated: 2021/04/26 23:27:54 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strtrim(char const *s)
 {
-	int		len;
 	char	*str;
+	int		len;
 
-	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	str = malloc(len * sizeof(char));
+	len = 0;
+	str = malloc(ft_strlen(s) * sizeof(char));
 	if !(str)
 		return (NULL);
-	while (*s1)
+	while (s[len] == ' ' || s[len] == '\n' || s[len] == '\t')
+		len++;
+	while (s[len] && s[len] != ' ' && s[len] != '\n' && s[len] != '\t')
+		len++;
+	str = malloc(len * sizeof(char));
+	while (*s == ' ' || *s == '\n' || *s == '\t')
+		s++;
+	while (*s && *s != ' ' && *s != '\n' && *s != '\t')
 	{
-		*str = *s1;
-		s1++;
+		*str = *s;
 		str++;
-	}
-	while (*s2)
-	{
-		*str = *s2;
-		s2++;
-		str++;
+		s++;
 	}
 	*str = '\0';
 	return (str);

@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 14:18:43 by laube             #+#    #+#             */
-/*   Updated: 2021/04/25 01:52:00 by laube            ###   ########.fr       */
+/*   Updated: 2021/04/26 23:08:10 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,3 +37,4 @@ void	ft_putchar(char c);
 void	ft_memdel(void **ap);
 void	*ft_memalloc(size_t size);
 void	ft_bzero(void *s, size_t n);
+char	*ft_strjoin(char const *s1, char const *s2);
