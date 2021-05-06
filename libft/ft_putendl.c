@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 15:25:37 by laube             #+#    #+#             */
-/*   Updated: 2021/04/17 15:27:44 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/05 13:51:20 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	ft_putendl(char const *s)
 {
-	ft_putstr(s);
+	ft_putstr_fd(s, 1);
 	ft_putchar('\n');
 }

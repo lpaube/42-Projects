@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnew.c                                        :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 01:05:51 by laube             #+#    #+#             */
-/*   Updated: 2021/04/18 01:09:29 by laube            ###   ########.fr       */
+/*   Created: 2021/05/05 14:33:30 by laube             #+#    #+#             */
+/*   Updated: 2021/05/05 14:34:42 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnew(size_t size)
+int	ft_isdigit(int c)
 {
-	char	*str;
-
-	str = ft_memalloc(size);
-	return (str);
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }

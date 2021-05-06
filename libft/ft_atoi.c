@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memalloc.c                                      :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/17 16:29:28 by laube             #+#    #+#             */
-/*   Updated: 2021/04/24 17:32:39 by laube            ###   ########.fr       */
+/*   Created: 2021/05/04 18:23:10 by laube             #+#    #+#             */
+/*   Updated: 2021/05/05 14:10:25 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memalloc(size_t size)
+int	ft_atoi(const char *str)
 {
-	void	*arr;
+	int	curr_num;
+	int	state;
 
-	arr = malloc(size);
-	if (!arr)
-		return (NULL);
-	ft_bzero(arr, size);
-	return (arr);
+	while ((*str >= 9 && *str <= 13) || *str == 32)
+		str++;
+	state = 1;
+	curr_num = 0;
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			state = -1;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		curr_num = (curr_num * 10) + (*str - '0');
+		str++;
+	}
+	return (curr_num * state);
 }

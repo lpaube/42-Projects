@@ -1,0 +1,799 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/04 12:02:37 by laube             #+#    #+#             */
+/*   Updated: 2021/05/05 20:15:16 by laube            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>
+#include <limits.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include "libft.h"
+
+#define	BLUE "\033[34m"
+#define	RESET "\033[0m"
+#define	RED "\033[31m"
+#define CYAN "\033[36m"
+
+/* MAIN FUNCTIONS */
+void	test_ft_strncmp(void)
+{
+	printf(BLUE "\t*** ft_strncmp ***\n" RESET);
+	int	ft_num;
+	int	c_num;
+	size_t	n;
+
+	/* Test 1 */
+	char	*s1 = "Hello There";
+	char	*s2 = "Hell";
+	n = 5;
+	ft_num = ft_strncmp(s1, s2, n);
+	c_num = strncmp(s1, s2, n);
+	printf("Test 1: ");
+	if (ft_num != c_num)
+	{
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_num, c_num);
+	}
+	else if (ft_num == c_num)
+	{
+		printf("OK\n");
+	}
+
+	/* Test 2 */
+	n = 0;
+	printf("Test 2: ");
+	if (ft_num != c_num)
+	{
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_num, c_num);
+	}
+	else if (ft_num == c_num)
+	{
+		printf("OK\n");
+	}
+
+	/* Test 3 */
+	n = 20;
+	s1 = "What is this";
+	s2 = "What is this";
+	ft_num = ft_strncmp(s1, s2, n);
+	c_num = strncmp(s1, s2, n);
+	printf("Test 3: ");
+	if (ft_num != c_num)
+	{
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_num, c_num);
+	}
+	else if (ft_num == c_num)
+	{
+		printf("OK\n");
+	}
+
+	/* Test 4 (negative) */
+	n = 20;
+	s1 = "Wha";
+	s2 = "What is this";
+	ft_num = ft_strncmp(s1, s2, n);
+	c_num = strncmp(s1, s2, n);
+	printf("Test 4: ");
+	if (ft_num != c_num)
+	{
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_num, c_num);
+	}
+	else if (ft_num == c_num)
+	{
+		printf("OK\n");
+	}
+
+	/* Test 5 (negative) */
+	n = 20;
+	s1 = "Whaa is this";
+	s2 = "What is this";
+	ft_num = ft_strncmp(s1, s2, n);
+	c_num = strncmp(s1, s2, n);
+	printf("Test 5: ");
+	if (ft_num != c_num)
+	{
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_num, c_num);
+	}
+	else if (ft_num == c_num)
+	{
+		printf("OK\n");
+	}
+	printf("\n");
+}
+
+void	test_ft_atoi(void)
+{
+	printf(BLUE "\t*** ft_atoi ***\n" RESET);
+	int		ft_num;
+	int		c_num;
+	
+	/* Test 1 */
+	printf("Test 1: ");
+	char	*str = "542";
+	ft_num = ft_atoi(str);
+	c_num = atoi(str);
+	if (ft_num != c_num)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_num, c_num);
+	else if (ft_num == c_num)
+		printf("OK\n");
+	
+	/* Test 2 */
+	printf("Test 2: ");
+	str = "-542";
+	ft_num = ft_atoi(str);
+	c_num = atoi(str);
+	if (ft_num != c_num)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_num, c_num);
+	else if (ft_num == c_num)
+		printf("OK\n");
+
+	/* Test 3 */
+	printf("Test 3: ");
+	str = "-2147483648";
+	ft_num = ft_atoi(str);
+	c_num = atoi(str);
+	if (ft_num != c_num)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_num, c_num);
+	else if (ft_num == c_num)
+		printf("OK\n");
+
+	/* Test 4 */
+	printf("Test 4: ");
+	str = "  	-532";
+	ft_num = ft_atoi(str);
+	c_num = atoi(str);
+	if (ft_num != c_num)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_num, c_num);
+	else if (ft_num == c_num)
+		printf("OK\n");
+
+	/* Test 5 */
+	printf("Test 5: ");
+	str = "  	+532";
+	ft_num = ft_atoi(str);
+	c_num = atoi(str);
+	if (ft_num != c_num)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_num, c_num);
+	else if (ft_num == c_num)
+		printf("OK\n");
+
+	/* Test 6 */
+	printf("Test 6: ");
+	str = "  	+ 532";
+	ft_num = ft_atoi(str);
+	c_num = atoi(str);
+	if (ft_num != c_num)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_num, c_num);
+	else if (ft_num == c_num)
+		printf("OK\n");
+
+	/* Test 7 */
+	printf("Test 7: ");
+	str = "  	--532";
+	ft_num = ft_atoi(str);
+	c_num = atoi(str);
+	if (ft_num != c_num)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_num, c_num);
+	else if (ft_num == c_num)
+		printf("OK\n");
+	
+	/* Test 8 */
+	printf("Test 8: ");
+	str = "  	532dfs";
+	ft_num = ft_atoi(str);
+	c_num = atoi(str);
+	if (ft_num != c_num)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_num, c_num);
+	else if (ft_num == c_num)
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_isalpha(void)
+{
+	printf(BLUE "	*** ft_isalpha ***\n" RESET);
+	char	c;
+	int	res_ft;
+	int	res_c;
+
+	/* Test 1 */
+	printf("Test 1: ");
+	c = 'a';
+	res_ft = ft_isalpha(c);
+	res_c = isalpha(c);
+	if (res_ft != res_c)
+	{
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	}
+	else if (res_ft == res_c)
+	{
+		printf("OK\n");
+	}
+
+	/* Test 2 */
+	printf("Test 2: ");
+	c = '\n';
+	res_ft = ft_isalpha(c);
+	res_c = isalpha(c);
+	if (res_ft != res_c)
+	{
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	}
+	else if (res_ft == res_c)
+	{
+		printf("OK\n");
+	}
+
+	/* Test 3 */
+	printf("Test 3: ");
+	c = '9';
+	res_ft = ft_isalpha(c);
+	res_c = isalpha(c);
+	if (res_ft != res_c)
+	{
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	}
+	else if (res_ft == res_c)
+	{
+		printf("OK\n");
+	}
+
+	/* Test 4 */
+	printf("Test 4: ");
+	c = -10;
+	res_ft = ft_isalpha(c);
+	res_c = isalpha(c);
+	if (res_ft != res_c)
+	{
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	}
+	else if (res_ft == res_c)
+	{
+		printf("OK\n");
+	}
+	printf("\n");
+}
+
+void	test_ft_isdigit(void)
+{
+	printf(BLUE "	*** ft_isdigit ***\n" RESET);
+	char	c;
+	int	res_ft;
+	int	res_c;
+
+	/* Test 1 */
+	printf("Test 1: ");
+	c = 'a';
+	res_ft = ft_isdigit(c);
+	res_c = isdigit(c);
+	if (res_ft != res_c)
+	{
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	}
+	else if (res_ft == res_c)
+	{
+		printf("OK\n");
+	}
+
+	/* Test 2 */
+	printf("Test 2: ");
+	c = '\n';
+	res_ft = ft_isdigit(c);
+	res_c = isdigit(c);
+	if (res_ft != res_c)
+	{
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	}
+	else if (res_ft == res_c)
+	{
+		printf("OK\n");
+	}
+
+	/* Test 3 */
+	printf("Test 3: ");
+	c = '9';
+	res_ft = ft_isdigit(c);
+	res_c = isdigit(c);
+	if (res_ft != res_c)
+	{
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	}
+	else if (res_ft == res_c)
+	{
+		printf("OK\n");
+	}
+
+	/* Test 4 */
+	printf("Test 4: ");
+	c = -10;
+	res_ft = ft_isdigit(c);
+	res_c = isdigit(c);
+	if (res_ft != res_c)
+	{
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	}
+	else if (res_ft == res_c)
+	{
+		printf("OK\n");
+	}
+	printf("\n");
+}
+
+void	test_ft_isalnum(void)
+{
+	printf(BLUE "	*** ft_isalnum ***\n" RESET);
+	char	c;
+	int	res_ft;
+	int	res_c;
+
+	/* Test 1 */
+	printf("Test 1: ");
+	c = 'a';
+	res_ft = ft_isalnum(c);
+	res_c = isalnum(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	c = '\n';
+	res_ft = ft_isalnum(c);
+	res_c = isalnum(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 3 */
+	printf("Test 3: ");
+	c = '9';
+	res_ft = ft_isalnum(c);
+	res_c = isalnum(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 4 */
+	printf("Test 4: ");
+	c = -10;
+	res_ft = ft_isalnum(c);
+	res_c = isalnum(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_isascii(void)
+{
+	printf(BLUE "	*** ft_isascii ***\n" RESET);
+	int	c;
+	int	res_ft;
+	int	res_c;
+
+	/* Test 1 */
+	printf("Test 1: ");
+	c = 'a';
+	res_ft = ft_isascii(c);
+	res_c = isascii(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	c = '\n';
+	res_ft = ft_isascii(c);
+	res_c = isascii(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 3 */
+	printf("Test 3: ");
+	c = '9';
+	res_ft = ft_isascii(c);
+	res_c = isascii(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 4 */
+	printf("Test 4: ");
+	c = -10;
+	res_ft = ft_isascii(c);
+	res_c = isascii(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 5 */
+	printf("Test 5: ");
+	c = 2000;
+	res_ft = ft_isascii(c);
+	res_c = isascii(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_isprint(void)
+{
+	printf(BLUE "	*** ft_isprint ***\n" RESET);
+	int	c;
+	int	res_ft;
+	int	res_c;
+
+	/* Test 1 */
+	printf("Test 1: ");
+	c = 2;
+	res_ft = ft_isprint(c);
+	res_c = isprint(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	c = '\n';
+	res_ft = ft_isprint(c);
+	res_c = isprint(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 3 */
+	printf("Test 3: ");
+	c = '9';
+	res_ft = ft_isprint(c);
+	res_c = isprint(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 4 */
+	printf("Test 4: ");
+	c = -10;
+	res_ft = ft_isprint(c);
+	res_c = isprint(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 5 */
+	printf("Test 5: ");
+	c = 200;
+	res_ft = ft_isprint(c);
+	res_c = isprint(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_toupper(void)
+{
+	printf(BLUE "	*** ft_toupper ***\n" RESET);
+	int	c;
+	int	res_ft;
+	int	res_c;
+
+	/* Test 1 */
+	printf("Test 1: ");
+	c = 'a';
+	res_ft = ft_toupper(c);
+	res_c = toupper(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	c = 'z';
+	res_ft = ft_toupper(c);
+	res_c = toupper(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 3 */
+	printf("Test 3: ");
+	c = 'F';
+	res_ft = ft_toupper(c);
+	res_c = toupper(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 4 */
+	printf("Test 4: ");
+	c = -10;
+	res_ft = ft_toupper(c);
+	res_c = toupper(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 5 */
+	printf("Test 5: ");
+	c = 200;
+	res_ft = ft_toupper(c);
+	res_c = toupper(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_tolower(void)
+{
+	printf(BLUE "	*** ft_tolower ***\n" RESET);
+	int	c;
+	int	res_ft;
+	int	res_c;
+
+	/* Test 1 */
+	printf("Test 1: ");
+	c = 'A';
+	res_ft = ft_tolower(c);
+	res_c = tolower(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	c = 'Z';
+	res_ft = ft_tolower(c);
+	res_c = tolower(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 3 */
+	printf("Test 3: ");
+	c = 'f';
+	res_ft = ft_tolower(c);
+	res_c = tolower(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 4 */
+	printf("Test 4: ");
+	c = -10;
+	res_ft = ft_tolower(c);
+	res_c = tolower(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+
+	/* Test 5 */
+	printf("Test 5: ");
+	c = 200;
+	res_ft = ft_tolower(c);
+	res_c = tolower(c);
+	if (res_ft != res_c)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, res_ft, res_c);
+	else if (res_ft == res_c)
+		printf("OK\n");
+	printf("\n");
+}
+
+/* ************************************* */
+/*			SUPPORTING FUNCTIONS	     */
+/* ************************************* */
+
+void	test_ft_substr(void)
+{
+	printf(CYAN "	*** ft_substr ***\n" RESET);
+	char			*str;
+	unsigned int	start;
+	size_t			len;
+	char			*ft_res;
+	char			*res;
+	int				state = 0;
+	int				i;
+
+	/* Test 1 */
+	printf("Test 1: ");
+	i = 0;
+	str = "Hello what is going on";
+	len = 100;
+	start = 2;
+	ft_res = ft_substr(str, start, len);
+	res = "llo what is going on";
+	while (res[i])
+	{
+		if (ft_res[i] != res[i])
+		{
+			printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+			break;
+			state = 1;
+		}
+		i++;
+	}
+	if (state == 0)
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	i = 0;
+	str = "Hello what is going on";
+	len = 2;
+	start = 2;
+	state = 0;
+	ft_res = ft_substr(str, start, len);
+	res = "ll";
+	while (res[i])
+	{
+		if (ft_res[i] != res[i])
+		{
+			printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+			break;
+			state = 1;
+		}
+		i++;
+	}
+	if (state == 0)
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_strjoin(void)
+{
+	printf(CYAN "	*** ft_strjoin ***\n" RESET);
+	char const *s1;
+	char const *s2;
+	char *ft_res;
+	char *res;
+	int	state;
+	int i;
+
+	/* Test 1 */
+	printf("Test 1: ");
+	i = 0;
+	state = 0;
+	s1 = "Hello ";
+	s2 = "World";
+	ft_res = ft_strjoin(s1, s2);
+	res = "Hello World";
+	while (res[i])
+	{
+		if (res[i] != ft_res[i])
+		{
+			printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+			state = 1;
+			break;
+		}
+		i++;
+	}
+	if (state == 0)
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	i = 0;
+	state = 0;
+	s1 = "";
+	s2 = "1";
+	ft_res = ft_strjoin(s1, s2);
+	res = "1";
+	while (res[i])
+	{
+		if (res[i] != ft_res[i])
+		{
+			printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+			state = 1;
+			break;
+		}
+		i++;
+	}
+	if (state == 0)
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_strtrim(void)
+{
+	printf(CYAN "	*** ft_strtrim ***\n" RESET);
+	char const *s1;
+	char const *set;
+	char *ft_res;
+	char *res;
+	int state;
+	int i;
+
+	/* Test 1 */
+	state = 0;
+	i = 0;
+	printf("Test 1: ");
+	s1 = "  	Hello    ";
+	set = " \t";
+	ft_res = ft_strtrim(s1, set);
+	res = "Hello";
+	while (res[i])
+	{
+		if (res[i] != ft_res[i])
+		{
+			printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+			state = 1;
+			break;
+		}
+		i++;
+	}
+	if (res[i] == ft_res[i] && state == 0)
+		printf("OK\n");
+	else
+		printf(RED "Error after \\n");
+
+	/* Test 2 */
+	state = 0;
+	i = 0;
+	printf("Test 2: ");
+	s1 = "LaaaWhat the heLl is going opnpp";
+	set = "Ladp";
+	ft_res = ft_strtrim(s1, set);
+	res = "What the heLl is going opn";
+	while (res[i])
+	{
+		if (res[i] != ft_res[i])
+		{
+			printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+			state = 1;
+			break;
+		}
+		i++;
+	}
+	if (res[i] == ft_res[i] && state == 0)
+		printf("OK\n");
+	else
+		printf(RED "Error after \\n");
+}
+
+int	main(void)
+{
+	test_ft_strncmp();
+	test_ft_atoi();
+	test_ft_isalpha();
+	test_ft_isdigit();
+	test_ft_isalnum();
+	test_ft_isascii();
+	test_ft_isprint();
+	test_ft_toupper();
+	test_ft_tolower();
+
+	test_ft_substr();
+	test_ft_strjoin();
+	test_ft_strtrim();
+}

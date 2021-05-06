@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strclr.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/17 15:30:41 by laube             #+#    #+#             */
-/*   Updated: 2021/04/17 16:13:54 by laube            ###   ########.fr       */
+/*   Created: 2021/05/04 11:29:39 by laube             #+#    #+#             */
+/*   Updated: 2021/05/04 17:44:51 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_strclr(char *s)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	int	len;
-	int	i;
+	size_t	i;
 
-	len = ft_strlen(s);
 	i = 0;
-	while (i < len)
+	while (s1[i] && i < n)
 	{
-		s[i] = '\0';
+		if (s1[i] > s2[i])
+			return (s1[i] - s2[i]);
+		if (s2[i] > s1[i])
+			return (-(s2[i] - s1[i]));
 		i++;
 	}
+	if (s2[i] != 0 && i < n)
+		return (-(s2[i] - s1[i]));
+	else
+		return (0);
 }

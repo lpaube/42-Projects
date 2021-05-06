@@ -54,14 +54,15 @@ do
 	add_to_list;
 done
 
-sed -E -i '' "s|\([0-9]+ \/ 26\)|($main \/ 26)|g" README.md
-sed -E -i '' "s|\([0-9]+ \/ 23\)|($sup \/ 23)|g" README.md
+echo $sup
+sed -E -i '' "s|\([0-9]+ \/ 24\)|($main \/ 24)|g" README.md
+sed -E -i '' "s|\([0-9]+ \/ 10\)|($sup \/ 10)|g" README.md
 
 echo "\033[0;36m-- README.md is now up to date\n"
 echo " --------- Libft completion status --------- "
 
-((mainres= $main * 10 / 26))
-((supres= $sup * 10 / 23))
+((mainres= $main * 10 / 24))
+((supres= $sup * 10 / 10))
 printf "| \033[0m-- (Libc    |"
 for ((done=0; done <= $mainres; done++));
 do
@@ -80,12 +81,12 @@ else
 fi
 if [[ $mainres -eq 0 ]]
 then
-	printf "\033[0m|  %i%%)    [$numain/26] \033[0;36m|\n| \033[0m-- (Support |" "$((mainres * 10))"
+	printf "\033[0m|  %i%%)    [$numain/24] \033[0;36m|\n| \033[0m-- (Support |" "$((mainres * 10))"
 elif (( $mainres < 10 ))
 then
-	printf "\033[0m| %i%%)    [$numain/26] \033[0;36m|\n| \033[0m-- (Support |" "$((mainres * 10))"
+	printf "\033[0m| %i%%)    [$numain/24] \033[0;36m|\n| \033[0m-- (Support |" "$((mainres * 10))"
 else
-	printf "\033[0m|%i%%)    [$numain/26] \033[0;36m|\n| \033[0m-- (Support |" "$((mainres * 10))"
+	printf "\033[0m|%i%%)    [$numain/24] \033[0;36m|\n| \033[0m-- (Support |" "$((mainres * 10))"
 fi
 
 
@@ -107,11 +108,11 @@ fi
 
 if [[ $supres -eq 0 ]]
 then
-	printf "\033[0m|  %i%%)    [$nusup/23] \033[0;36m|\n" "$((supres*10))"
+	printf "\033[0m|  %i%%)    [$nusup/10] \033[0;36m|\n" "$((supres*10))"
 elif (( $supres < 10 ))
 then
-	printf "\033[0m| %i%%)    [$nusup/23] \033[0;36m|\n" "$((supres*10))"
+	printf "\033[0m| %i%%)    [$nusup/10] \033[0;36m|\n" "$((supres*10))"
 else
-	printf "\033[0m|%i%%)    [$nusup/23] \033[0;36m|\n" "$((supres*10))"
+	printf "\033[0m|%i%%)    [$nusup/10] \033[0;36m|\n" "$((supres*10))"
 fi
 echo "\033[0;36m ------------------------------------------- "

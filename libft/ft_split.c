@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 23:25:59 by laube             #+#    #+#             */
-/*   Updated: 2021/04/27 23:27:36 by laube            ###   ########.fr       */
+/*   Updated: 2021/04/28 00:06:52 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ void	split_it(char **table, char const *s, char c);
 char	**ft_split(char const *s, char c)
 {
 	char	**table;
-	int		state;
 
-	state = 1;
 	table = malloc((table_size(s, c) * (sizeof(*table))) + 1);
 	if (!table)
 		return (NULL);
@@ -46,22 +44,20 @@ int	table_size(char const *s, char c)
 		}
 		else if (*s == c && state == 0)
 		{
-			state = 1
+			state = 1;
 		}
 		s++;
 	}
 	return (counter);
 }
 
-void str_alloc(char **table, char const *s, char c)
+void	str_alloc(char **table, char const *s, char c)
 {
 	int	state;
-	int counter;
+	int	counter;
 
 	counter = 0;
 	state = 0;
-	while (*s == c)
-		s++;
 	while (*s)
 	{
 		if (*s != c)
@@ -69,7 +65,7 @@ void str_alloc(char **table, char const *s, char c)
 			counter++;
 			state = 1;
 		}
-		else if (*s == c && state == 1)
+		if ((!*(s + 1) && state == 1) || (*s == c && state == 1))
 		{
 			*table = malloc((counter * sizeof(char)) + 1);
 			table++;
@@ -82,33 +78,29 @@ void str_alloc(char **table, char const *s, char c)
 
 void	split_it(char **table, char const *s, char c)
 {
-	while (*s == c)
-		s++;
+	int	state;
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	state = 0;
 	while (*s)
 	{
 		if (*s != c)
 		{
-			**table = *s;
-			(*table)++;
+			table[i][j] = *s;
+			j++;
 			state = 1;
 		}
-		else if (*s == c && state == 1)
+		if ((!*(s + 1) || *s == c) && state == 1)
 		{
-			**table = '\0';
-			table++;
+			table[i][j] = '\0';
+			i++;
+			j = 0;
 			state = 0;
 		}
 		s++;
 	}
-	*table = 0;
-}
-
-int	main(void)
-{
-	char **table = ft_split("what is up with all this mess", ' ');
-	while (table)
-	{
-		printf("%s", *table);
-		table++;
-	}
+	table[i] = 0;
 }
