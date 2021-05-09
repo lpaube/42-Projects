@@ -6,15 +6,15 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 23:25:59 by laube             #+#    #+#             */
-/*   Updated: 2021/04/28 00:06:52 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/06 13:33:12 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	str_alloc(char **table, char const *s, char c);
-int		table_size(char const *s, char c);
-void	split_it(char **table, char const *s, char c);
+static void		str_alloc(char **table, char const *s, char c);
+static int		table_size(char const *s, char c);
+static void		split_it(char **table, char const *s, char c);
 
 char	**ft_split(char const *s, char c)
 {
@@ -28,7 +28,7 @@ char	**ft_split(char const *s, char c)
 	return (table);
 }
 
-int	table_size(char const *s, char c)
+static int	table_size(char const *s, char c)
 {
 	int	counter;
 	int	state;
@@ -51,7 +51,7 @@ int	table_size(char const *s, char c)
 	return (counter);
 }
 
-void	str_alloc(char **table, char const *s, char c)
+static void	str_alloc(char **table, char const *s, char c)
 {
 	int	state;
 	int	counter;
@@ -76,7 +76,7 @@ void	str_alloc(char **table, char const *s, char c)
 	}
 }
 
-void	split_it(char **table, char const *s, char c)
+static void	split_it(char **table, char const *s, char c)
 {
 	int	state;
 	int	i;

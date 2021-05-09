@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 12:02:37 by laube             #+#    #+#             */
-/*   Updated: 2021/05/05 20:15:16 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/08 22:59:28 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,140 @@
 #define CYAN "\033[36m"
 
 /* MAIN FUNCTIONS */
+void	test_ft_memset(void)
+{
+	printf(BLUE "	*** ft_memset ***\n" RESET);
+	char *str1 = malloc(8);
+	char *str2 = malloc(8);
+	int i;
+	int	state;
+	size_t len;
+	int c;
+
+	/* Test 1*/
+	len = 7;
+	c = '$';
+	i = 0;
+	state = 0;
+	printf("Test 1: ");
+	str1 = ft_memset(str1, c, len);
+	str2 = memset(str2, c, len);
+	while ((size_t)i < len)
+	{
+		if (str1[i] != str2[i])
+		{
+			state = 1;
+			printf(RED "Returns: %c | Should be: %c\n" RESET, str1[i], str2[i]);
+		}
+		i++;
+	}
+	if (state == 0)
+		printf("OK\n");
+
+	/* Test 2*/
+	len = 8;
+	c = 'a';
+	i = 0;
+	state = 0;
+	printf("Test 2: ");
+	str1 = ft_memset(str1, c, len);
+	str2 = memset(str2, c, len);
+	while ((size_t)i < len)
+	{
+		if (str1[i] != str2[i])
+		{
+			state = 1;
+			printf(RED "Returns: %c | Should be: %c\n" RESET, str1[i], str2[i]);
+		}
+		i++;
+	}
+	if (state == 0)
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_bzero(void)
+{
+	printf(BLUE "	*** ft_bzero ***\n" RESET);
+	char *str1 = malloc(8);
+	char *str2 = malloc(8);
+	int i;
+	int	state;
+	size_t len;
+
+	/* Test 1*/
+	len = 7;
+	i = 0;
+	state = 0;
+	printf("Test 1: ");
+	str1[1] = 'a';
+	str2[1] = 'a';
+	ft_bzero(str1, len);
+	bzero(str2, len);
+	while ((size_t)i < len)
+	{
+		if (str1[i] != str2[i])
+		{
+			state = 1;
+			printf(RED "Returns: %c | Should be: %c\n" RESET, str1[i], str2[i]);
+		}
+		i++;
+	}
+	if (state == 0)
+		printf("OK\n");
+
+	/* Test 2*/
+	len = 0;
+	i = 0;
+	state = 0;
+	printf("Test 2: ");
+	str1[1] = 'a';
+	str2[1] = 'a';
+	ft_bzero(str1, len);
+	bzero(str2, len);
+	while ((size_t)i < len)
+	{
+		if (str1[i] != str2[i])
+		{
+			state = 1;
+			printf(RED "Returns: %c | Should be: %c\n" RESET, str1[i], str2[i]);
+		}
+		i++;
+	}
+	if (state == 0)
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_strlen(void)
+{
+	printf(BLUE "	*** ft_strlen ***\n" RESET);
+	char	*str;
+	int		ft_res;
+	int		res;
+
+	/* Test 1 */
+	printf("Test 1: ");
+	str = "This has some letters0.";
+	ft_res = ft_strlen(str);
+	res = strlen(str);
+	if (ft_res != res)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	str = "";
+	ft_res = ft_strlen(str);
+	res = strlen(str);
+	if (ft_res != res)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+	printf("\n");
+}
+
 void	test_ft_strncmp(void)
 {
 	printf(BLUE "\t*** ft_strncmp ***\n" RESET);
@@ -738,10 +872,10 @@ void	test_ft_strtrim(void)
 	state = 0;
 	i = 0;
 	printf("Test 1: ");
-	s1 = "  	Hello    ";
-	set = " \t";
+	s1 = "okthis should work laaal";
+	set = "la";
 	ft_res = ft_strtrim(s1, set);
-	res = "Hello";
+	res = "okthis should work ";
 	while (res[i])
 	{
 		if (res[i] != ft_res[i])
@@ -755,7 +889,7 @@ void	test_ft_strtrim(void)
 	if (res[i] == ft_res[i] && state == 0)
 		printf("OK\n");
 	else
-		printf(RED "Error after \\n");
+		printf(RED "Error after \"\\n\"\n");
 
 	/* Test 2 */
 	state = 0;
@@ -778,11 +912,127 @@ void	test_ft_strtrim(void)
 	if (res[i] == ft_res[i] && state == 0)
 		printf("OK\n");
 	else
-		printf(RED "Error after \\n");
+		printf(RED "Error after \"\\n\"");
+	printf("\n");
+}
+
+void	test_ft_split(void)
+{
+	printf(CYAN "	*** ft_split ***\n" RESET);
+	char const *s;
+	char c;
+	char **str;
+	int	i;
+
+	/* Test 1 */
+	printf("Test 1: ");
+	s = "hello this is now";
+	c = ' ';
+	str = ft_split(s, c);
+	i = 0;
+	if (strcmp(str[0], "hello") != 0 && i == 0)
+	{
+		printf(RED "Returns '%s' | Should be: 'hello'\n" RESET, str[0]);
+		i = 1;
+	}
+	if (strcmp(str[1], "this") != 0 && i == 0)
+	{
+		printf(RED "Returns '%s' | Should be: 'this'\n" RESET, str[1]);
+		i = 1;
+	}
+	if (strcmp(str[2], "is") != 0 && i == 0)
+	{
+		printf(RED "Returns '%s' | Should be: 'is'\n" RESET, str[2]);
+		i = 1;
+	}
+	if (strcmp(str[3], "now") != 0 && i == 0)
+	{
+		printf(RED "Returns '%s' | Should be: 'now'\n" RESET, str[3]);
+		i = 1;
+	}
+	if (i == 0)
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	s = "what is this really?";
+	c = 'i';
+	str = ft_split(s, c);
+	i = 0;
+	if (strcmp(str[0], "what ") != 0 && i == 0)
+	{
+		printf(RED "Returns: '%s' | Should be: 'what '\n" RESET, str[0]);
+		i = 1;
+	}
+	if (strcmp(str[1], "s th") != 0 && i == 0)
+	{
+		printf(RED "Returns: '%s' | Should be: 's th'\n" RESET, str[1]);
+		i = 1;
+	}
+	if (strcmp(str[2], "s really?") != 0 && i == 0)
+	{
+		printf(RED "Returns: '%s' | Should be: 's really?'\n" RESET, str[2]);
+		i = 1;
+	}
+	if (i == 0)
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_putchar_fd(void)
+{
+	printf(CYAN "	*** ft_putchar_fd ***\n" RESET);
+	/* Test 1 */
+	printf("Test 1: ");
+	fflush(stdout);
+	ft_putchar_fd('O', 1);
+	ft_putchar_fd('K', 1);
+	ft_putchar_fd('\n', 1);
+	printf("\n");
+}
+
+void	test_ft_putstr_fd(void)
+{
+	printf(CYAN "	*** ft_putstr_fd ***\n" RESET);
+	/* Test 1 */
+	printf("Test 1: ");
+	fflush(stdout);
+	ft_putstr_fd("OK\n", 1);
+	printf("\n");
+}
+
+void	test_ft_putendl_fd(void)
+{
+	printf(CYAN "	*** ft_putendl_fd ***\n" RESET);
+	/* Test 1 */
+	printf("Test 1: ");
+	fflush(stdout);
+	ft_putendl_fd("OK", 1);
+	printf("\n");
+}
+
+void	test_ft_putnbr_fd(void)
+{
+	printf(CYAN "	*** ft_putnbr_fd ***\n" RESET);
+	/* Test 1 */
+	printf("Test 1: Should be: 42 | Returns: ");
+	fflush(stdout);
+	ft_putnbr_fd(42, 1);
+	printf("\n");
+
+	/* Test 2 */
+	printf("Test 2: Should be: -2147483648 | Returns: ");
+	fflush(stdout);
+	ft_putnbr_fd(INT_MIN, 1);
+	printf("\n");
+	printf("\n");
 }
 
 int	main(void)
 {
+	test_ft_memset();
+	test_ft_bzero();
+	test_ft_strlen();
 	test_ft_strncmp();
 	test_ft_atoi();
 	test_ft_isalpha();
@@ -796,4 +1046,9 @@ int	main(void)
 	test_ft_substr();
 	test_ft_strjoin();
 	test_ft_strtrim();
+	test_ft_split();
+	test_ft_putchar_fd();
+	test_ft_putstr_fd();
+	test_ft_putendl_fd();
+	test_ft_putnbr_fd();
 }
