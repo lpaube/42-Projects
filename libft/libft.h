@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 14:18:43 by laube             #+#    #+#             */
-/*   Updated: 2021/05/06 14:52:00 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/08 23:57:48 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,15 @@ void	ft_bzero(void *s, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 
 /*	GENERATED PROTOTYPES (PROTOTYPICAL) 	*/
+void	test_ft_strmapi(void);
+char	ft_to_upper(unsigned int pos, char c);
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
+char	*ft_itoa(int n);
+void	test_ft_putnbr_fd(void);
+void	test_ft_itoa(void);
+void	test_ft_strlen(void);
+void	test_ft_bzero(void);
+void	test_ft_memset(void);
 void	test_ft_putendl_fd(void);
 void	test_ft_putstr_fd(void);
 void	test_ft_putchar_fd(void);

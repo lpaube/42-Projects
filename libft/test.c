@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 12:02:37 by laube             #+#    #+#             */
-/*   Updated: 2021/05/08 22:59:28 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/09 14:53:32 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -979,6 +979,88 @@ void	test_ft_split(void)
 	printf("\n");
 }
 
+void	test_ft_itoa(void)
+{
+	printf(CYAN "	*** ft_itoa ***\n" RESET);
+	char	*str;
+	int		num;
+
+	/* Test 1 */
+	printf("Test 1: ");
+	num = INT_MAX;
+	str = ft_itoa(num);
+	if (atoi(str) != num)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, atoi(str), num);
+	else if (atoi(str) == num)
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	num = INT_MIN + 1;
+	str = ft_itoa(num);
+	if (atoi(str) != num)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, atoi(str), num);
+	else if (atoi(str) == num)
+		printf("OK\n");
+
+	/* Test 3 */
+	printf("Test 3: ");
+	num = INT_MIN;
+	str = ft_itoa(num);
+	if (atoi(str) != num)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, atoi(str), num);
+	else if (atoi(str) == num)
+		printf("OK\n");
+
+	/* Test 4 */
+	printf("Test 4: ");
+	num = 0;
+	str = ft_itoa(num);
+	if (atoi(str) != num)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, atoi(str), num);
+	else if (atoi(str) == num)
+		printf("OK\n");
+	printf("\n");
+}
+
+char	ft_to_upper(unsigned int pos, char c)
+{
+	(void)pos;
+	if (c >= 'a' && c <= 'z')
+		return (c - ('a' - 'A'));
+	else
+		return (c);
+}
+
+void	test_ft_strmapi(void)
+{
+	printf(CYAN "	*** ft_strmapi ***\n" RESET);
+	char	*ft_res;
+	char	*init_str;
+	char	*res;
+
+	/* Test 1 */
+	printf("Test 1: ");
+	init_str = "Hello how Are yoU?";
+	res = "HELLO HOW ARE YOU?";
+	ft_res = ft_strmapi(init_str, ft_to_upper);
+	if (strcmp(ft_res, res) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+	else if (strcmp(ft_res, res) == 0)
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	init_str = "";
+	res = "";
+	ft_res = ft_strmapi(init_str, ft_to_upper);
+	if (strcmp(ft_res, res) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+	else if (strcmp(ft_res, res) == 0)
+		printf("OK\n");
+	printf("\n");
+}
+
 void	test_ft_putchar_fd(void)
 {
 	printf(CYAN "	*** ft_putchar_fd ***\n" RESET);
@@ -1030,6 +1112,7 @@ void	test_ft_putnbr_fd(void)
 
 int	main(void)
 {
+// MAIN FUNCTIONS
 	test_ft_memset();
 	test_ft_bzero();
 	test_ft_strlen();
@@ -1043,10 +1126,13 @@ int	main(void)
 	test_ft_toupper();
 	test_ft_tolower();
 
+// ADDITIONALS FUNCTIONS
 	test_ft_substr();
 	test_ft_strjoin();
 	test_ft_strtrim();
 	test_ft_split();
+	test_ft_itoa();
+	test_ft_strmapi();
 	test_ft_putchar_fd();
 	test_ft_putstr_fd();
 	test_ft_putendl_fd();

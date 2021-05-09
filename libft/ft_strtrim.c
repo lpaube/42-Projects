@@ -6,12 +6,11 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 23:08:59 by laube             #+#    #+#             */
-/*   Updated: 2021/05/06 13:23:59 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/09 00:27:23 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
 
 static int	is_member(char c, char const *set)
 {
