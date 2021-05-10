@@ -11,8 +11,8 @@
 - [x] ft_strlen
 - [x] ft_strlcpy
 - [x] ft_strlcat
-- [ ] ft_strchr
-- [ ] ft_strrchr
+- [x] ft_strchr
+- [x] ft_strrchr
 - [ ] ft_strnstr
 - [x] ft_strncmp
 - [x] ft_atoi
