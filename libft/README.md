@@ -3,7 +3,7 @@
 ### Libc functions: (12 / 10)
 - [x] ft_memset
 - [x] ft_bzero
-- [ ] ft_memcpy
+- [x] ft_memcpy
 - [ ] ft_memccpy
 - [ ] ft_memmove
 - [ ] ft_memchr

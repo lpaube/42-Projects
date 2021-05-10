@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 12:02:37 by laube             #+#    #+#             */
-/*   Updated: 2021/05/09 14:53:32 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/09 15:35:12 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,50 @@ void	test_ft_bzero(void)
 		i++;
 	}
 	if (state == 0)
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_memcpy(void)
+{
+	printf(BLUE "	*** ft_memcpy ***\n" RESET);
+	char	*ft_res = malloc(10);
+	char	*res = malloc(10);
+	char	*src = malloc(10);
+	src = "This is y";
+
+	/* Test 1 */
+	printf("Test 1: ");
+	ft_res = ft_memcpy(ft_res, src, 10);
+	res = memcpy(res, src, 10);
+	if (strcmp(ft_res, res) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+
+	/* Test 2 */
+	ft_res = malloc(1);
+	res = malloc(1);
+	src = malloc(10);
+	printf("Test 2: ");
+	ft_res = ft_memcpy(ft_res, src, 10);
+	res = memcpy(res, src, 10);
+	if (strcmp(ft_res, res) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+
+	/* Test 3 */
+	ft_res = malloc(10);
+	res = malloc(10);
+	src = malloc(1);
+	src = "";
+	printf("Test 3: ");
+	ft_res = ft_memcpy(ft_res, src, 10);
+	res = memcpy(res, src, 10);
+	if (strcmp(ft_res, res) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+	else
 		printf("OK\n");
 	printf("\n");
 }
@@ -1115,6 +1159,7 @@ int	main(void)
 // MAIN FUNCTIONS
 	test_ft_memset();
 	test_ft_bzero();
+	test_ft_memcpy();
 	test_ft_strlen();
 	test_ft_strncmp();
 	test_ft_atoi();

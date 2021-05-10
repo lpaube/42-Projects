@@ -41,6 +41,8 @@ void	ft_bzero(void *s, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 
 /*	GENERATED PROTOTYPES (PROTOTYPICAL) 	*/
+void	test_ft_memcpy(void);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	test_ft_strmapi(void);
 char	ft_to_upper(unsigned int pos, char c);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
