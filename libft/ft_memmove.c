@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
+/*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/09 15:00:10 by laube             #+#    #+#             */
-/*   Updated: 2021/05/10 15:03:18 by laube            ###   ########.fr       */
+/*   Created: 2021/05/10 14:03:01 by laube             #+#    #+#             */
+/*   Updated: 2021/05/10 14:48:04 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	size_t	i;
+	int		strlen;
+	void	*dst_og;
+	int		i;
 
 	i = 0;
-	while (i < n)
+	strlen = ft_strlen((char *)dst);
+	dst_og = malloc((strlen + 1) * sizeof(char));
+	while (i < strlen)
 	{
-		((char *)dst)[i] = 'f';
-		((char *)dst)[i] = ((char *)src)[i];
+		((char *)dst_og)[i] = ((char *)dst)[i];
 		i++;
 	}
-	return (dst);
+	ft_memcpy(dst, src, len);
+	return (dst_og);
 }

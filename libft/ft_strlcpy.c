@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
+/*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/09 15:00:10 by laube             #+#    #+#             */
-/*   Updated: 2021/05/10 15:03:18 by laube            ###   ########.fr       */
+/*   Created: 2021/05/10 16:35:51 by laube             #+#    #+#             */
+/*   Updated: 2021/05/10 16:54:41 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < n)
+	while (i < dstsize - 1)
 	{
-		((char *)dst)[i] = 'f';
-		((char *)dst)[i] = ((char *)src)[i];
+		dst[i] = src[i];
 		i++;
 	}
-	return (dst);
+	dst[i] = 0;
+	return (strlen(src));
 }

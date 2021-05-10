@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
+/*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/09 15:00:10 by laube             #+#    #+#             */
-/*   Updated: 2021/05/10 15:03:18 by laube            ###   ########.fr       */
+/*   Created: 2021/05/10 15:42:28 by laube             #+#    #+#             */
+/*   Updated: 2021/05/10 16:34:19 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	size_t	i;
+	char	*a;
+	char	*b;
 
-	i = 0;
-	while (i < n)
+	a = (char *)s1;
+	b = (char *)s2;
+	while (n--)
 	{
-		((char *)dst)[i] = 'f';
-		((char *)dst)[i] = ((char *)src)[i];
-		i++;
+		if (*a > *b)
+			return (*a - *b);
+		if (*a < *b)
+			return (*a - *b);
+		a++;
+		b++;
 	}
-	return (dst);
+	return (0);
 }

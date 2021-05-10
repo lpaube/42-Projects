@@ -1,16 +1,16 @@
 # libft (42 project_01)
 ---
-### Libc functions: (12 / 10)
+### Libc functions: (11 / 10)
 - [x] ft_memset
 - [x] ft_bzero
 - [x] ft_memcpy
-- [ ] ft_memccpy
-- [ ] ft_memmove
-- [ ] ft_memchr
-- [ ] ft_memcmp
+- [x] ft_memccpy
+- [x] ft_memmove
+- [x] ft_memchr
+- [x] ft_memcmp
 - [x] ft_strlen
-- [ ] ft_strlcpy
-- [ ] ft_strlcat
+- [x] ft_strlcpy
+- [x] ft_strlcat
 - [ ] ft_strchr
 - [ ] ft_strrchr
 - [ ] ft_strnstr
@@ -27,7 +27,7 @@
 - [ ] ft_strdup
 
 ---
-### Supporting functions: (12 / 10)
+### Supporting functions: (11 / 10)
 - [x] ft_substr
 - [x] ft_strjoin
 - [x] ft_strtrim

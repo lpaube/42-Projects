@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 12:02:37 by laube             #+#    #+#             */
-/*   Updated: 2021/05/09 15:35:12 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/10 18:32:06 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,148 @@ void	test_ft_memcpy(void)
 	printf("\n");
 }
 
+void	test_ft_memccpy(void)
+{
+	printf(BLUE "	*** ft_memccpy ***\n" RESET);
+	char	*ft_res = malloc(10);
+	char	*res = malloc(10);
+	char	*src = malloc(10);
+	int		c;
+	src = "This is y";
+
+	/* Test 1 */
+	printf("Test 1: ");
+	c = 'y';
+	ft_res = ft_memccpy(ft_res, src, c, 10);
+	res = memccpy(res, src, c, 10);
+	if (strcmp(ft_res, res) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+
+	/* Test 2 */
+	char	*ft_res3 = malloc(10);
+	char	*res3 = malloc(10);
+	printf("Test 2: ");
+	ft_res = ft_memccpy(ft_res3, src, c, 10);
+	res = memccpy(res3, src, c, 10);
+	if (strcmp(ft_res3, res3) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res3, res3);
+	else
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_memmove(void)
+{
+	printf(BLUE "	*** ft_memmove ***\n" RESET);
+	char	*ft_res = malloc(100);
+	char ft_res_new[] = "wtf";
+	char	*res = malloc(100);
+	char res_new[] = "wtf this is goodyyyyyyyy";
+	char src[] = "This is y";
+
+	/* Test 1 */
+	printf("Test 1: ");
+	ft_res = ft_memmove(ft_res_new, src, 8);
+	res = memmove(res_new, src, 8);
+	if (strcmp(ft_res, res_new) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+
+	/* Test 2 */
+	ft_res = malloc(10);
+	res = malloc(10);
+	char ft_res_new2[] = "f";
+	char res_new2[] = "f";
+	printf("Test 2: ");
+	ft_res = ft_memmove(ft_res_new2, src, 2);
+	res = memmove(res_new2, src, 2);
+	if (strcmp(ft_res_new2, res_new2) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+
+	/* Test 3 */
+	ft_res = malloc(10);
+	res = malloc(10);
+	printf("Test 3: ");
+	ft_res = ft_memmove(ft_res, src, 1);
+	res = memmove(res, src, 1);
+	if (strcmp(ft_res, res) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_memchr(void)
+{
+	printf(BLUE "	*** ft_memchr ***\n" RESET);
+
+	/* Test 1 */
+	printf("Test 1: ");
+	char *res1;
+	char *ft_res1;
+	char s1[] = "okay yes";
+	int c1 = 'k';
+	size_t n1 = 4;
+	res1 = memchr(s1, c1, n1);
+	ft_res1 = ft_memchr(s1, c1, n1);
+	if (strcmp(res1, ft_res1) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, res1, ft_res1);
+	else
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	char *res2;
+	char *ft_res2;
+	char s2[] = "WOWZERS";
+	int c2 = 'k';
+	size_t n2 = 4;
+	res2 = memchr(s2, c2, n2);
+	ft_res2 = ft_memchr(s2, c2, n2);
+	if (res2 == NULL || ft_res2 == NULL)
+		printf("OK\n");
+	else if (strcmp(res2, ft_res2) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, res2, ft_res2);
+	else
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_memcmp(void)
+{
+	printf(BLUE "	*** ft_memcmp ***\n" RESET);
+
+	/* Test 1 */
+	printf("Test 1: ");
+	char s1[] = "What is this?";
+	char s2[] = "What is that?";
+	size_t n = 13;
+	int res = memcmp(s1, s2, n);
+	int ft_res = ft_memcmp(s1, s2, n);
+	if (res != ft_res)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	char s3[] = "";
+	char s4[] = "";
+	size_t n1 = 0;
+	res = memcmp(s3, s4, n1);
+	ft_res = ft_memcmp(s3, s4, n1);
+	if (res != ft_res)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+	printf("\n");
+}
+
 void	test_ft_strlen(void)
 {
 	printf(BLUE "	*** ft_strlen ***\n" RESET);
@@ -200,9 +342,121 @@ void	test_ft_strlen(void)
 	printf("\n");
 }
 
+void	test_ft_strlcpy(void)
+{
+	printf(BLUE "	*** ft_strlcpy ***\n" RESET);
+
+	/* Test 1 */
+	printf("Test 1: ");
+	const char *src = "What is this wow";
+	size_t dstsize = 16;
+	char dst[dstsize + 1];
+	char ft_dst[dstsize + 1];
+	int	ft_res = ft_strlcpy(ft_dst, src, dstsize);
+	int	res = strlcpy(dst, src, dstsize);
+	if (ft_res != res)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	if (strcmp(dst, ft_dst) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_dst, dst);
+	else
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_strlcat(void)
+{
+	printf(BLUE "	*** ft_strlcat ***\n" RESET);
+
+	/* Test 1 */
+	printf("Test 1: ");
+	char buffer[] = "What is this wow";
+	char buffa[] = "What is this wow";
+	const char src[] = ", hell";
+	size_t dstsize = 30;
+	char dst[dstsize];
+	char ft_dst[dstsize];
+
+	strcpy(ft_dst, buffer);
+	strcpy(dst, buffa);
+
+	int	ft_res = ft_strlcat(ft_dst, src, dstsize);
+	int	res = strlcat(dst, src, dstsize);
+	if (ft_res != res)
+		printf(RED "Returns: %d | Should be: %d\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	if (strcmp(dst, ft_dst) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_dst, dst);
+	else
+		printf("OK\n");
+	printf("\n");
+}
+
+void	test_ft_strchr(void)
+{
+	printf(BLUE "	*** ft_strchr ***\n" RESET);
+	/* Test 1 */
+	printf("Test 1: ");
+	const char *s = "Here it is";
+	int c = 's';
+	char *ft_res = ft_strchr(s, c);
+	char *res = strchr(s, c);
+	if (strcmp(ft_res, res) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	const char *s1 = "Here";
+	int c1 = 's';
+	char *ft_res1 = ft_strchr(s1, c1);
+	char *res1 = strchr(s1, c1);
+	if (!res1 && !ft_res1)
+		printf("OK\n");
+	else
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res1, res1);
+	printf("\n");
+}
+
+void	test_ft_strrchr(void)
+{
+	printf(BLUE "	*** ft_strrchr ***\n" RESET);
+	/* Test 1 */
+	printf("Test 1: ");
+	const char *s = "Here it is";
+	int c = 's';
+	char *ft_res = ft_strrchr(s, c);
+	char *res = strrchr(s, c);
+	if (strcmp(ft_res, res) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	const char *s1 = "Here";
+	int c1 = 's';
+	char *ft_res1 = ft_strrchr(s1, c1);
+	char *res1 = strrchr(s1, c1);
+	if (!res1 && !ft_res1)
+		printf("OK\n");
+	else
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res1, res1);
+	printf("\n");
+}
+
 void	test_ft_strncmp(void)
 {
-	printf(BLUE "\t*** ft_strncmp ***\n" RESET);
+	printf(BLUE "	*** ft_strncmp ***\n" RESET);
 	int	ft_num;
 	int	c_num;
 	size_t	n;
@@ -1160,7 +1414,15 @@ int	main(void)
 	test_ft_memset();
 	test_ft_bzero();
 	test_ft_memcpy();
+	test_ft_memccpy();
+	test_ft_memmove();
+	test_ft_memchr();
+	test_ft_memcmp();
 	test_ft_strlen();
+	test_ft_strlcpy();
+	test_ft_strlcat();
+	test_ft_strchr();
+	test_ft_strrchr();
 	test_ft_strncmp();
 	test_ft_atoi();
 	test_ft_isalpha();

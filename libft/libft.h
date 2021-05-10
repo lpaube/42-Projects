@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 14:18:43 by laube             #+#    #+#             */
-/*   Updated: 2021/05/08 23:57:48 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/10 18:31:19 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,22 @@ void	ft_bzero(void *s, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 
 /*	GENERATED PROTOTYPES (PROTOTYPICAL) 	*/
+void	test_ft_strrchr(void);
+char	*ft_strrchr(const char *s, int c);
+void	test_ft_strchr(void);
+char	*ft_strchr(const char *s, int c);
+void	test_ft_strlcat(void);
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
+void	test_ft_strlcpy(void);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void	test_ft_memcmp(void);
+int		ft_memcmp(const void *s1, const void *s2, size_t n);
+void	test_ft_memchr(void);
+void	*ft_memchr(const void *s, int c, size_t n);
+void	test_ft_memmove(void);
+void	*ft_memmove(void *dst, const void *src, size_t len);
+void	test_ft_memccpy(void);
+void	*ft_memccpy(void *dst, const void *src, int c, size_t n);
 void	test_ft_memcpy(void);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	test_ft_strmapi(void);

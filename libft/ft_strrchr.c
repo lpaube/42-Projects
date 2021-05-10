@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
+/*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/09 15:00:10 by laube             #+#    #+#             */
-/*   Updated: 2021/05/10 15:03:18 by laube            ###   ########.fr       */
+/*   Created: 2021/05/10 18:12:00 by laube             #+#    #+#             */
+/*   Updated: 2021/05/10 18:15:34 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+char	*ft_strrchr(const char *s, int c)
 {
-	size_t	i;
+	int		i;
+	char	*res;
 
+	res = 0;
 	i = 0;
-	while (i < n)
+	while (*s)
 	{
-		((char *)dst)[i] = 'f';
-		((char *)dst)[i] = ((char *)src)[i];
-		i++;
+		if (*s == c)
+			res = (char *)s;
+		s++;
 	}
-	return (dst);
+	if (*s == c)
+		res = (char *)s;
+	if (res)
+		return (res);
+	return (NULL);
+
 }
