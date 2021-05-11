@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 12:03:29 by laube             #+#    #+#             */
-/*   Updated: 2021/05/11 12:20:16 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/11 13:03:36 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	void	*pointing;
+	void		*pointing;
 	size_t		i;
 
 	i = 0;

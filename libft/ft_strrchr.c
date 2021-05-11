@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 18:12:00 by laube             #+#    #+#             */
-/*   Updated: 2021/05/10 18:15:34 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/11 13:04:16 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,4 @@ char	*ft_strrchr(const char *s, int c)
 	if (res)
 		return (res);
 	return (NULL);
-
 }
