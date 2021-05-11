@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 14:03:01 by laube             #+#    #+#             */
-/*   Updated: 2021/05/10 14:48:04 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/11 14:09:19 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,17 @@
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	int		strlen;
-	void	*dst_og;
-	int		i;
+	char	*a;
+	char	*b;
 
-	i = 0;
-	strlen = ft_strlen((char *)dst);
-	dst_og = malloc((strlen + 1) * sizeof(char));
-	while (i < strlen)
+	a = (char *)src;
+	b = (char *)dst;
+	if (a < b)
 	{
-		((char *)dst_og)[i] = ((char *)dst)[i];
-		i++;
+		while (len--)
+			b[len] = a[len];
 	}
-	ft_memcpy(dst, src, len);
-	return (dst_og);
+	else
+		ft_memcpy(b, a, len);
+	return (dst);
 }

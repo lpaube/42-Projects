@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 18:33:34 by laube             #+#    #+#             */
-/*   Updated: 2021/05/11 11:56:33 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/11 16:56:13 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 		i = 0;
 		while (haystack[i] == needle[i])
 		{
+			if (len - i <= 0)
+				return (NULL);
 			i++;
 			if (needle[i] == 0)
 				return ((char *)haystack);
