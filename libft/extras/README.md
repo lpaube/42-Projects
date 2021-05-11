@@ -23,8 +23,8 @@
 - [x] ft_isprint
 - [x] ft_toupper
 - [x] ft_tolower
-- [ ] ft_calloc
-- [ ] ft_strdup
+- [x] ft_calloc
+- [x] ft_strdup
 
 ---
 ### Supporting functions: (11 / 10)

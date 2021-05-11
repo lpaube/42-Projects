@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 14:18:43 by laube             #+#    #+#             */
-/*   Updated: 2021/05/11 11:57:17 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/11 12:37:42 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ void	ft_bzero(void *s, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 
 /*	GENERATED PROTOTYPES (PROTOTYPICAL) 	*/
+void	test_ft_strdup(void);
+char	*ft_strdup(const char *s1);
+void	test_ft_calloc(void);
+void	*ft_calloc(size_t count, size_t size);
 void	test_ft_strnstr(void);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 void	test_ft_strrchr(void);
