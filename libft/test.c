@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 12:02:37 by laube             #+#    #+#             */
-/*   Updated: 2021/05/10 18:32:06 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/11 12:02:18 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -451,6 +451,36 @@ void	test_ft_strrchr(void)
 		printf("OK\n");
 	else
 		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res1, res1);
+	printf("\n");
+}
+
+void	test_ft_strnstr(void)
+{
+	printf(BLUE "	*** ft_strnstr ***\n" RESET);
+
+	/* Test 1 */
+	printf("Test 1: ");
+	const char *haystack = "Well this is hay.";
+	const char *needle = "is";
+	size_t len = 20;
+	char *ft_res = ft_strnstr(haystack, needle, len);
+	char *res = strnstr(haystack, needle, len);
+	if (strcmp(ft_res, res) != 0)
+		printf(RED "Returns: %s | Should be: %s\n" RESET, ft_res, res);
+	else
+		printf("OK\n");
+
+	/* Test 2 */
+	printf("Test 2: ");
+	const char *haystack2 = "Well this is hay.";
+	const char *needle2 = "is";
+	size_t len2 = 2;
+	char *ft_res2 = ft_strnstr(haystack2, needle2, len2);
+	char *res2 = strnstr(haystack2, needle2, len2);
+	if (!ft_res2 && !res2)
+		printf("OK\n");
+	else
+		printf(RED "Wrong! Should return NULL\n" RESET);
 	printf("\n");
 }
 
@@ -1423,6 +1453,7 @@ int	main(void)
 	test_ft_strlcat();
 	test_ft_strchr();
 	test_ft_strrchr();
+	test_ft_strnstr();
 	test_ft_strncmp();
 	test_ft_atoi();
 	test_ft_isalpha();
