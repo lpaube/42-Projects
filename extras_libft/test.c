@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 12:02:37 by laube             #+#    #+#             */
-/*   Updated: 2021/05/11 14:23:23 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/12 13:08:44 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ void	test_ft_memmove(void)
 		printf(RED "Returns: %s | Should be: Testing\n" RESET, res);
 	else
 		printf("OK\n");
-	print("\n");
+	printf("\n");
 }
 
 void	test_ft_memchr(void)
