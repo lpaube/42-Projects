@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 17:50:55 by laube             #+#    #+#             */
-/*   Updated: 2021/05/13 17:57:32 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/14 18:01:28 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-int	get_next_line(int fd, char **line);
+int		get_next_line(int fd, char **line);
+int		ft_strlen(const char *s);
+char	*ft_strjoin(char const *s1, char const *s2);
+void	*ft_calloc(int count, int size);
+char	*ft_strchr(const char *s, int c);
 
 #endif
