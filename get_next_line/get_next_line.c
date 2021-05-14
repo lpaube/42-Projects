@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 17:46:17 by laube             #+#    #+#             */
-/*   Updated: 2021/05/11 18:34:03 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/13 22:10:53 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,17 @@
 
 // TO DELETE
 #include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <fcntl.h>
 
 int	get_next_line(int fd, char **line)
 {
-	char	*buff;
-	int		i;
+	char	buff[BUFFER_SIZE];
+	char	*holder;
 
-	i = 0;
-	buff = malloc(BUFFER_SIZE * sizeof(char));
-	while (i++ < 11)
+	while (read(fd, buff, BUFFER_SIZE) > 0)
 	{
-		read(fd, buff, 1);
-	}
-	printf("Output: \"%s\"", buff);
+		holder += buff;
 
+	}
 
 	return (0);
 }
