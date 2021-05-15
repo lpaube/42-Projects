@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:32:53 by laube             #+#    #+#             */
-/*   Updated: 2021/05/14 18:01:26 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/15 19:27:13 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		str++;
 	}
 	*str = '\0';
+	//free((void *)*s1);
+	//free((void *)s2);
 	return (str_og);
 }
 

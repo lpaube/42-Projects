@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 17:46:17 by laube             #+#    #+#             */
-/*   Updated: 2021/05/14 18:01:19 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/15 19:27:54 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,89 +17,69 @@
 // TO DELETE
 #include <stdio.h>
 
-void	ft_parse2(char *buff, char c, char **line)
+
+char	*get_line(char *holder, char **line)
 {
 	int		i;
 
 	i = 0;
-	//printf("line: '%s' | buff: '%s'\n", *line, buff);
-
-	while (buff[i] != '\n')
+	while (holder[i] != '\n' && holder[i])
+		i++;
+	*line = ft_calloc(i + 1, sizeof(char));
+	i = 0;
+	while (holder[i] != '\n' && holder[i])
 	{
-		(*line)[i] = buff[i];
+		(*line)[i] = holder[i];
 		i++;
 	}
-	(*line)[i] = 0;
-}
-
-int	ft_strparse(char **buff, char **line)
-{
-	char	*tmp;
-
-	if ((tmp = ft_strchr(*buff, '\n')))
-	{
-		ft_parse2(*buff, '\n', line);
-		*buff = tmp + 1;
-		return (1);
-	}
+	if (holder[i + 1])
+		return (&holder[i + 1]);
 	return (0);
 }
 
 int	get_next_line(int fd, char **line)
 {
-	char		buff[BUFFER_SIZE + 1];
-	static char	*full_buff;
+	char		*buff;
+	static char	*holder;
 	int			bytes;
 
-	buff[BUFFER_SIZE] = 0;
-	if (full_buff == 0)
-		full_buff = ft_calloc(BUFFER_SIZE + 1, 1);
-	while ((bytes = read(fd, buff, BUFFER_SIZE) > 0))
+	if (!holder)
+		holder = ft_calloc(1, 1);
+	if (!line)
+		return (-1);
+	buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buff)
+		return (0);
+	while ((bytes = read(fd, buff, BUFFER_SIZE)) > 0)
 	{
-		if (bytes < 0)
-			return (-1);
-		full_buff = ft_strjoin(full_buff, buff);
-		if (ft_strparse(&full_buff, line))
+		holder = ft_strjoin(holder, buff);
+		if (ft_strchr(holder, '\n'))
 		{
+			free(buff);
+			holder = get_line(holder, line);
 			return (1);
 		}
 	}
-	full_buff = ft_strjoin(full_buff, buff);
-	if (ft_strparse(&full_buff, line))
-	{
-		if (bytes == 0)
-		{
-			full_buff = 0;
-		}
-		return (1);
-	}
-	return(-1);
+	return (0);
 }
 
 int	main(void)
 {
-	char	**line;
-	line = ft_calloc(5, sizeof(*line));
-	*line = ft_calloc(10000, 1);
+	char	*line;
+	line = NULL;
 	int	fd = open("test.txt", O_RDONLY);
-	get_next_line(fd, line);
-	printf("line: '%s'\n", *line);
-	get_next_line(fd, line);
-	printf("line: '%s'\n", *line);
-	get_next_line(fd, line);
-	printf("line: '%s'\n", *line);
-	get_next_line(fd, line);
-	printf("line: '%s'\n", *line);
-	get_next_line(fd, line);
-	printf("line: '%s'\n", *line);
-	get_next_line(fd, line);
-	printf("line: '%s'\n", *line);
-	get_next_line(fd, line);
-	printf("line: '%s'\n", *line);
-	get_next_line(fd, line);
-	printf("line: '%s'\n", *line);
-	get_next_line(fd, line);
-	printf("line: '%s'\n", *line);
-	get_next_line(fd, line);
-	printf("line: '%s'\n", *line);
+	get_next_line(fd, &line);
+	printf("line: '%s'\n", line);
+	get_next_line(fd, &line);
+	printf("line: '%s'\n", line);
+	get_next_line(fd, &line);
+	printf("line: '%s'\n", line);
+	get_next_line(fd, &line);
+	printf("line: '%s'\n", line);
+	get_next_line(fd, &line);
+	printf("line: '%s'\n", line);
+	get_next_line(fd, &line);
+	printf("line: '%s'\n", line);
+	get_next_line(fd, &line);
+	printf("line: '%s'\n", line);
 }
