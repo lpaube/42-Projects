@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 15:08:58 by laube             #+#    #+#             */
-/*   Updated: 2021/05/10 15:42:08 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/15 16:58:09 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {
-	void	*res;
+	const char	*big;
+	size_t		len;
 
-	while (n--)
+	len = 0;
+	big = (const char *)s;
+	while (len < n)
 	{
-		if (*((char *)s) == c)
-		{
-			res = (char *)s;
-			return (res);
-		}
-		s = (char *)s + 1;
+		if ((unsigned char)big[len] == (unsigned char)c)
+			return ((void *)&big[len]);
+		len++;
 	}
 	return (NULL);
 }

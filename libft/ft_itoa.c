@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/08 23:07:34 by laube             #+#    #+#             */
-/*   Updated: 2021/05/09 00:26:25 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/15 17:21:41 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ char	*ft_itoa(int n)
 	i = 0;
 	intlen = ft_intlen(n);
 	str = malloc((intlen + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
 	if (n < 0)
 		ft_checkneg(&n, &intlen, str, &i);
 	while (intlen > 1)
