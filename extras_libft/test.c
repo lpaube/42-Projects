@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 12:02:37 by laube             #+#    #+#             */
-/*   Updated: 2021/05/12 13:08:44 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/13 17:05:28 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 #include "libft.h"
 
 #define	BLUE "\033[34m"
