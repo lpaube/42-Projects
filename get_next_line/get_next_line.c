@@ -6,11 +6,17 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 17:46:17 by laube             #+#    #+#             */
-/*   Updated: 2021/05/16 17:22:35 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/16 18:06:54 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int	norm_killer(int fd, char **buff, int buff_size, int *bytes)
+{
+	*bytes = read(fd, *buff, buff_size);
+	return (*bytes);
+}
 
 char	*ft_strdup(char *s1)
 {
@@ -82,7 +88,7 @@ int	get_next_line(int fd, char **line)
 	buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buff)
 		return (-1);
-	while ((bytes = read(fd, buff, BUFFER_SIZE)) > 0)
+	while (norm_killer(fd, &buff, BUFFER_SIZE, &bytes) > 0)
 		if (do_holder(buff, &holder, bytes, line))
 			return (1);
 	if (bytes < 0)
