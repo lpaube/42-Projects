@@ -6,11 +6,20 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:32:53 by laube             #+#    #+#             */
-/*   Updated: 2021/05/15 19:27:13 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/16 17:17:14 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	free_it(char **str)
+{
+	if (*str != 0)
+	{
+		free((void *)*str);
+		*str = 0;
+	}
+}
 
 int	ft_strlen(const char *s)
 {
@@ -24,33 +33,33 @@ int	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char **s1, char *s2)
 {
 	int		len;
 	char	*str;
 	char	*str_og;
+	int		i;
 
-	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	i = 0;
+	len = ft_strlen(*s1) + ft_strlen(s2) + 1;
 	str = malloc(len * sizeof(char));
 	str_og = str;
 	if (!str)
 		return (NULL);
-	while (*s1)
+	while ((*s1)[i])
 	{
-		*str = *s1;
-		s1++;
-		str++;
+		*str_og = (*s1)[i++];
+		str_og++;
 	}
 	while (*s2)
 	{
-		*str = *s2;
+		*str_og = *s2;
 		s2++;
-		str++;
+		str_og++;
 	}
-	*str = '\0';
-	//free((void *)*s1);
-	//free((void *)s2);
-	return (str_og);
+	*str_og = '\0';
+	free_it(s1);
+	return (str);
 }
 
 void	*ft_calloc(int count, int size)
@@ -60,10 +69,10 @@ void	*ft_calloc(int count, int size)
 
 	i = 0;
 	pointing = malloc(size * count);
+	if (!pointing)
+		return (0);
 	while (i < (size * count))
-	{
 		((char *)pointing)[i++] = 0;
-	}
 	return (pointing);
 }
 
