@@ -5,7 +5,7 @@ int	main(void)
 {
 	char	*line;
 	line = NULL;
-	int	fd = open("test.txt", O_RDONLY);
+	int	fd = open("multiple_line_no_nl", O_RDONLY);
 	int ret = 1;
 	while (ret == 1)
 	{

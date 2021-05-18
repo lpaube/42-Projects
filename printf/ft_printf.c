@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:05:51 by laube             #+#    #+#             */
-/*   Updated: 2021/05/17 22:24:12 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/18 11:29:50 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	p_val(va_list ap)
 
 	while (i >= 0)
 	{
+		printf("buf[i]: %d\n", buf[i]);
 		hi = (buf[i] >> 4) & 0xf;
 		lo = buf[i] & 0xf;
 		tmp[0] = hi;
@@ -102,6 +103,6 @@ int	ft_printf(const char *fmt, ...)
 
 int	main(void)
 {
-	ft_printf("Hello there, this is the number: %d, ain't that a '%s', whoa there %p\n", 15, "CUNT");
+	ft_printf("Hello there, this is the number: %d, ain't that a '%s', whoa there %p\n", 15, "CALL");
 	return (0);
 }
