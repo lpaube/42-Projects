@@ -6,12 +6,13 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 17:50:55 by laube             #+#    #+#             */
-/*   Updated: 2021/05/19 11:35:28 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/19 11:20:37 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+# define FD_MAX 4864
 
 # include <unistd.h>
 # include <stdlib.h>

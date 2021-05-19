@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 17:46:17 by laube             #+#    #+#             */
-/*   Updated: 2021/05/19 11:43:59 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/19 12:07:55 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	norm_killer(int fd, char *buff, int buff_size, int *bytes)
 {
@@ -77,25 +77,24 @@ int	do_holder(char *buff, char **holder, char **line)
 int	get_next_line(int fd, char **line)
 {
 	char		buff[BUFFER_SIZE + 1];
-	static char	*holder = NULL;
+	static char	*holder[FD_MAX];
 	int			bytes;
 
 	bytes = 1;
 	if (!line || fd < 0 || BUFFER_SIZE <= 0)
-		if (holder)
-			return (free_it(&holder, -1));
-	if (bytes && !holder)
-		holder = ft_calloc(1, 1);
+		return (free_it(&(holder[fd]), -1));
+	if (bytes && !(holder[fd]))
+		holder[fd] = ft_calloc(1, 1);
 	while (norm_killer(fd, buff, BUFFER_SIZE, &bytes) > 0)
-		if (do_holder(buff, &holder, line))
+		if (do_holder(buff, &(holder[fd]), line))
 			return (1);
 	if (bytes < 0)
-		return (free_it(&holder, bytes));
-	if (ft_strchr(holder, '\n'))
+		return (free_it(&(holder[fd]), bytes));
+	if (ft_strchr(holder[fd], '\n'))
 	{
-		holder = get_line(&holder, line, '\n');
+		holder[fd] = get_line(&(holder[fd]), line, '\n');
 		return (1);
 	}
-	holder = get_line(&holder, line, '\n');
-	return (free_it(&holder, 0));
+	holder[fd] = get_line(&(holder[fd]), line, '\n');
+	return (free_it(&(holder[fd]), 0));
 }
