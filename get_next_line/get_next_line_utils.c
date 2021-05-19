@@ -6,26 +6,31 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:32:53 by laube             #+#    #+#             */
-/*   Updated: 2021/05/19 11:05:47 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/19 11:23:26 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-void	free_it(char **str)
+int	free_it(char **str, int bytes)
 {
 	if (*str != 0)
 	{
 		free((void *)*str);
 		*str = 0;
 	}
+	if (bytes < 0)
+		return (-1);
+	if (bytes == 0)
+		return (0);
+	return (0);
 }
 
 int	ft_strlen(const char *s)
 {
 	int	i;
-	
+
 	if (!s)
 		return (0);
 	i = 0;
@@ -61,7 +66,7 @@ char	*ft_strjoin(char **s1, char *s2)
 		str_og++;
 	}
 	*str_og = '\0';
-	free_it(s1);
+	free_it(s1, 0);
 	return (str);
 }
 

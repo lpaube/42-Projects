@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 17:46:17 by laube             #+#    #+#             */
-/*   Updated: 2021/05/19 11:07:06 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/19 11:23:41 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*get_line(char **holder, char **line, char c)
 	{
 		res = ft_strdup(&((*holder)[i + 1]));
 	}
-	free_it(holder);
+	free_it(holder, 0);
 	return (res);
 }
 
@@ -83,34 +83,20 @@ int	get_next_line(int fd, char **line)
 
 	bytes = 1;
 	if (!line || fd < 0 || BUFFER_SIZE <= 0)
-	{
 		if (holder)
-			free_it(&holder);
-		return (-1);
-	}
+			return (free_it(&holder, -1));
 	if (bytes && !holder)
 		holder = ft_calloc(1, 1);
-	/*
-	if (!buff)
-	{
-		free_it(&holder);
-		return (-1);
-	}
-	*/
 	while (norm_killer(fd, buff, BUFFER_SIZE, &bytes) > 0)
 		if (do_holder(buff, &holder, line))
 			return (1);
 	if (bytes < 0)
-	{
-		free_it(&holder);
-		return (-1);
-	}
+		return (free_it(&holder, bytes));
 	if (ft_strchr(holder, '\n'))
 	{
 		holder = get_line(&holder, line, '\n');
 		return (1);
 	}
 	holder = get_line(&holder, line, '\n');
-	free_it(&holder);
-	return (0);
+	return (free_it(&holder, 0));
 }
