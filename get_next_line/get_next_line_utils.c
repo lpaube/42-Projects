@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:32:53 by laube             #+#    #+#             */
-/*   Updated: 2021/05/18 18:51:51 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/19 11:05:47 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,15 @@ int	ft_strlen(const char *s)
 	
 	if (!s)
 		return (0);
-//	printf("FTSTRLEN1\n");
 	i = 0;
 	while (s[i])
 	{
 		i++;
 	}
-//	printf("FTSTRLEN2\n");
 	return (i);
 }
 
-char	*ft_strjoin(char **s1, char **s2)
+char	*ft_strjoin(char **s1, char *s2)
 {
 	int		len;
 	char	*str;
@@ -46,8 +44,8 @@ char	*ft_strjoin(char **s1, char **s2)
 	int		i;
 
 	i = 0;
-	len = ft_strlen(*s1) + ft_strlen(*s2) + 1;
-	str = malloc(len * sizeof(char));
+	len = ft_strlen(*s1) + ft_strlen(s2) + 1;
+	str = ft_calloc(len, sizeof(char));
 	if (!str)
 		return (NULL);
 	str_og = str;
@@ -57,9 +55,9 @@ char	*ft_strjoin(char **s1, char **s2)
 		str_og++;
 	}
 	i = 0;
-	while ((*s2)[i])
+	while (s2[i])
 	{
-		*str_og = (*s2)[i++];
+		*str_og = s2[i++];
 		str_og++;
 	}
 	*str_og = '\0';
@@ -72,7 +70,6 @@ void	*ft_calloc(int count, int size)
 	void		*pointing;
 	int			i;
 
-//	printf("CALLOC1\n");
 	if (count == 0 || size == 0)
 	{
 		count = 1;
@@ -82,10 +79,8 @@ void	*ft_calloc(int count, int size)
 	pointing = malloc(size * count);
 	if (!pointing)
 		return (0);
-//	printf("CALLOC2\n");
 	while (i < (size * count))
 		((char *)pointing)[i++] = 0;
-//	printf("CALLOC3\n");
 	return (pointing);
 }
 
