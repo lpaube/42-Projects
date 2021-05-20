@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:05:51 by laube             #+#    #+#             */
-/*   Updated: 2021/05/20 16:34:48 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/20 16:43:12 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	ft_uputnbr_fd(unsigned int n, int fd)
 {
 	if (n >= 10)
-	{
 		ft_uputnbr_fd(n / 10, fd);
-	}
 	ft_putchar_fd((n % 10) + '0', fd);
 }
 
