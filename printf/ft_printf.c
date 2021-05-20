@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:05:51 by laube             #+#    #+#             */
-/*   Updated: 2021/05/19 22:53:32 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/20 16:34:48 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,49 +21,7 @@ void	ft_uputnbr_fd(unsigned int n, int fd)
 	ft_putchar_fd((n % 10) + '0', fd);
 }
 
-int	get_complement2(int c)
-{
-	if (c == 12)
-		return (3);
-	if (c == 13)
-		return (2);
-	if (c == 14)
-		return (1);
-	if (c == 15)
-		return (0);
-	return (0);
-}
-
-int	get_complement(int c)
-{
-	if (c == 0)
-		return (15);
-	if (c == 1)
-		return (14);
-	if (c == 2)
-		return (13);
-	if (c == 3)
-		return (12);
-	if (c == 4)
-		return (11);
-	if (c == 5)
-		return (10);
-	if (c == 6)
-		return (9);
-	if (c == 7)
-		return (8);
-	if (c == 8)
-		return (7);
-	if (c == 9)
-		return (6);
-	if (c == 10)
-		return (5);
-	if (c == 11)
-		return (4);
-	return (get_complement2(c));
-}
-
-void	ft_dtohex(int num, int *rm_zeros, int *neg)
+void	ft_dtohex(int num, int *rm_zeros, char cap)
 {
 	int		remain;
 	char	*range;
@@ -71,15 +29,37 @@ void	ft_dtohex(int num, int *rm_zeros, int *neg)
 	range = "0123456789abcdef";
 	remain = num % 16;
 	if (num >= 16)
-		ft_dtohex(num / 16, rm_zeros, neg);
-	if (*neg == 1)
-		remain = get_complement(remain);
+		ft_dtohex(num / 16, rm_zeros, cap);
 	if (*rm_zeros == 1 && remain == 0)
 		return ;
 	else
 	{
 		*rm_zeros = 0;
-		ft_putchar_fd(range[remain], 1);
+		if (cap)
+			ft_putchar_fd(ft_toupper(range[remain]), 1);
+		else
+			ft_putchar_fd(range[remain], 1);
+	}
+}
+
+void	ft_dtohex_neg(unsigned int num, int *rm_zeros, char cap)
+{
+	unsigned int		remain;
+	char	*range;
+
+	range = "0123456789abcdef";
+	remain = num % 16;
+	if (num >= 16)
+		ft_dtohex(num / 16, rm_zeros, cap);
+	if (*rm_zeros == 1 && remain == 0)
+		return ;
+	else
+	{
+		*rm_zeros = 0;
+		if (cap)
+			ft_putchar_fd(ft_toupper(range[remain]), 1);
+		else
+			ft_putchar_fd(range[remain], 1);
 	}
 }
 
@@ -105,9 +85,7 @@ void	p_val(va_list ap)
 	int				i;
 	unsigned char	*buf;
 	int				rm_zeros;
-	int				neg;
 
-	neg = 0;
 	rm_zeros = 1;
 	val = va_arg(ap, void *);
 	i = sizeof(val) - 1;
@@ -124,7 +102,7 @@ void	p_val(va_list ap)
 	{
 		if (buf[i] < 16 && rm_zeros == 0)
 			ft_putchar_fd('0', 1);
-		ft_dtohex(buf[i--], &rm_zeros, &neg);
+		ft_dtohex(buf[i--], &rm_zeros, 0);
 		rm_zeros = 0;
 	}
 }
@@ -145,33 +123,25 @@ void	u_val(va_list ap)
 	ft_uputnbr_fd(val, 1);
 }
 
-void	x_val(va_list ap)
+void	x_val(va_list ap, char c)
 {
 	int	val;
 	int rm_zeros;
-	int	neg;
+	int	cap;
 
-	neg = 0;
+	cap = 0;
+	if (c == 'X')
+		cap = 1;
 	rm_zeros = 1;
 	val = va_arg(ap, int);
 	if (val < 0)
 	{
-		val = (val + 1) * -1;
-		neg = 1;
+		ft_dtohex_neg((unsigned int)val, &rm_zeros, cap);
 	}
-	ft_dtohex(val, &rm_zeros, &neg);
-}
-
-void	cap_x_val(va_list ap)
-{
-	int	val;
-	int rm_zeros;
-	int	neg;
-
-	neg = 0;
-	rm_zeros = 1;
-	val = va_arg(ap, int);
-	ft_dtohex(val, &rm_zeros, &neg);
+	else
+	{
+		ft_dtohex(val, &rm_zeros, cap);
+	}
 }
 
 void	ft_triage(char c, va_list ap)
@@ -186,10 +156,10 @@ void	ft_triage(char c, va_list ap)
 		d_val(ap);
 	if (c == 'u')
 		u_val(ap);
-	if (c == 'x')
-		x_val(ap);
-	if (c == 'X')
-		cap_x_val(ap);
+	if (c == 'x' || c == 'X')
+		x_val(ap, c);
+	if (c == '%')
+		ft_putchar_fd('%', 1);
 }
 
 int	ft_printf(const char *fmt, ...)
@@ -211,13 +181,14 @@ int	ft_printf(const char *fmt, ...)
 		}
 		i++;
 	}
+	va_end(ap);
 	return (0);
 }
 
 int	main(void)
 {
 	char	*nice = "ok";
-	printf("Pos hex: %x | Neg hex: %x\n", 1591, -1592);
-	ft_printf("Pos hex: %x | Neg hex: %x\n", 1591, -1592);
+	printf("Pos hex: %X | Neg hex: %X | This is a percent: %% | This pointer: %p\n", 159, -15, nice);
+	ft_printf("Pos hex: %X | Neg hex: %X | This is a percent: %% | This pointer: %p\n", 159, -15, nice);
 	return (0);
 }

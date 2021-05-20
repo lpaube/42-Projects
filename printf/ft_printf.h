@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:07:28 by laube             #+#    #+#             */
-/*   Updated: 2021/05/19 17:56:21 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/20 14:48:05 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <limits.h>
+#include "libft.h"
 
 /* JUNK PROTOTYPES. WILL NEED TO ADD THE LIBRARY PROPERLY IN MAKEFILE */
 void	ft_putnbr_fd(int n, int fd);
