@@ -142,7 +142,24 @@ void	x_val(va_list ap, char c)
 	}
 }
 
-void	ft_triage(char c, va_list ap)
+void	ft_triage_flags(char c, va_list ap, int *i, char *fmt)
+{
+	int		start;
+	int		width_num;
+
+	start = *i;
+	if (ft_isdigit(c))
+	{
+		while (ft_isdigit(fmt[*i + 1]))
+		{
+			i++;
+		}
+		width_num = ft_itoa(ft_substr(fmt, start, *i - start));
+		
+	}
+}
+
+void	ft_triage(char c, va_list ap, int *i, char *fmt)
 {
 	if (c == 'c')
 		c_val(ap);
@@ -158,6 +175,8 @@ void	ft_triage(char c, va_list ap)
 		x_val(ap, c);
 	if (c == '%')
 		ft_putchar_fd('%', 1);
+	else
+		ft_triage_flags(c, ap, i, fmt);
 }
 
 int	ft_printf(const char *fmt, ...)
@@ -171,7 +190,7 @@ int	ft_printf(const char *fmt, ...)
 	{
 		if (fmt[i] == '%')
 		{
-			ft_triage(fmt[++i], ap);
+			ft_triage(fmt[++i], ap, &i, fmt);
 		}
 		else
 		{
