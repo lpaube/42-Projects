@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:05:51 by laube             #+#    #+#             */
-/*   Updated: 2021/05/20 23:21:55 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/21 15:28:32 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,51 @@ void	x_val(va_list ap, char c)
 	}
 }
 
-void	ft_triage_flags(struct s_fmt *s_flag)
+int		get_width(struct s_fmt *s_flag)
 {
-	
+	char	*width_str;
+	char	*start_width;
+	int		counter;
+	int		holder;
+	int		width;
+
+	holder = s_flag->curr_pos;
+	counter = 0;
+	while (ft_isdigit(s_flag->fmt[holder++]))
+		counter++;
+	width_str = ft_calloc(counter + 1, sizeof(char));
+	start_width = width_str;
+	while (ft_isdigit(s_flag->fmt[s_flag->curr_pos]))
+	{
+		*width_str = s_flag->fmt[s_flag->curr_pos++];
+		width_str++;
+	}
+	width = ft_atoi((const char *)start_width);
+	free(start_width);
+	start_width = NULL;
+	return (width);
+}
+
+int	ft_triage_flags(struct s_fmt *s_flag, va_list ap)
+{
+	while (s_flag->fmt[s_flag->curr_pos] != s_flag->type)
+	{
+		if (s_flag->fmt[s_flag->curr_pos] == '-')
+			s_flag->left_justify = 1;
+		if (s_flag->fmt[s_flag->curr_pos] == '0')
+		{
+			if (s_flag->left_justify == 0)
+				s_flag->pad_zero = 1;
+		}
+		else if (ft_isdigit(s_flag->fmt[s_flag->curr_pos]))
+			s_flag->width = get_width(s_flag);
+		if (s_flag->fmt[s_flag->curr_pos] == s_flag->type)
+			return (1);
+			
+
+		s_flag->curr_pos++;
+	}
+	return (0);
 }
 
 void	ft_triage_struct(char c, va_list ap, int *i, const char *fmt)
@@ -159,7 +201,7 @@ void	ft_triage_struct(char c, va_list ap, int *i, const char *fmt)
 	flag.pad_zero = 0;
 	flag.left_justify = 0;
 	flag.start = *i;
-	flag.curr_pos = i;
+	flag.curr_pos = *i;
 	flag.fmt = fmt;
 	flag.type = 0;
 	while (!str_holder && fmt[tmp])
@@ -168,27 +210,28 @@ void	ft_triage_struct(char c, va_list ap, int *i, const char *fmt)
 	}
 	if (str_holder[0])
 		flag.type = str_holder[0];
-	printf("FLAG.TYPE: '%c'\n", flag.type);
-	// HERE IS WHERE I LEFT OFF. WE NOW HAVE ALL THE REQUIRED INFO STORED IN STRUCT. JUST NEED TO PASS ap ALONG WITH STRUCT
-	ft_triage_flags(&flag);
-
+	if (ft_triage_flags(&flag, ap) == 1)
+	{
+		ft_triage(flag.type, ap, &flag.curr_pos, flag.fmt);
+	}
+	*i = flag.curr_pos;
 }
 
 void	ft_triage(char c, va_list ap, int *i, const char *fmt)
 {
 	if (c == 'c')
 		c_val(ap);
-	if (c == 's')
+	else if (c == 's')
 		s_val(ap);
-	if (c == 'p')
+	else if (c == 'p')
 		p_val(ap);
-	if (c == 'd' || c == 'i')
+	else if (c == 'd' || c == 'i')
 		d_val(ap);
-	if (c == 'u')
+	else if (c == 'u')
 		u_val(ap);
-	if (c == 'x' || c == 'X')
+	else if (c == 'x' || c == 'X')
 		x_val(ap, c);
-	if (c == '%')
+	else if (c == '%')
 		ft_putchar_fd('%', 1);
 	else
 		ft_triage_struct(c, ap, i, fmt);
@@ -220,7 +263,7 @@ int	ft_printf(const char *fmt, ...)
 int	main(void)
 {
 	char	*nice = "ok";
-	ft_printf("Test: '%20.4d'\nTest: '%19s'\n", "Hello", "Hello");
-	printf("Test: '%20s'\nTest: '%19s'\n", "Hello", "Hello");
+	ft_printf("Test: '%20s'\n", "Hello");
+//	printf("Test: '%20s'\nTest: '%019s'\n", "Hello", "Hello");
 	return (0);
 }
