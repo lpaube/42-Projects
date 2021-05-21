@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 14:18:43 by laube             #+#    #+#             */
-/*   Updated: 2021/05/11 16:01:44 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/20 20:21:57 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
-
-struct
-{
-    int width;
-} s_flags;
 
 int		ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);

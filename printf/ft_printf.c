@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:05:51 by laube             #+#    #+#             */
-/*   Updated: 2021/05/20 16:43:12 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/20 23:21:55 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,24 +142,39 @@ void	x_val(va_list ap, char c)
 	}
 }
 
-void	ft_triage_flags(char c, va_list ap, int *i, char *fmt)
+void	ft_triage_flags(struct s_fmt *s_flag)
 {
-	int		start;
-	int		width_num;
-
-	start = *i;
-	if (ft_isdigit(c))
-	{
-		while (ft_isdigit(fmt[*i + 1]))
-		{
-			i++;
-		}
-		width_num = ft_itoa(ft_substr(fmt, start, *i - start));
-		
-	}
+	
 }
 
-void	ft_triage(char c, va_list ap, int *i, char *fmt)
+void	ft_triage_struct(char c, va_list ap, int *i, const char *fmt)
+{
+	char			*str_holder;
+	int				tmp;
+	struct s_fmt	flag;
+
+	tmp = *i;
+	flag.width = 0;
+	flag.precision = 0;
+	flag.pad_zero = 0;
+	flag.left_justify = 0;
+	flag.start = *i;
+	flag.curr_pos = i;
+	flag.fmt = fmt;
+	flag.type = 0;
+	while (!str_holder && fmt[tmp])
+	{
+		str_holder = ft_strchr(FMT_TAB, fmt[tmp++]);
+	}
+	if (str_holder[0])
+		flag.type = str_holder[0];
+	printf("FLAG.TYPE: '%c'\n", flag.type);
+	// HERE IS WHERE I LEFT OFF. WE NOW HAVE ALL THE REQUIRED INFO STORED IN STRUCT. JUST NEED TO PASS ap ALONG WITH STRUCT
+	ft_triage_flags(&flag);
+
+}
+
+void	ft_triage(char c, va_list ap, int *i, const char *fmt)
 {
 	if (c == 'c')
 		c_val(ap);
@@ -176,7 +191,7 @@ void	ft_triage(char c, va_list ap, int *i, char *fmt)
 	if (c == '%')
 		ft_putchar_fd('%', 1);
 	else
-		ft_triage_flags(c, ap, i, fmt);
+		ft_triage_struct(c, ap, i, fmt);
 }
 
 int	ft_printf(const char *fmt, ...)
@@ -205,7 +220,7 @@ int	ft_printf(const char *fmt, ...)
 int	main(void)
 {
 	char	*nice = "ok";
-	printf("Pos hex: %X | Neg hex: %X | This is a percent: %% | This pointer: %p\n", 159, -15, nice);
-	ft_printf("Pos hex: %X | Neg hex: %X | This is a percent: %% | This pointer: %p\n", 159, -15, nice);
+	ft_printf("Test: '%20.4d'\nTest: '%19s'\n", "Hello", "Hello");
+	printf("Test: '%20s'\nTest: '%19s'\n", "Hello", "Hello");
 	return (0);
 }
