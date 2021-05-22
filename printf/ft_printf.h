@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:07:28 by laube             #+#    #+#             */
-/*   Updated: 2021/05/21 15:19:12 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/21 22:09:53 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ struct s_fmt
 {
 	int		width;
 	int		precision;
-	int		pad_zero;
+	char	pad_zero;
 	int		left_justify;
 	int		start;
 	int		curr_pos;
@@ -39,7 +39,7 @@ struct s_fmt
 };
 
 int	ft_printf(const char *fmt, ...);
-void	ft_triage(char c, va_list ap, int *i, const char *fmt);
+void	ft_triage(char c, va_list *ap, struct s_fmt *flag);
 
 
 
