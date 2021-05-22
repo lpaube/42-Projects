@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:05:51 by laube             #+#    #+#             */
-/*   Updated: 2021/05/21 23:24:46 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/22 00:45:03 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,14 @@ void	ft_dtohex_neg(unsigned int num, int *rm_zeros, char cap)
 
 void	to_pad(struct s_fmt *flag)
 {
-	while (flag->width > flag->fmt_len)
+	int	tmp;
+
+	tmp = 0;
+	while (flag->width > flag->fmt_len + tmp)
 	{
 		ft_putchar_fd(flag->pad_zero, 1);
-		flag->fmt_len++;
+		tmp++;
 	}
-}
-
-void	c_val(int val, struct s_fmt *flag)
-{
-	ft_putchar_fd(val, 1);
 }
 
 void	c_val_control(va_list *ap, struct s_fmt *flag)
@@ -83,22 +81,48 @@ void	c_val_control(va_list *ap, struct s_fmt *flag)
 	flag->fmt_len = 1;
 	if (flag->left_justify)
 	{
-		c_val(val, flag);
+		ft_putchar_fd(val, 1);
 		to_pad(flag);
 	}
 	else
 	{
 		to_pad(flag);
-		c_val(val, flag);
+		ft_putchar_fd(val, 1);
 	}
 }
 
-void	s_val(va_list *ap, struct s_fmt *flag)
+void	ft_putnstr_fd(char *s, int fd, int len)
+{
+	while (len > 0 && *s)
+	{
+		write(fd, s, 1);
+		s++;
+		len--;
+	}
+}
+
+void	s_val_control(va_list *ap, struct s_fmt *flag)
 {
 	char	*val;
 
 	val = va_arg(*ap, char *);
-	ft_putstr_fd(val, 1);
+	flag->fmt_len = ft_strlen(val);
+	//printf("fmtlen: '%d' | precision: '%d'\n", flag->fmt_len, flag->precision);
+	if (flag->fmt_len > flag->precision && flag->precision >= 0)
+		flag->fmt_len = flag->precision;
+	if (flag->left_justify)
+	{
+		//printf("1fmtlen: '%d' | precision: '%d'\n", flag->fmt_len, flag->precision);
+		ft_putnstr_fd(val, 1, flag->fmt_len);
+		to_pad(flag);
+	}
+	else
+	{
+		//printf("2fmtlen: '%d' | precision: '%d'\n", flag->fmt_len, flag->precision);
+		to_pad(flag);
+		ft_putnstr_fd(val, 1, flag->fmt_len);
+	}
+	
 }
 
 void	p_val(va_list *ap, struct s_fmt *flag)
@@ -203,15 +227,22 @@ int	mod_strlen(const char *str)
 
 int	get_precision(struct s_fmt *s_flag, va_list *ap)
 {
-	int	counter;
+	int		counter;
 	char	*pr;
 	int		precision;
+	int		i;
 
+	i = 0;
 	s_flag->curr_pos++;
 	if (s_flag->fmt[s_flag->curr_pos] == '*')
 		return (va_arg(*ap, int));
 	counter = mod_strlen(&(s_flag->fmt[s_flag->curr_pos]));
 	pr = ft_calloc(mod_strlen(&(s_flag->fmt[s_flag->curr_pos])), sizeof(char));
+	while (i < counter)
+	{
+		pr[i] = s_flag->fmt[s_flag->curr_pos++];
+		i++;
+	}
 	precision = ft_atoi(pr);
 	free(pr);
 	return (precision);
@@ -241,8 +272,9 @@ int	ft_triage_flags(struct s_fmt *s_flag, va_list *ap)
 		if (s_flag->fmt[s_flag->curr_pos] == '*')
 			s_flag->width = va_arg(*ap, int);
 		if (s_flag->fmt[s_flag->curr_pos] == '.')
+		{
 			s_flag->precision = get_precision(s_flag, ap);
-
+		}
 
 		if (s_flag->fmt[s_flag->curr_pos] == s_flag->type)
 		{
@@ -262,7 +294,7 @@ void	ft_triage_struct(char c, va_list *ap, int *i, const char *fmt)
 	str_holder = 0;
 	tmp = *i;
 	flag.width = 0;
-	flag.precision = 0;
+	flag.precision = -1;
 	flag.pad_zero = ' ';
 	flag.left_justify = 0;
 	flag.start = *i;
@@ -287,7 +319,7 @@ void	ft_triage(char c, va_list *ap, struct s_fmt *flag)
 	if (c == 'c')
 		c_val_control(ap, flag);
 	else if (c == 's')
-		s_val(ap, flag);
+		s_val_control(ap, flag);
 	else if (c == 'p')
 		p_val(ap, flag);
 	else if (c == 'd' || c == 'i')
@@ -326,7 +358,9 @@ int	ft_printf(const char *fmt, ...)
 int	main(void)
 {
 	char	*nice = "ok";
-	printf("Test1: '%c' | Test2: '%5c' | Test3: '%05c'\n", 'H', 'H', 'H');
-	ft_printf("Test1: '%c' | Test2: '%5c' | Test3: '%05c'\n", 'H', 'H', 'H');
+	printf("real(c): Test1: '%c' | Test2: '%4c' | Test3: '%5c' | Test4: '%-5c' | Test5: '%-*c'\n", 'H', 'H', 'H', 'H', 2, 'A');
+	ft_printf("ft(c)  : Test1: '%c' | Test2: '%4c' | Test3: '%5c' | Test4: '%-5c' | Test5: '%-*c'\n", 'H', 'H', 'H', 'H', 2, 'A');
+	printf("real(s): Test1: '%s' | Test2: '%.4s' | Test3: '%6.4s' | Test4: '%-6.4s' | Test5: '%4.6s' | Test6: '%*.*s'\n", "Hello", "Hello", "Hello", "Hello", "Hello", 6, 3, "Hello");
+	ft_printf("ft(s)  : Test1: '%s' | Test2: '%.4s' | Test3: '%6.4s' | Test4: '%-6.4s' | Test5: '%4.6s' | Test6: '%*.*s'\n", "Hello", "Hello", "Hello", "Hello", "Hello", 6, 3, "Hello");
 	return (0);
 }
