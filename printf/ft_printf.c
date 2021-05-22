@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:05:51 by laube             #+#    #+#             */
-/*   Updated: 2021/05/22 00:45:03 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/22 16:29:29 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,38 +107,49 @@ void	s_val_control(va_list *ap, struct s_fmt *flag)
 
 	val = va_arg(*ap, char *);
 	flag->fmt_len = ft_strlen(val);
-	//printf("fmtlen: '%d' | precision: '%d'\n", flag->fmt_len, flag->precision);
 	if (flag->fmt_len > flag->precision && flag->precision >= 0)
 		flag->fmt_len = flag->precision;
 	if (flag->left_justify)
 	{
-		//printf("1fmtlen: '%d' | precision: '%d'\n", flag->fmt_len, flag->precision);
 		ft_putnstr_fd(val, 1, flag->fmt_len);
 		to_pad(flag);
 	}
 	else
 	{
-		//printf("2fmtlen: '%d' | precision: '%d'\n", flag->fmt_len, flag->precision);
 		to_pad(flag);
 		ft_putnstr_fd(val, 1, flag->fmt_len);
 	}
-	
 }
 
-void	p_val(va_list *ap, struct s_fmt *flag)
+int	p_val_len(unsigned char *buff, int init_len)
 {
-	void			*val;
-	int				i;
-	unsigned char	*buf;
+	int	res_len;
+
+	res_len = 2;
+	while (init_len >= 0 && buff[init_len] == 0)
+		init_len--;
+	if (buff[init_len] < 16)
+	{
+		res_len++;
+		init_len--;
+	}
+	while (init_len >= 0)
+	{
+		res_len += 2;
+		init_len--;
+	}
+	if (res_len == 2)
+		return (3);
+	return (res_len);
+}
+
+void	p_val(unsigned char *buff, int i)
+{
 	int				rm_zeros;
 
 	rm_zeros = 1;
-	val = va_arg(*ap, void *);
-	i = sizeof(val) - 1;
-	buf = ft_calloc(sizeof(val), sizeof(unsigned char));
-	ft_memcpy(buf, &val, sizeof(val));
 	ft_putstr_fd("0x", 1);
-	while (buf[i] == 0 && i >= 0)
+	while (buff[i] == 0 && i >= 0)
 		if (i-- == 0)
 		{
 			ft_putchar_fd('0', 1);
@@ -146,19 +157,72 @@ void	p_val(va_list *ap, struct s_fmt *flag)
 		}
 	while (i >= 0)
 	{
-		if (buf[i] < 16 && rm_zeros == 0)
+		if (buff[i] < 16 && rm_zeros == 0)
 			ft_putchar_fd('0', 1);
-		ft_dtohex(buf[i--], &rm_zeros, 0);
+		ft_dtohex(buff[i--], &rm_zeros, 0);
 		rm_zeros = 0;
 	}
 }
 
-void	d_val(va_list *ap, struct s_fmt *flag)
+void	p_val_control(va_list *ap, struct s_fmt *flag)
+{
+	void	*val;
+	unsigned char	*buff;
+
+	val = va_arg(*ap, void *);
+	buff = ft_calloc(sizeof(val), sizeof(unsigned char));
+	ft_memcpy(buff, &val, sizeof(val));
+	flag->fmt_len = p_val_len(buff, sizeof(val) - 1);
+	if (flag->left_justify)
+	{
+		p_val(buff, sizeof(val) - 1);
+		to_pad(flag);
+	}
+	else
+	{
+		to_pad(flag);
+		p_val(buff, sizeof(val) - 1);
+	}
+}
+
+void	print_precision(struct s_fmt *flag)
+{
+	if (flag->precision < flag->fmt_len && flag->precision != -1)
+		flag->pad_zero = ' ';
+	while (flag->precision > flag->fmt_len)
+	{
+		ft_putchar_fd('0', 1);
+		flag->fmt_len++;
+	}
+}
+
+void	d_val_control(va_list *ap, struct s_fmt *flag)
 {
 	int	val;
+	int	tmp_len;
 
 	val = va_arg(*ap, int);
-	ft_putnbr_fd(val, 1);
+	flag->fmt_len = ft_strlen(ft_itoa(val));
+	tmp_len = flag->fmt_len;
+	if (flag->precision < flag->fmt_len && flag->precision != -1)
+		flag->pad_zero = ' ';
+	if (flag->precision < flag->width && flag->precision != -1)
+		flag->pad_zero = ' ';
+	if (flag->left_justify)
+	{
+		print_precision(flag);
+		ft_putnbr_fd(val, 1);
+		to_pad(flag);
+	}
+	else
+	{
+		while (flag->precision > flag->fmt_len)
+			flag->fmt_len++;
+		to_pad(flag);
+		flag->fmt_len = tmp_len;
+		print_precision(flag);
+		ft_putnbr_fd(val, 1);
+	}
 }
 
 void	u_val(va_list *ap, struct s_fmt *flag)
@@ -232,16 +296,21 @@ int	get_precision(struct s_fmt *s_flag, va_list *ap)
 	int		precision;
 	int		i;
 
+	precision = 0;
 	i = 0;
 	s_flag->curr_pos++;
 	if (s_flag->fmt[s_flag->curr_pos] == '*')
 		return (va_arg(*ap, int));
 	counter = mod_strlen(&(s_flag->fmt[s_flag->curr_pos]));
+	if (!counter)
+		return (0);
 	pr = ft_calloc(mod_strlen(&(s_flag->fmt[s_flag->curr_pos])), sizeof(char));
 	while (i < counter)
 	{
-		pr[i] = s_flag->fmt[s_flag->curr_pos++];
+		pr[i] = s_flag->fmt[s_flag->curr_pos];
 		i++;
+		pr[i] = 0;
+		s_flag->curr_pos++;
 	}
 	precision = ft_atoi(pr);
 	free(pr);
@@ -321,9 +390,9 @@ void	ft_triage(char c, va_list *ap, struct s_fmt *flag)
 	else if (c == 's')
 		s_val_control(ap, flag);
 	else if (c == 'p')
-		p_val(ap, flag);
+		p_val_control(ap, flag);
 	else if (c == 'd' || c == 'i')
-		d_val(ap, flag);
+		d_val_control(ap, flag);
 	else if (c == 'u')
 		u_val(ap, flag);
 	else if (c == 'x' || c == 'X')
@@ -358,9 +427,25 @@ int	ft_printf(const char *fmt, ...)
 int	main(void)
 {
 	char	*nice = "ok";
+	char	*not_nice = 0;
+	// Character (c)
+	printf("Char(c):\n");
 	printf("real(c): Test1: '%c' | Test2: '%4c' | Test3: '%5c' | Test4: '%-5c' | Test5: '%-*c'\n", 'H', 'H', 'H', 'H', 2, 'A');
 	ft_printf("ft(c)  : Test1: '%c' | Test2: '%4c' | Test3: '%5c' | Test4: '%-5c' | Test5: '%-*c'\n", 'H', 'H', 'H', 'H', 2, 'A');
+	// String (s)
+	printf("\nString(s):\n");
 	printf("real(s): Test1: '%s' | Test2: '%.4s' | Test3: '%6.4s' | Test4: '%-6.4s' | Test5: '%4.6s' | Test6: '%*.*s'\n", "Hello", "Hello", "Hello", "Hello", "Hello", 6, 3, "Hello");
 	ft_printf("ft(s)  : Test1: '%s' | Test2: '%.4s' | Test3: '%6.4s' | Test4: '%-6.4s' | Test5: '%4.6s' | Test6: '%*.*s'\n", "Hello", "Hello", "Hello", "Hello", "Hello", 6, 3, "Hello");
-	return (0);
+	// Pointer (p)
+	printf("\nPointer(p):\n");
+	printf("real(p): Test1: '%p' | Test2: '%14p' | Test3: '%-14p' | Test4: '%*p'\n", nice, not_nice, nice, 14, nice);
+	ft_printf("ft(p)  : Test1: '%p' | Test2: '%14p' | Test3: '%-14p' | Test4: '%*p'\n", nice, not_nice, nice, 14, nice);
+	// Integer (d)
+	printf("\nInteger(d):\n");
+	printf("real(d): Test1: '%010d' | Test2: '%010.16d' | Test3: '%-10.7d' | Test4: '%-*.*d' | Test5: '%010.8d' | Test 6: '%2.d'\n", INT_MAX, INT_MIN, 12345, 10, 3, 12345, 12345, 4);
+	ft_printf("ft(d)  : Test1: '%010d' | Test2: '%010.16d' | Test3: '%-10.7d' | Test4: '%-*.*d' | Test5: '%010.8d' | Test 6: '%2.d'\n", INT_MAX, INT_MIN, -12345, 10, 3, 12345, 12345, 4);
+	// Integer (i)
+	printf("\nInteger(i):\n");
+	printf("real(d): Test1: '%010i' | Test2: '%010.16i' | Test3: '%-10.7i' | Test4: '%-*.*i' | Test5: '%010.8i' | Test 6: '%2.i'\n", 12345, 12345, 12345, 10, 3, 12345, 12345, 4);
+	ft_printf("ft(d)  : Test1: '%010i' | Test2: '%010.16i' | Test3: '%-10.7i' | Test4: '%-*.*i' | Test5: '%010.8i' | Test 6: '%2.i'\n", 12345, 12345, 12345, 10, 3, 12345, 12345, 4);
 }
