@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:05:51 by laube             #+#    #+#             */
-/*   Updated: 2021/05/22 16:29:29 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/22 18:50:12 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,22 +196,12 @@ void	print_precision(struct s_fmt *flag)
 	}
 }
 
-void	d_val_control(va_list *ap, struct s_fmt *flag)
+void	d_val_pos(struct s_fmt *flag, int tmp_len, char *val_str)
 {
-	int	val;
-	int	tmp_len;
-
-	val = va_arg(*ap, int);
-	flag->fmt_len = ft_strlen(ft_itoa(val));
-	tmp_len = flag->fmt_len;
-	if (flag->precision < flag->fmt_len && flag->precision != -1)
-		flag->pad_zero = ' ';
-	if (flag->precision < flag->width && flag->precision != -1)
-		flag->pad_zero = ' ';
 	if (flag->left_justify)
 	{
 		print_precision(flag);
-		ft_putnbr_fd(val, 1);
+		ft_putstr_fd(val_str, 1);
 		to_pad(flag);
 	}
 	else
@@ -221,8 +211,57 @@ void	d_val_control(va_list *ap, struct s_fmt *flag)
 		to_pad(flag);
 		flag->fmt_len = tmp_len;
 		print_precision(flag);
-		ft_putnbr_fd(val, 1);
+		ft_putstr_fd(val_str, 1);
 	}
+}
+
+void	d_val_neg(struct s_fmt *flag, int tmp_len, char *val_str)
+{
+	if (flag->left_justify)
+	{
+		ft_putchar_fd('-', 1);
+		flag->fmt_len--;
+		print_precision(flag);
+		flag->fmt_len++;
+		ft_putstr_fd(&(val_str[1]), 1);
+		to_pad(flag);
+	}
+	else
+	{
+		if (flag->pad_zero == '0')
+			ft_putchar_fd('-', 1);
+		if (flag->precision >= flag->fmt_len)
+			flag->fmt_len = flag->precision + 1;
+		to_pad(flag);
+		flag->fmt_len = tmp_len - 1;
+		if (flag->pad_zero == ' ')
+			ft_putchar_fd('-', 1);
+		print_precision(flag);
+		ft_putstr_fd(&(val_str[1]), 1);
+	}
+}
+
+void	d_val_control(va_list *ap, struct s_fmt *flag)
+{
+	int	val;
+	int	tmp_len;
+	char	*val_str;
+
+	val = va_arg(*ap, int);
+	val_str = ft_itoa(val);
+	flag->fmt_len = ft_strlen(val_str);
+	tmp_len = flag->fmt_len;
+	if (flag->precision < flag->fmt_len && flag->precision != -1)
+		flag->pad_zero = ' ';
+	if (flag->precision < flag->width && flag->precision != -1)
+		flag->pad_zero = ' ';
+
+	if (val < 0)
+		d_val_neg(flag, tmp_len, val_str);
+	else
+		d_val_pos(flag, tmp_len, val_str);
+	free(val_str);
+	val_str = NULL;
 }
 
 void	u_val(va_list *ap, struct s_fmt *flag)
@@ -442,10 +481,10 @@ int	main(void)
 	ft_printf("ft(p)  : Test1: '%p' | Test2: '%14p' | Test3: '%-14p' | Test4: '%*p'\n", nice, not_nice, nice, 14, nice);
 	// Integer (d)
 	printf("\nInteger(d):\n");
-	printf("real(d): Test1: '%010d' | Test2: '%010.16d' | Test3: '%-10.7d' | Test4: '%-*.*d' | Test5: '%010.8d' | Test 6: '%2.d'\n", INT_MAX, INT_MIN, 12345, 10, 3, 12345, 12345, 4);
-	ft_printf("ft(d)  : Test1: '%010d' | Test2: '%010.16d' | Test3: '%-10.7d' | Test4: '%-*.*d' | Test5: '%010.8d' | Test 6: '%2.d'\n", INT_MAX, INT_MIN, -12345, 10, 3, 12345, 12345, 4);
+	printf("real(d): Test1: '%10.d' | Test2: '%015.4d' | Test3: '%-10.7d' | Test4: '%-*.*d' | Test5: '%010.8d' | Test 6: '%2.d'\n", -142, -142, INT_MIN, 10, 3, 12345, 12345, 4);
+	ft_printf("ft(d)  : Test1: '%10.d' | Test2: '%015.4d' | Test3: '%-10.7d' | Test4: '%-*.*d' | Test5: '%010.8d' | Test 6: '%2.d'\n", -142, -142, INT_MIN, 10, 3, 12345, 12345, 4);
 	// Integer (i)
 	printf("\nInteger(i):\n");
-	printf("real(d): Test1: '%010i' | Test2: '%010.16i' | Test3: '%-10.7i' | Test4: '%-*.*i' | Test5: '%010.8i' | Test 6: '%2.i'\n", 12345, 12345, 12345, 10, 3, 12345, 12345, 4);
-	ft_printf("ft(d)  : Test1: '%010i' | Test2: '%010.16i' | Test3: '%-10.7i' | Test4: '%-*.*i' | Test5: '%010.8i' | Test 6: '%2.i'\n", 12345, 12345, 12345, 10, 3, 12345, 12345, 4);
+	printf("real(i): Test1: '%10.i' | Test2: '%015.4i' | Test3: '%-10.7i' | Test4: '%-*.*i' | Test5: '%010.8i' | Test 6: '%2.i'\n", -142, -142, INT_MIN, 10, 3, 12345, 12345, 4);
+	ft_printf("ft(i)  : Test1: '%10.i' | Test2: '%015.4i' | Test3: '%-10.7i' | Test4: '%-*.*i' | Test5: '%010.8i' | Test 6: '%2.i'\n", -142, -142, INT_MIN, 10, 3, 12345, 12345, 4);
 }
