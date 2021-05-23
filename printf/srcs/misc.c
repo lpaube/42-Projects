@@ -1,36 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/17 15:05:51 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 16:42:32 by laube            ###   ########.fr       */
+/*   Created: 2021/05/23 16:22:24 by laube             #+#    #+#             */
+/*   Updated: 2021/05/23 17:45:56 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
-int	ft_printf(const char *fmt, ...)
+int	mod_strlen(const char *str)
 {
-	va_list	ap;
-	int		i;
+	int	counter;
 
-	va_start(ap, fmt);
-	i = 0;
-	while (fmt[i])
-	{
-		if (fmt[i] == '%')
-		{
-			ft_triage_struct(fmt[++i], &ap, &i, fmt);
-		}
-		else
-		{
-			ft_putchar_fd(fmt[i], 1);
-		}
-		i++;
-	}
-	va_end(ap);
-	return (0);
+	counter = 0;
+	while (ft_isdigit(str[counter]))
+		counter++;
+	return (counter);
 }

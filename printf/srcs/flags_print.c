@@ -6,11 +6,11 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:18:54 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 16:29:42 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/23 17:45:34 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
 void	to_pad(struct s_fmt *flag)
 {

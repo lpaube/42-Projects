@@ -6,11 +6,11 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:12:23 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 16:40:16 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/23 17:46:29 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
 void	ft_putnstr_fd(char *s, int fd, int len)
 {

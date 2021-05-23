@@ -6,11 +6,11 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:31:56 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 16:32:43 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/23 17:52:53 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
 int	ft_triage_flags(struct s_fmt *s_flag, va_list *ap)
 {
@@ -49,7 +49,7 @@ int	ft_triage_flags(struct s_fmt *s_flag, va_list *ap)
 	return (0);
 }
 
-void	ft_triage_struct(char c, va_list *ap, int *i, const char *fmt)
+void	ft_triage_struct(va_list *ap, int *i, const char *fmt)
 {
 	char			*str_holder;
 	int				tmp;

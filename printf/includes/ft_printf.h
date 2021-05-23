@@ -6,16 +6,14 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:07:28 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 16:37:47 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/23 17:54:30 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# define HEX_TAB "0123456789abcdef"
-# define FMT_TAB "cspdiuxX%"
-
+#include "../libft/libft.h"
 #include <stdarg.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -23,7 +21,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <limits.h>
-#include "libft.h"
+
+# define HEX_TAB "0123456789abcdef"
+# define FMT_TAB "cspdiuxX%"
 
 struct s_fmt
 {
@@ -55,7 +55,7 @@ void	p_val_control(va_list *ap, struct s_fmt *flag);
 void	ft_putnstr_fd(char *s, int fd, int len);
 void	s_val_control(va_list *ap, struct s_fmt *flag);
 int		ft_triage_flags(struct s_fmt *s_flag, va_list *ap);
-void	ft_triage_struct(char c, va_list *ap, int *i, const char *fmt);
+void	ft_triage_struct(va_list *ap, int *i, const char *fmt);
 void	ft_uputnbr_fd(unsigned int n, int fd);
 void	u_val_control(va_list *ap, struct s_fmt *flag);
 void	u_val(va_list *ap, struct s_fmt *flag);

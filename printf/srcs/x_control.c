@@ -6,11 +6,11 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:03:40 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 16:34:58 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/23 17:56:11 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
 void	ft_dtohex(unsigned int num, int *rm_zeros, char cap)
 {
@@ -115,6 +115,7 @@ void	x_val(char c, struct s_fmt *flag, unsigned int val)
 	int rm_zeros;
 	int	cap;
 
+	(void)flag;
 	cap = 0;
 	if (c == 'X')
 		cap = 1;
