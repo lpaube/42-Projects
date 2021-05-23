@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   u_control.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/17 15:05:51 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 16:42:32 by laube            ###   ########.fr       */
+/*   Created: 2021/05/23 16:17:29 by laube             #+#    #+#             */
+/*   Updated: 2021/05/23 16:33:45 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf(const char *fmt, ...)
+void	ft_uputnbr_fd(unsigned int n, int fd)
 {
-	va_list	ap;
-	int		i;
+	if (n >= 10)
+		ft_uputnbr_fd(n / 10, fd);
+	ft_putchar_fd((n % 10) + '0', fd);
+}
 
-	va_start(ap, fmt);
-	i = 0;
-	while (fmt[i])
-	{
-		if (fmt[i] == '%')
-		{
-			ft_triage_struct(fmt[++i], &ap, &i, fmt);
-		}
-		else
-		{
-			ft_putchar_fd(fmt[i], 1);
-		}
-		i++;
-	}
-	va_end(ap);
-	return (0);
+void	u_val_control(va_list *ap, struct s_fmt *flag)
+{
+	unsigned int	val;
+
+	val = va_arg(*ap, int);
+	ft_uputnbr_fd(val, 1);
+}
+
+void	u_val(va_list *ap, struct s_fmt *flag)
+{
+	unsigned int	val;
+
+	val = va_arg(*ap, int);
+	ft_uputnbr_fd(val, 1);
 }

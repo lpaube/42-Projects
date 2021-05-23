@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   c_control.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/17 15:05:51 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 16:42:32 by laube            ###   ########.fr       */
+/*   Created: 2021/05/23 16:20:39 by laube             #+#    #+#             */
+/*   Updated: 2021/05/23 16:21:30 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf(const char *fmt, ...)
+void	c_val_control(va_list *ap, struct s_fmt *flag)
 {
-	va_list	ap;
-	int		i;
+	char	val;
 
-	va_start(ap, fmt);
-	i = 0;
-	while (fmt[i])
+	val = va_arg(*ap, int);
+	flag->fmt_len = 1;
+	if (flag->left_justify)
 	{
-		if (fmt[i] == '%')
-		{
-			ft_triage_struct(fmt[++i], &ap, &i, fmt);
-		}
-		else
-		{
-			ft_putchar_fd(fmt[i], 1);
-		}
-		i++;
+		ft_putchar_fd(val, 1);
+		to_pad(flag);
 	}
-	va_end(ap);
-	return (0);
+	else
+	{
+		to_pad(flag);
+		ft_putchar_fd(val, 1);
+	}
 }
+
