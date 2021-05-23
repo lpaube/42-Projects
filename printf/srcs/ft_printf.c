@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:05:51 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 17:54:49 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/23 19:21:03 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	ft_printf(const char *fmt, ...)
 	{
 		if (fmt[i] == '%')
 		{
-			ft_triage_struct(&ap, &i, fmt);
+			i++;
+			ft_triage_struct(&ap, &(i), fmt);
 		}
 		else
 		{

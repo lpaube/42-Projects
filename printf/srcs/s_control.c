@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:12:23 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 17:46:29 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/23 19:34:40 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	s_val_control(va_list *ap, struct s_fmt *flag)
 	char	*val;
 
 	val = va_arg(*ap, char *);
+	if (!val)
+		val = "(null)";
 	flag->fmt_len = ft_strlen(val);
 	if (flag->fmt_len > flag->precision && flag->precision >= 0)
 		flag->fmt_len = flag->precision;

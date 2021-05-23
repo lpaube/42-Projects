@@ -1,6 +1,6 @@
 CC = gcc
 NAME = libftprintf.a
-CFLAG = -Wall -Werror -Wextra -c
+CFLAGS = -Wall -Werror -Wextra -c
 
 SRCS =	srcs/c_control.c \
 		srcs/d_control.c \
@@ -29,12 +29,14 @@ INCLUDES = ./includes
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(OBJS)
 	make re -C $(LIB_PATH)
-	$(CC) $(CFLAG) $(SRCS) -I$(INCLUDES)
-	ar rc $(NAME) $(OBJS) $(LIB_PATH)/*.o
-	ranlib $(NAME)
+	cp libft/libft.a ./$(NAME)
+	ar -rcs $(NAME) $(OBJS)
 
+$(OBJS): $(SRCS)
+	$(CC) $(CFLAGS) -I$(INCLUDES) $(SRCS)
+	
 clean:
 	/bin/rm -f $(OBJS)
 	make clean -C $(LIB_PATH)
