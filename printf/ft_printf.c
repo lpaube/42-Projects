@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:05:51 by laube             #+#    #+#             */
-/*   Updated: 2021/05/22 18:50:12 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/22 23:32:54 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_uputnbr_fd(unsigned int n, int fd)
 	ft_putchar_fd((n % 10) + '0', fd);
 }
 
-void	ft_dtohex(int num, int *rm_zeros, char cap)
+void	ft_dtohex(unsigned int num, int *rm_zeros, char cap)
 {
 	int		remain;
 	char	*range;
@@ -264,6 +264,14 @@ void	d_val_control(va_list *ap, struct s_fmt *flag)
 	val_str = NULL;
 }
 
+void	u_val_control(va_list *ap, struct s_fmt *flag)
+{
+	unsigned int	val;
+
+	val = va_arg(*ap, int);
+	ft_uputnbr_fd(val, 1);
+}
+
 void	u_val(va_list *ap, struct s_fmt *flag)
 {
 	unsigned int	val;
@@ -272,9 +280,64 @@ void	u_val(va_list *ap, struct s_fmt *flag)
 	ft_uputnbr_fd(val, 1);
 }
 
-void	x_val(va_list *ap, char c, struct s_fmt *flag)
+int	x_val_len(unsigned int val)
+{
+	int	remain;
+	int	zeros;
+	int	len;
+
+	len = 0;
+	remain = 0;
+	while (val > 0)
+	{
+		if (val % 16 == 0)
+			zeros++;
+		else
+		{
+			len++;
+			len += zeros;
+			zeros = 0;
+		}
+		val = val / 16;
+	}
+	return (len);
+}
+
+void	x_val_control(va_list *ap, struct s_fmt *flag)
 {
 	int	val;
+	int	rm_zeros;
+	int	cap;
+	int	tmp_len;
+
+	cap = 0;
+	rm_zeros = 1;
+	val = (unsigned int)(va_arg(*ap, int));
+	if (flag->type == 'X')
+		cap = 1;
+	flag->fmt_len = x_val_len(val);
+	tmp_len = flag->fmt_len;
+	if (tmp_len >= flag->precision && flag->precision != -1)
+		flag->pad_zero = ' ';
+	if (flag->left_justify)
+	{
+		print_precision(flag);
+		ft_dtohex(val, &rm_zeros, cap);
+		to_pad(flag);
+	}
+	else
+	{
+		while (flag->precision > flag->fmt_len)
+			flag->fmt_len++;
+		to_pad(flag);
+		flag->fmt_len = tmp_len;
+		print_precision(flag);
+		ft_dtohex(val, &rm_zeros, cap);
+	}
+}
+
+void	x_val(char c, struct s_fmt *flag, unsigned int val)
+{
 	int rm_zeros;
 	int	cap;
 
@@ -282,10 +345,9 @@ void	x_val(va_list *ap, char c, struct s_fmt *flag)
 	if (c == 'X')
 		cap = 1;
 	rm_zeros = 1;
-	val = va_arg(*ap, int);
 	if (val < 0)
 	{
-		ft_dtohex_neg((unsigned int)val, &rm_zeros, cap);
+		ft_dtohex_neg(val, &rm_zeros, cap);
 	}
 	else
 	{
@@ -430,12 +492,14 @@ void	ft_triage(char c, va_list *ap, struct s_fmt *flag)
 		s_val_control(ap, flag);
 	else if (c == 'p')
 		p_val_control(ap, flag);
-	else if (c == 'd' || c == 'i')
+	else if (c == 'd' || c == 'i' || c == 'u')
 		d_val_control(ap, flag);
+	/*	
 	else if (c == 'u')
-		u_val(ap, flag);
+		u_val_control(ap, flag);
+	*/
 	else if (c == 'x' || c == 'X')
-		x_val(ap, c, flag);
+		x_val_control(ap, flag);
 	else if (c == '%')
 		ft_putchar_fd('%', 1);
 }
@@ -487,4 +551,12 @@ int	main(void)
 	printf("\nInteger(i):\n");
 	printf("real(i): Test1: '%10.i' | Test2: '%015.4i' | Test3: '%-10.7i' | Test4: '%-*.*i' | Test5: '%010.8i' | Test 6: '%2.i'\n", -142, -142, INT_MIN, 10, 3, 12345, 12345, 4);
 	ft_printf("ft(i)  : Test1: '%10.i' | Test2: '%015.4i' | Test3: '%-10.7i' | Test4: '%-*.*i' | Test5: '%010.8i' | Test 6: '%2.i'\n", -142, -142, INT_MIN, 10, 3, 12345, 12345, 4);
+	// Unsigned Integer (u)
+	printf("\nUnsigned Integer(u):\n");
+	printf("real(i): Test1: '%10.u' | Test2: '%015.4u' | Test3: '%-10.7u' | Test4: '%-*.*u' | Test5: '%010.8u' | Test 6: '%2.u'\n", -142, -142, INT_MIN, 10, 3, 12345, 12345, 4);
+	ft_printf("ft(i)  : Test1: '%10.u' | Test2: '%015.4u' | Test3: '%-10.7u' | Test4: '%-*.*u' | Test5: '%010.8u' | Test 6: '%2.u'\n", -142, -142, INT_MIN, 10, 3, 12345, 12345, 4);
+	// Hexadecimal (x)
+	printf("\nHexadecimal (x & X):\n");
+	printf("real(x): Test1: '%12x' | Test2: '%-12X' | Test3: '%12.5x' | Test4: '%012.5X'%% |%%%% Test5: '%012x'\n", 79527482, 79527482, 79527482, 79527482, -79527482);
+	ft_printf("ft(x)  : Test1: '%12x' | Test2: '%-12X' | Test3: '%12.5x' | Test4: '%012.5X'%% |%%%% Test5: '%012x'\n", 79527482, 79527482, 79527482, 79527482, -79527482);
 }
