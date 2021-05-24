@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:18:54 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 17:45:34 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/24 12:39:42 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	to_pad(struct s_fmt *flag)
 
 void	print_precision(struct s_fmt *flag)
 {
-	if (flag->precision < flag->fmt_len && flag->precision != -1)
+	if (flag->precision < flag->fmt_len && flag->prec_on == 1)
 		flag->pad_zero = ' ';
 	while (flag->precision > flag->fmt_len)
 	{
@@ -67,6 +67,7 @@ int	get_precision(struct s_fmt *s_flag, va_list *ap)
 	int		precision;
 	int		i;
 
+	s_flag->prec_on = 1;
 	precision = 0;
 	i = 0;
 	s_flag->curr_pos++;

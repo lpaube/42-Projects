@@ -1,4 +1,4 @@
-#include "../printf/includes/ft_printf.h"
+#include "../ft_printf/includes/ft_printf.h"
 
 int	main(void)
 {
@@ -10,8 +10,8 @@ int	main(void)
 	ft_printf("ft(c)  : Test1: '%c' | Test2: '%4c' | Test3: '%5c' | Test4: '%-5c' | Test5: '%-*c'\n", 'H', 'H', 'H', 'H', 2, 'A');
 	// String (s)
 	printf("\nString(s):\n");
-	printf("real(s): Test1: '%s' | Test2: '%.4s' | Test3: '%6.4s' | Test4: '%-6.4s' | Test5: '%4.6s' | Test6: '%*.*s'\n", "Hello", "Hello", "Hello", "Hello", "Hello", 6, 3, "Hello");
-	ft_printf("ft(s)  : Test1: '%s' | Test2: '%.4s' | Test3: '%6.4s' | Test4: '%-6.4s' | Test5: '%4.6s' | Test6: '%*.*s'\n", "Hello", "Hello", "Hello", "Hello", "Hello", 6, 3, "Hello");
+	printf("real(s): Test1: '%s' | Test2: '%.4s' | Test3: '%6.*s' | Test4: '%-6.4s' | Test5: '%4.6s' | Test6: '%*.*s'\n", "Hello", "Hello", -2, "Hello", "Hello", "Hello", 6, 3, "Hello");
+	ft_printf("ft(s)  : Test1: '%s' | Test2: '%.4s' | Test3: '%6.*s' | Test4: '%-6.4s' | Test5: '%4.6s' | Test6: '%*.*s'\n", "Hello", "Hello", -2, "Hello", "Hello", "Hello", 6, 3, "Hello");
 	// Pointer (p)
 	printf("\nPointer(p):\n");
 	printf("real(p): Test1: '%p' | Test2: '%14p' | Test3: '%-14p' | Test4: '%*p'\n", nice, not_nice, nice, 14, nice);
@@ -33,9 +33,6 @@ int	main(void)
 	printf("real(x): Test1: '%12x' | Test2: '%-12X' | Test3: '%12.5x' | Test4: '%012.5X'%% |%%%% Test5: '%012x'\n", 79527482, 79527482, 79527482, 79527482, -79527482);
 	ft_printf("ft(x)  : Test1: '%12x' | Test2: '%-12X' | Test3: '%12.5x' | Test4: '%012.5X'%% |%%%% Test5: '%012x'\n", 79527482, 79527482, 79527482, 79527482, -79527482);
 
-	ft_printf("\nd FT  : '%0-8.5d'\n", 34);
-	printf("d REAL: '%0-8.5d'\n", 34);
-
 	ft_printf("\nd FT  : '%.0d'\n", 0);
 	printf("d REAL: '%.0d'\n", 0);
 
@@ -54,6 +51,12 @@ int	main(void)
 	ft_printf("\nFT  : %% *.5i 42 == |% *.5i|\n", 4, 42);
 	printf("REAL: %% *.5i 42 == |% *.5i|\n", 4, 42);
 
-	ft_printf("\no FT  : '%.*o'\n", -3, 12345);
-	printf("o REAL: '%.*o'\n", -3, 12345);
+	ft_printf("\nd FT  : '%05.*d'\n", 0, 42);
+	printf("d REAL: '%05.*d'\n", 0, 42);
+
+	//ft_printf("\n%-*.156x%0033.100u%0.104i%-4.150x%-90.%\n" ,28,4190048377u,3783020883u,-1750158056,3765069756u);
+	//printf("%-*.156x%0033.100u%0.104i%-4.150x%-90.%\n" ,28,4190048377u,3783020883u,-1750158056,3765069756u);
+
+	ft_printf("\nFT:   '%-90.%'\n");
+	printf("REAL: '%-90.%'\n");
 }

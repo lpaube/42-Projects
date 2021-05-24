@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:31:56 by laube             #+#    #+#             */
-/*   Updated: 2021/05/24 10:57:16 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/24 12:36:09 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,11 @@ int	ft_triage_flags(struct s_fmt *s_flag, va_list *ap)
 			}
 		}
 		if (s_flag->fmt[s_flag->curr_pos] == '.')
+		{
 			s_flag->precision = get_precision(s_flag, ap);
+			if (s_flag->precision < 0)
+				s_flag->prec_on = 0;
+		}
 		if (s_flag->fmt[s_flag->curr_pos] == s_flag->type)
 			return (1);
 		s_flag->curr_pos++;
@@ -62,7 +66,8 @@ void	ft_triage_struct(va_list *ap, int *i, const char *fmt)
 	str_holder = 0;
 	tmp = *i;
 	flag.width = 0;
-	flag.precision = -1;
+	flag.precision = 0;
+	flag.prec_on = 0;
 	flag.pad_zero = ' ';
 	flag.left_justify = 0;
 	flag.start = *i;

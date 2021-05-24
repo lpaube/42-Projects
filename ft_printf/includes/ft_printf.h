@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:07:28 by laube             #+#    #+#             */
-/*   Updated: 2021/05/24 10:52:00 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/24 11:02:07 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ struct s_fmt
 {
 	int		width;
 	int		precision;
+	int		prec_on;
 	char	pad_zero;
 	int		left_justify;
 	int		start;
