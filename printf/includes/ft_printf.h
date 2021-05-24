@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:07:28 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 23:45:02 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/24 10:52:00 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include <limits.h>
 
 # define HEX_TAB "0123456789abcdef"
-# define FMT_TAB "cspdiuxX aAbBCDeEfFgGhHIjJkKlLmMnNoOPqQrRsStTUvVyYzZ%"
+# define FMT_TAB "cspdiuxXaAbBCDeEfFgGhHIjJkKlLmMnNoOPqQrRsStTUvVyYzZ%"
 
 struct s_fmt
 {

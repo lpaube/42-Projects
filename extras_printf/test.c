@@ -44,4 +44,16 @@ int	main(void)
 
 	ft_printf("\nu FT  : '%.20u'\n", 4294967295u);
 	printf("u REAL: '%.20u'\n", 4294967295u);
+
+	ft_printf("\ns FT  : '%*s'\n", -4, "abc");
+	printf("s REAL: '%*s'\n", -4, "abc");
+
+	ft_printf("\nd FT  : '%*d'\n", -4, 142);
+	printf("d REAL: '%*d'\n", -4, 142);
+
+	ft_printf("\nFT  : %% *.5i 42 == |% *.5i|\n", 4, 42);
+	printf("REAL: %% *.5i 42 == |% *.5i|\n", 4, 42);
+
+	ft_printf("\no FT  : '%.*o'\n", -3, 12345);
+	printf("o REAL: '%.*o'\n", -3, 12345);
 }

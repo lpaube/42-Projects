@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:31:56 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 23:49:58 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/24 10:57:16 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ int	ft_triage_flags(struct s_fmt *s_flag, va_list *ap)
 {
 	while (s_flag->fmt[s_flag->curr_pos])
 	{
+		while (s_flag->fmt[s_flag->curr_pos] == ' ')
+		{
+			ft_putchar_fd(' ', 1);
+			s_flag->curr_pos++;
+		}
 		if (s_flag->fmt[s_flag->curr_pos] == '-')
 			s_flag->left_justify = 1;
 		if (ft_isdigit(s_flag->fmt[s_flag->curr_pos]))
@@ -29,7 +34,16 @@ int	ft_triage_flags(struct s_fmt *s_flag, va_list *ap)
 				s_flag->width = get_width(s_flag);
 		}
 		if (s_flag->fmt[s_flag->curr_pos] == '*')
+		{
+			
 			s_flag->width = va_arg(*ap, int);
+			if (s_flag->width < 0)
+			{
+				s_flag->left_justify = 1;
+				s_flag->pad_zero = ' ';
+				s_flag->width = -(s_flag->width);
+			}
+		}
 		if (s_flag->fmt[s_flag->curr_pos] == '.')
 			s_flag->precision = get_precision(s_flag, ap);
 		if (s_flag->fmt[s_flag->curr_pos] == s_flag->type)
