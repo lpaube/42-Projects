@@ -32,4 +32,16 @@ int	main(void)
 	printf("\nHexadecimal (x & X):\n");
 	printf("real(x): Test1: '%12x' | Test2: '%-12X' | Test3: '%12.5x' | Test4: '%012.5X'%% |%%%% Test5: '%012x'\n", 79527482, 79527482, 79527482, 79527482, -79527482);
 	ft_printf("ft(x)  : Test1: '%12x' | Test2: '%-12X' | Test3: '%12.5x' | Test4: '%012.5X'%% |%%%% Test5: '%012x'\n", 79527482, 79527482, 79527482, 79527482, -79527482);
+
+	ft_printf("\nd FT  : '%0-8.5d'\n", 34);
+	printf("d REAL: '%0-8.5d'\n", 34);
+
+	ft_printf("\nd FT  : '%.0d'\n", 0);
+	printf("d REAL: '%.0d'\n", 0);
+
+	ft_printf("\nx FT  : '%x'\n", 0);
+	printf("x REAL: '%x'\n", 0);
+
+	ft_printf("\nu FT  : '%.20u'\n", 4294967295u);
+	printf("u REAL: '%.20u'\n", 4294967295u);
 }

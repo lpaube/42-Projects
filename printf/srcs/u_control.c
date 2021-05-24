@@ -6,33 +6,43 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:17:29 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 19:07:39 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/23 23:22:02 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-void	ft_uputnbr_fd(unsigned int n, int fd)
+void	int_val_control(char *val_str, struct s_fmt *flag)
 {
-	if (n >= 10)
-		ft_uputnbr_fd(n / 10, fd);
-	ft_putchar_fd((n % 10) + '0', fd);
+	int		tmp_len;
+
+	flag->fmt_len = ft_strlen(val_str);
+	tmp_len = flag->fmt_len;
+	if (flag->precision < flag->fmt_len && flag->precision != -1)
+		flag->pad_zero = ' ';
+	if (flag->precision < flag->width && flag->precision != -1)
+		flag->pad_zero = ' ';
+	if (val_str[0] == '-')
+		d_val_neg(flag, tmp_len, val_str);
+	else
+		d_val_pos(flag, tmp_len, val_str);
 }
 
 void	u_val_control(va_list *ap, struct s_fmt *flag)
 {
 	unsigned int	val;
-	flag->type = flag->type;
+	int				free_state;
+	char			*val_str;
 
-	val = va_arg(*ap, int);
-	ft_uputnbr_fd(val, 1);
-}
+	val_str = "";
+	free_state = 0;
+	val = va_arg(*ap, unsigned int);
+	if (!(val == 0 && flag->precision == 0))
+	{
+		free_state = 1;
+		val_str = ft_utoa(val);
+	}
+	int_val_control(val_str, flag);
 
-void	u_val(va_list *ap, struct s_fmt *flag)
-{
-	unsigned int	val;
-	flag->type = flag->type;
-
-	val = va_arg(*ap, int);
-	ft_uputnbr_fd(val, 1);
+	free_it((void **)&val_str, free_state);
 }

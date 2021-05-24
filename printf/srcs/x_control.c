@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:03:40 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 17:56:11 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/23 21:58:56 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_dtohex(unsigned int num, int *rm_zeros, char cap)
 {
-	int		remain;
-	char	*range;
+	int			remain;
+	char		*range;
 
 	range = "0123456789abcdef";
 	remain = num % 16;
@@ -32,7 +32,7 @@ void	ft_dtohex(unsigned int num, int *rm_zeros, char cap)
 			ft_putchar_fd(range[remain], 1);
 	}
 }
-
+/*
 void	ft_dtohex_neg(unsigned int num, int *rm_zeros, char cap)
 {
 	unsigned int	remain;
@@ -53,6 +53,7 @@ void	ft_dtohex_neg(unsigned int num, int *rm_zeros, char cap)
 			ft_putchar_fd(range[remain], 1);
 	}
 }
+*/
 
 int	x_val_len(unsigned int val)
 {
@@ -90,13 +91,20 @@ void	x_val_control(va_list *ap, struct s_fmt *flag)
 	if (flag->type == 'X')
 		cap = 1;
 	flag->fmt_len = x_val_len(val);
+	if (val == 0 && flag->precision != 0)
+		flag->fmt_len++;
 	tmp_len = flag->fmt_len;
 	if (tmp_len >= flag->precision && flag->precision != -1)
+		flag->pad_zero = ' ';
+	if (flag->width >= flag->precision && flag->precision != -1)
 		flag->pad_zero = ' ';
 	if (flag->left_justify)
 	{
 		print_precision(flag);
-		ft_dtohex(val, &rm_zeros, cap);
+		if (val == 0 && flag->precision != 0)
+			ft_putchar_fd('0', 1);
+		else
+			ft_dtohex(val, &rm_zeros, cap);
 		to_pad(flag);
 	}
 	else
@@ -106,7 +114,10 @@ void	x_val_control(va_list *ap, struct s_fmt *flag)
 		to_pad(flag);
 		flag->fmt_len = tmp_len;
 		print_precision(flag);
-		ft_dtohex(val, &rm_zeros, cap);
+		if (val == 0 && flag->precision != 0)
+			ft_putchar_fd('0', 1);
+		else
+			ft_dtohex(val, &rm_zeros, cap);
 	}
 }
 
@@ -122,7 +133,7 @@ void	x_val(char c, struct s_fmt *flag, unsigned int val)
 	rm_zeros = 1;
 	if (val < 0)
 	{
-		ft_dtohex_neg(val, &rm_zeros, cap);
+		ft_dtohex(val, &rm_zeros, cap);
 	}
 	else
 	{

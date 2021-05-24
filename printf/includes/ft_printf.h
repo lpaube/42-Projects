@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:07:28 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 17:54:30 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/23 23:19:09 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,13 @@ void	ft_putnstr_fd(char *s, int fd, int len);
 void	s_val_control(va_list *ap, struct s_fmt *flag);
 int		ft_triage_flags(struct s_fmt *s_flag, va_list *ap);
 void	ft_triage_struct(va_list *ap, int *i, const char *fmt);
-void	ft_uputnbr_fd(unsigned int n, int fd);
 void	u_val_control(va_list *ap, struct s_fmt *flag);
-void	u_val(va_list *ap, struct s_fmt *flag);
 void	ft_dtohex(unsigned int num, int *rm_zeros, char cap);
-void	ft_dtohex_neg(unsigned int num, int *rm_zeros, char cap);
 int		x_val_len(unsigned int val);
 void	x_val_control(va_list *ap, struct s_fmt *flag);
 void	x_val(char c, struct s_fmt *flag, unsigned int val);
+int		free_it(void **mem, int free_state);
+void	int_val_control(char *val_str, struct s_fmt *flag);
 
 
 

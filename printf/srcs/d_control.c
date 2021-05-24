@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 11:04:01 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 17:45:25 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/23 23:21:02 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,28 @@ void	d_val_neg(struct s_fmt *flag, int tmp_len, char *val_str)
 
 void	d_val_control(va_list *ap, struct s_fmt *flag)
 {
-	int	val;
-	int	tmp_len;
+	int		val;
+	int		tmp_len;
 	char	*val_str;
+	int		free_state;
 
+	val_str = "";
 	val = va_arg(*ap, int);
-	val_str = ft_itoa(val);
+	free_state = 0;
+	if (!(val == 0 && flag->precision == 0))
+	{
+		free_state = 1;
+		val_str = ft_itoa(val);
+	}
 	flag->fmt_len = ft_strlen(val_str);
 	tmp_len = flag->fmt_len;
 	if (flag->precision < flag->fmt_len && flag->precision != -1)
 		flag->pad_zero = ' ';
 	if (flag->precision < flag->width && flag->precision != -1)
 		flag->pad_zero = ' ';
-
 	if (val < 0)
 		d_val_neg(flag, tmp_len, val_str);
 	else
 		d_val_pos(flag, tmp_len, val_str);
-	free(val_str);
-	val_str = NULL;
+	free_it((void *)&val_str, free_state);
 }
-
