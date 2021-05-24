@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:31:56 by laube             #+#    #+#             */
-/*   Updated: 2021/05/23 22:22:01 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/23 23:49:58 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,6 @@ void	ft_triage(char c, va_list *ap, struct s_fmt *flag)
 		x_val_control(ap, flag);
 	else if (c == '%')
 		s_val_control(ap, flag);
+	else
+		return ;
 }
