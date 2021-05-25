@@ -6,11 +6,42 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:31:56 by laube             #+#    #+#             */
-/*   Updated: 2021/05/24 12:36:09 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/24 20:14:55 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
+#include "../include/ft_printf.h"
+
+void	ft_triage_flags2(struct s_fmt *s_flag, va_list *ap)
+{
+	if (s_flag->fmt[s_flag->curr_pos] == '*')
+	{
+		s_flag->width = va_arg(*ap, int);
+		if (s_flag->width < 0)
+		{
+			s_flag->left_justify = 1;
+			s_flag->pad_zero = ' ';
+			s_flag->width = -(s_flag->width);
+		}
+	}
+	if (s_flag->fmt[s_flag->curr_pos] == '.')
+	{
+		s_flag->precision = get_precision(s_flag, ap);
+		if (s_flag->precision < 0)
+			s_flag->prec_on = 0;
+	}
+}
+
+void	width_flag(struct s_fmt *s_flag)
+{
+	if (s_flag->fmt[s_flag->curr_pos] == '0')
+	{
+		if (s_flag->left_justify == 0)
+			s_flag->pad_zero = '0';
+	}
+	else if (ft_isdigit(s_flag->fmt[s_flag->curr_pos]))
+		s_flag->width = get_width(s_flag);
+}
 
 int	ft_triage_flags(struct s_fmt *s_flag, va_list *ap)
 {
@@ -22,34 +53,13 @@ int	ft_triage_flags(struct s_fmt *s_flag, va_list *ap)
 			s_flag->curr_pos++;
 		}
 		if (s_flag->fmt[s_flag->curr_pos] == '-')
+		{
 			s_flag->left_justify = 1;
+			s_flag->pad_zero = ' ';
+		}
 		if (ft_isdigit(s_flag->fmt[s_flag->curr_pos]))
-		{
-			if (s_flag->fmt[s_flag->curr_pos] == '0')
-			{
-				if (s_flag->left_justify == 0)
-						s_flag->pad_zero = '0';
-			}
-			else if (ft_isdigit(s_flag->fmt[s_flag->curr_pos]))
-				s_flag->width = get_width(s_flag);
-		}
-		if (s_flag->fmt[s_flag->curr_pos] == '*')
-		{
-			
-			s_flag->width = va_arg(*ap, int);
-			if (s_flag->width < 0)
-			{
-				s_flag->left_justify = 1;
-				s_flag->pad_zero = ' ';
-				s_flag->width = -(s_flag->width);
-			}
-		}
-		if (s_flag->fmt[s_flag->curr_pos] == '.')
-		{
-			s_flag->precision = get_precision(s_flag, ap);
-			if (s_flag->precision < 0)
-				s_flag->prec_on = 0;
-		}
+			width_flag(s_flag);
+		ft_triage_flags2(s_flag, ap);
 		if (s_flag->fmt[s_flag->curr_pos] == s_flag->type)
 			return (1);
 		s_flag->curr_pos++;
@@ -57,7 +67,7 @@ int	ft_triage_flags(struct s_fmt *s_flag, va_list *ap)
 	return (0);
 }
 
-void	ft_triage_struct(va_list *ap, int *i, const char *fmt)
+void	ft_triage_struct(va_list *ap, int *i, const char *fmt, int *ret)
 {
 	char			*str_holder;
 	int				tmp;
@@ -74,16 +84,13 @@ void	ft_triage_struct(va_list *ap, int *i, const char *fmt)
 	flag.curr_pos = *i;
 	flag.fmt = fmt;
 	flag.type = 0;
+	flag.ret = ret;
 	while (fmt[tmp] && !str_holder)
-	{
 		str_holder = ft_strchr(FMT_TAB, fmt[tmp++]);
-	}
 	if (str_holder[0])
 		flag.type = str_holder[0];
 	if (ft_triage_flags(&flag, ap) == 1)
-	{
 		ft_triage(flag.type, ap, &flag);
-	}
 	*i = flag.curr_pos;
 }
 

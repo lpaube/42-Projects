@@ -6,11 +6,11 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:17:29 by laube             #+#    #+#             */
-/*   Updated: 2021/05/24 11:37:51 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/24 16:08:01 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
+#include "../include/ft_printf.h"
 
 void	int_val_control(char *val_str, struct s_fmt *flag)
 {
@@ -43,6 +43,5 @@ void	u_val_control(va_list *ap, struct s_fmt *flag)
 		val_str = ft_utoa(val);
 	}
 	int_val_control(val_str, flag);
-
 	free_it((void **)&val_str, free_state);
 }

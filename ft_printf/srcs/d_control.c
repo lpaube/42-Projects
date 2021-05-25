@@ -6,11 +6,11 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 11:04:01 by laube             #+#    #+#             */
-/*   Updated: 2021/05/24 11:28:09 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/24 17:39:57 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
+#include "../include/ft_printf.h"
 
 void	d_val_pos(struct s_fmt *flag, int tmp_len, char *val_str)
 {
@@ -29,6 +29,28 @@ void	d_val_pos(struct s_fmt *flag, int tmp_len, char *val_str)
 		print_precision(flag);
 		ft_putstr_fd(val_str, 1);
 	}
+	(*flag->ret) += ft_strlen(val_str);
+}
+
+void	d_val_neg_right(struct s_fmt *flag, int tmp_len, char *val_str)
+{
+	if (flag->pad_zero == '0')
+	{
+		ft_putchar_fd('-', 1);
+		(*flag->ret)++;
+	}
+	if (flag->precision >= flag->fmt_len)
+		flag->fmt_len = flag->precision + 1;
+	to_pad(flag);
+	flag->fmt_len = tmp_len - 1;
+	if (flag->pad_zero == ' ')
+	{
+		ft_putchar_fd('-', 1);
+		(*flag->ret)++;
+	}
+	print_precision(flag);
+	ft_putstr_fd(&(val_str[1]), 1);
+	(*flag->ret) += ft_strlen(&(val_str[1]));
 }
 
 void	d_val_neg(struct s_fmt *flag, int tmp_len, char *val_str)
@@ -40,23 +62,12 @@ void	d_val_neg(struct s_fmt *flag, int tmp_len, char *val_str)
 		print_precision(flag);
 		flag->fmt_len++;
 		ft_putstr_fd(&(val_str[1]), 1);
+		(*flag->ret) += ft_strlen(&(val_str[1])) + 1;
 		to_pad(flag);
 	}
 	else
-	{
-		if (flag->pad_zero == '0')
-			ft_putchar_fd('-', 1);
-		if (flag->precision >= flag->fmt_len)
-			flag->fmt_len = flag->precision + 1;
-		to_pad(flag);
-		flag->fmt_len = tmp_len - 1;
-		if (flag->pad_zero == ' ')
-			ft_putchar_fd('-', 1);
-		print_precision(flag);
-		ft_putstr_fd(&(val_str[1]), 1);
-	}
+		d_val_neg_right(flag, tmp_len, val_str);
 }
-
 
 void	d_val_control(va_list *ap, struct s_fmt *flag)
 {

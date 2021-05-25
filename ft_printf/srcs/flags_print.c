@@ -6,11 +6,11 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:18:54 by laube             #+#    #+#             */
-/*   Updated: 2021/05/24 12:39:42 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/24 16:59:12 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
+#include "../include/ft_printf.h"
 
 void	to_pad(struct s_fmt *flag)
 {
@@ -20,6 +20,7 @@ void	to_pad(struct s_fmt *flag)
 	while (flag->width > flag->fmt_len + tmp)
 	{
 		ft_putchar_fd(flag->pad_zero, 1);
+		(*flag->ret)++;
 		tmp++;
 	}
 }
@@ -31,11 +32,12 @@ void	print_precision(struct s_fmt *flag)
 	while (flag->precision > flag->fmt_len)
 	{
 		ft_putchar_fd('0', 1);
+		(*flag->ret)++;
 		flag->fmt_len++;
 	}
 }
 
-int		get_width(struct s_fmt *s_flag)
+int	get_width(struct s_fmt *s_flag)
 {
 	char	*width_str;
 	char	*start_width;

@@ -6,32 +6,11 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:03:40 by laube             #+#    #+#             */
-/*   Updated: 2021/05/24 12:28:09 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/24 20:42:18 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
-
-void	ft_dtohex(unsigned int num, int *rm_zeros, char cap)
-{
-	int			remain;
-	char		*range;
-
-	range = "0123456789abcdef";
-	remain = num % 16;
-	if (num >= 16)
-		ft_dtohex(num / 16, rm_zeros, cap);
-	if (*rm_zeros == 1 && remain == 0)
-		return ;
-	else
-	{
-		*rm_zeros = 0;
-		if (cap)
-			ft_putchar_fd(ft_toupper(range[remain]), 1);
-		else
-			ft_putchar_fd(range[remain], 1);
-	}
-}
+#include "../include/ft_printf.h"
 
 int	x_val_len(unsigned int val)
 {
@@ -57,15 +36,50 @@ int	x_val_len(unsigned int val)
 	return (len);
 }
 
+void	x_val_left(unsigned int val, struct s_fmt *flag, int cap, int rm_zeros)
+{
+	print_precision(flag);
+	if (val == 0 && (flag->prec_on == 0 || flag->precision < 0))
+	{
+		ft_putchar_fd('0', 1);
+		(*flag->ret)++;
+	}
+	else
+		ft_dtohex(val, &rm_zeros, cap, flag);
+	to_pad(flag);
+}
+
+void	x_val_justify(unsigned int val, struct s_fmt *flag, int cap, int i)
+{
+	int	rm_zeros;
+
+	rm_zeros = 1;
+	if (flag->left_justify)
+		x_val_left(val, flag, cap, rm_zeros);
+	else
+	{
+		while (flag->precision > flag->fmt_len)
+			flag->fmt_len++;
+		to_pad(flag);
+		flag->fmt_len = i;
+		print_precision(flag);
+		if (val == 0 && (flag->prec_on == 0 || flag->precision < 0))
+		{
+			ft_putchar_fd('0', 1);
+			(*flag->ret)++;
+		}
+		else
+			ft_dtohex(val, &rm_zeros, cap, flag);
+	}
+}
+
 void	x_val_control(va_list *ap, struct s_fmt *flag)
 {
 	int	val;
-	int	rm_zeros;
 	int	cap;
 	int	tmp_len;
 
 	cap = 0;
-	rm_zeros = 1;
 	val = (unsigned int)(va_arg(*ap, int));
 	if (flag->type == 'X')
 		cap = 1;
@@ -77,32 +91,12 @@ void	x_val_control(va_list *ap, struct s_fmt *flag)
 		flag->pad_zero = ' ';
 	if (flag->width >= flag->precision && flag->prec_on == 1)
 		flag->pad_zero = ' ';
-	if (flag->left_justify)
-	{
-		print_precision(flag);
-		if (val == 0 && (flag->prec_on == 0 || flag->precision < 0))
-			ft_putchar_fd('0', 1);
-		else
-			ft_dtohex(val, &rm_zeros, cap);
-		to_pad(flag);
-	}
-	else
-	{
-		while (flag->precision > flag->fmt_len)
-			flag->fmt_len++;
-		to_pad(flag);
-		flag->fmt_len = tmp_len;
-		print_precision(flag);
-		if (val == 0 && (flag->prec_on == 0 || flag->precision < 0))
-			ft_putchar_fd('0', 1);
-		else
-			ft_dtohex(val, &rm_zeros, cap);
-	}
+	x_val_justify(val, flag, cap, tmp_len);
 }
 
 void	x_val(char c, struct s_fmt *flag, unsigned int val)
 {
-	int rm_zeros;
+	int	rm_zeros;
 	int	cap;
 
 	(void)flag;
@@ -111,11 +105,7 @@ void	x_val(char c, struct s_fmt *flag, unsigned int val)
 		cap = 1;
 	rm_zeros = 1;
 	if (val < 0)
-	{
-		ft_dtohex(val, &rm_zeros, cap);
-	}
+		ft_dtohex(val, &rm_zeros, cap, flag);
 	else
-	{
-		ft_dtohex(val, &rm_zeros, cap);
-	}
+		ft_dtohex(val, &rm_zeros, cap, flag);
 }

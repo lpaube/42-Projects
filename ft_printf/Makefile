@@ -1,11 +1,11 @@
-CC = gcc
-NAME = libftprintf.a
-CFLAGS = -Wall -Werror -Wextra -c
+LIBFT = ./libft/libft.a
 
-SRCS =	srcs/c_control.c \
+NAME = libftprintf.a
+
+SRCS =	srcs/ft_printf.c \
+		srcs/c_control.c \
 		srcs/d_control.c \
 		srcs/flags_print.c \
-		srcs/ft_printf.c \
 		srcs/misc.c \
 		srcs/p_control.c \
 		srcs/s_control.c \
@@ -13,10 +13,10 @@ SRCS =	srcs/c_control.c \
 		srcs/u_control.c \
 		srcs/x_control.c \
 
-OBJS =	c_control.o \
+SURPL_O = ft_printf.o \
+		c_control.o \
 		d_control.o \
 		flags_print.o \
-		ft_printf.o \
 		misc.o \
 		p_control.o \
 		s_control.o \
@@ -24,24 +24,29 @@ OBJS =	c_control.o \
 		u_control.o \
 		x_control.o \
 
-LIB_PATH = ./libft
-INCLUDES = ./includes
+CC = gcc
+
+CFLAGS = -Wall -Werror -Wextra -c
+
+INCLUDES = -I./include
+
+OBJS = $(SRCS:.c=.o)
+
+$(NAME): $(OBJS)
+	make re -C ./libft
+	cp libft/libft.a ./$(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(SRCS)
+	ar -rcs $(NAME) $(OBJS)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	make re -C $(LIB_PATH)
-	cp libft/libft.a ./$(NAME)
-	ar -rcs $(NAME) $(OBJS)
-
-$(OBJS): $(SRCS)
-	$(CC) $(CFLAGS) -I$(INCLUDES) $(SRCS)
-	
 clean:
+	make clean -C ./libft
+	/bin/rm -f $(SURPL_O)
 	/bin/rm -f $(OBJS)
-	make clean -C $(LIB_PATH)
 
 fclean: clean
+	make fclean -C ./libft
 	/bin/rm -f $(NAME)
 
 re: fclean all

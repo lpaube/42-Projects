@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:07:28 by laube             #+#    #+#             */
-/*   Updated: 2021/05/24 11:02:07 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/24 17:15:54 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ struct s_fmt
 	const char	*fmt;
 	int		fmt_len;
 	char	type;
+	int		*ret;
 };
 
 int		ft_printf(const char *fmt, ...);
@@ -51,14 +52,14 @@ int		get_width(struct s_fmt *s_flag);
 int		get_precision(struct s_fmt *s_flag, va_list *ap);
 int		mod_strlen(const char *str);
 int		p_val_len(unsigned char *buff, int init_len);
-void	p_val(unsigned char *buff, int i);
+void	p_val(unsigned char *buff, int i, struct s_fmt *flag);
 void	p_val_control(va_list *ap, struct s_fmt *flag);
 void	ft_putnstr_fd(char *s, int fd, int len);
 void	s_val_control(va_list *ap, struct s_fmt *flag);
 int		ft_triage_flags(struct s_fmt *s_flag, va_list *ap);
-void	ft_triage_struct(va_list *ap, int *i, const char *fmt);
+void	ft_triage_struct(va_list *ap, int *i, const char *fmt, int *ret);
 void	u_val_control(va_list *ap, struct s_fmt *flag);
-void	ft_dtohex(unsigned int num, int *rm_zeros, char cap);
+void	ft_dtohex(unsigned int num, int *rm_zeros, char cap, struct s_fmt *fg);
 int		x_val_len(unsigned int val);
 void	x_val_control(va_list *ap, struct s_fmt *flag);
 void	x_val(char c, struct s_fmt *flag, unsigned int val);
