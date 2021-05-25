@@ -1,4 +1,4 @@
-#include "../ft_printf/includes/ft_printf.h"
+#include "../ft_printf/include/ft_printf.h"
 
 int	main(void)
 {
@@ -54,9 +54,6 @@ int	main(void)
 	ft_printf("\nd FT  : '%05.*d'\n", 0, 42);
 	printf("d REAL: '%05.*d'\n", 0, 42);
 
-	//ft_printf("\n%-*.156x%0033.100u%0.104i%-4.150x%-90.%\n" ,28,4190048377u,3783020883u,-1750158056,3765069756u);
-	//printf("%-*.156x%0033.100u%0.104i%-4.150x%-90.%\n" ,28,4190048377u,3783020883u,-1750158056,3765069756u);
-
-	ft_printf("\nFT:   '%-90.%'\n");
-	printf("REAL: '%-90.%'\n");
+	printf("REAL: '0*%0-*d*0'\n", 21, 1021);
+	ft_printf("FT  : '0*%0-*d*0'\n", 21, 1021);
 }

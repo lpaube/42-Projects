@@ -6,38 +6,34 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 15:07:28 by laube             #+#    #+#             */
-/*   Updated: 2021/05/24 17:15:54 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/24 23:02:19 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef FT_PRINTF_H
+#ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-#include "../libft/libft.h"
-#include <stdarg.h>
-#include <stdlib.h>
-#include <unistd.h>
-// TO DELETE
-#include <stdio.h>
-#include <string.h>
-#include <limits.h>
+# include "../libft/libft.h"
+# include <stdarg.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 # define HEX_TAB "0123456789abcdef"
 # define FMT_TAB "cspdiuxXaAbBCDeEfFgGhHIjJkKlLmMnNoOPqQrRsStTUvVyYzZ%"
 
 struct s_fmt
 {
-	int		width;
-	int		precision;
-	int		prec_on;
-	char	pad_zero;
-	int		left_justify;
-	int		start;
-	int		curr_pos;
+	int			width;
+	int			precision;
+	int			prec_on;
+	char		pad_zero;
+	int			left_justify;
+	int			start;
+	int			curr_pos;
 	const char	*fmt;
-	int		fmt_len;
-	char	type;
-	int		*ret;
+	int			fmt_len;
+	char		type;
+	int			*ret;
 };
 
 int		ft_printf(const char *fmt, ...);
@@ -66,9 +62,4 @@ void	x_val(char c, struct s_fmt *flag, unsigned int val);
 int		free_it(void **mem, int free_state);
 void	int_val_control(char *val_str, struct s_fmt *flag);
 
-
-
-
-
-
-# endif
+#endif
