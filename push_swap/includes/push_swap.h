@@ -6,9 +6,14 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:58:22 by laube             #+#    #+#             */
-/*   Updated: 2021/05/25 18:02:09 by laube            ###   ########.fr       */
+/*   Updated: 2021/05/25 23:45:02 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
 
+typedef struct s_stack
+{
+	int				num;
+	struct s_stack	*next;
+} t_stack;
