@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/04 19:04:16 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/04 19:06:35 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,11 +232,6 @@ char	*ft_swap_s(t_stack *head1, t_stack *head2)
 	if (ft_swap_a(head1) && ft_swap_b(head2))
 		return ("ss\n");
 	return (NULL);
-}
-
-void	ft_sort(t_stack *head1, t_stack *head2)
-{
-	
 }
 
 int	*stack_to_arr(t_stack *head, int len)
