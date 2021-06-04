@@ -6,12 +6,27 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/03 22:37:34 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/04 19:04:16 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "../includes/push_swap.h"
+
+int	stack_len(t_stack *head)
+{
+	int	len;
+	t_stack	*curr_stack;
+
+	len = 0;
+	curr_stack = head->next;
+	while (curr_stack)
+	{
+		len++;
+		curr_stack = curr_stack->next;
+	}
+	return (len);
+}
 
 t_stack	*ft_last_node(t_stack *head)
 {
@@ -221,48 +236,127 @@ char	*ft_swap_s(t_stack *head1, t_stack *head2)
 
 void	ft_sort(t_stack *head1, t_stack *head2)
 {
-	t_stack	*curr1;
-	t_stack	*curr2;
-
-	printf("%s", ft_push_b(head1, head2));
-	ft_print_stacks(head1, head2);
-	printf("%s", ft_push_b(head1, head2));
-	ft_print_stacks(head1, head2);
-	printf("%s", ft_push_b(head1, head2));
-	ft_print_stacks(head1, head2);
-
-	printf("%s", ft_swap_a(head1));
-	ft_print_stacks(head1, head2);
-	printf("%s", ft_swap_b(head2));
-	ft_print_stacks(head1, head2);
-	printf("%s", ft_swap_s(head1, head2));
-	ft_print_stacks(head1, head2);
-
-	printf("%s", ft_rotate_a(head1));
-	ft_print_stacks(head1, head2);
-	printf("%s", ft_rotate_b(head2));
-	ft_print_stacks(head1, head2);
-	printf("%s", ft_rotate_r(head1, head2));
-	ft_print_stacks(head1, head2);
-
-	printf("%s", ft_reverse_rot_a(head1));
-	ft_print_stacks(head1, head2);
-	printf("%s", ft_reverse_rot_b(head2));
-	ft_print_stacks(head1, head2);
-	printf("%s", ft_reverse_rot_r(head1, head2));
-	ft_print_stacks(head1, head2);
-
-	printf("%s", ft_push_a(head1, head2));
-	ft_print_stacks(head1, head2);
-	printf("%s", ft_push_a(head1, head2));
-	ft_print_stacks(head1, head2);
-	printf("%s", ft_push_a(head1, head2));
-	ft_print_stacks(head1, head2);
+	
 }
 
-void	ft_algo_control(t_stack *head1, t_stack *head2)
+int	*stack_to_arr(t_stack *head, int len)
 {
-		ft_sort(head1, head2);
+	int		*arr;
+	int		i;
+	t_stack	*curr;
+
+	arr = ft_calloc(len, sizeof(int));
+	curr = head->next;
+	i = 0;
+	while (i < len && curr)
+	{
+		arr[i++] = curr->num;
+		curr = curr->next;
+	}
+	return (arr);
+}
+
+int	arr_quicksort(int *arr, int low, int high)
+{
+	int	i;
+	int	j;
+	int	pivot;
+
+	pivot = arr[high];
+	i = low;
+	j = low;
+	while (j < high)
+	{
+		if (arr[j] <= pivot)
+		{
+			ft_swap(&arr[i], &arr[j]);
+			i++;
+		}
+		j++;
+	}
+	ft_swap(&arr[i], &arr[high]);
+	return (i);
+}
+
+void	arr_quicksort_control(int *arr, int low, int high)
+{
+	int	pi;
+
+	if (low < high)
+	{
+		pi = arr_quicksort(arr, low, high);
+		arr_quicksort_control(arr, low, pi - 1);
+		arr_quicksort_control(arr, pi + 1, high);
+	}
+}
+
+int	partitioning(int len, int midpoint, t_stack *head1, t_stack *head2)
+{
+	t_stack	*curr1;
+	int	i;
+	int	counter;
+
+	counter = 0;
+	i = 0;
+	printf("MID: %d\n", midpoint);
+	while (i++ < len)
+	{
+		if (head1->next->num < midpoint)
+		{
+			printf("%s", ft_push_b(head1, head2));
+			counter++;
+		}
+		else
+		{
+			printf("%s", ft_rotate_a(head1));
+		}
+	}
+	return (counter);
+}
+
+void	recurse_partition(t_stack *head1, t_stack *head2)
+{
+	int	*arr;
+	int	midp;
+	t_part	*curr_part;
+
+	curr_part = head1->part_head;
+	while (stack_len(head1) > 2)
+	{
+		curr_part->next = create_node_part();
+		curr_part = curr_part->next;
+		arr = stack_to_arr(head1, stack_len(head1));
+		arr_quicksort_control(arr, 0, stack_len(head1) - 1);
+		midp = arr[stack_len(head1) / 2];
+		curr_part->amt = partitioning(stack_len(head1), midp, head1, head2);
+	}
+}
+
+void	ft_algo_control(t_stack *head1, t_stack *head2, int len)
+{
+	int	*arr;
+	int	midpoint;
+
+	recurse_partition(head1, head2);
+
+	ft_print_stacks(head1, head2);
+
+	t_part *tmp = head1->part_head->next;
+	while (tmp)
+	{
+		printf("PART NUM: %d\n", tmp->amt);
+		tmp = tmp->next;
+	}
+}
+
+t_part	*create_node_part(void)
+{
+	t_part	*node;
+
+	node = (t_part *)malloc(sizeof(t_part));
+	node->amt = 0;
+	node->next = NULL;
+	return (node);
 }
 
 t_stack	*ft_create_node(void)
@@ -272,6 +366,7 @@ t_stack	*ft_create_node(void)
 	node = (t_stack *)malloc(sizeof(t_stack));
 	node->num = 0;
 	node->next = NULL;
+	node->part_head = NULL;
 	return (node);
 }
 
@@ -283,6 +378,7 @@ t_stack	*ft_build_stack(char **argv)
 
 	i = 1;
 	head1 = ft_create_node();
+	head1->part_head = create_node_part();
 	tmp = head1;
 	while (argv[i])
 	{
@@ -298,8 +394,12 @@ int	main(int argc, char **argv)
 {
 	t_stack	*head1;
 	t_stack *head2;
+	int		len;
 
 	head1 = ft_build_stack(argv);
 	head2 = ft_create_node();
-	ft_algo_control(head1, head2);
+	head2->part_head = create_node_part();
+	len = stack_len(head1);
+
+	ft_algo_control(head1, head2, len);
 }

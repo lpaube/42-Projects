@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
+/*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/25 17:58:22 by laube             #+#    #+#             */
-/*   Updated: 2021/06/04 19:01:30 by laube            ###   ########.fr       */
+/*   Created: 2021/06/04 15:51:02 by laube             #+#    #+#             */
+/*   Updated: 2021/06/04 15:52:27 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "libft.h"
 
-typedef struct s_part
+void ft_swap(int *a, int *b)
 {
-	int				amt;
-	struct s_part	*next;
-} t_part;
+	int	tmp;
 
-typedef struct s_stack
-{
-	int				num;
-	struct s_stack	*next;
-	struct s_part	*part_head;
-} t_stack;
-
-t_part	*create_node_part(void);
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
