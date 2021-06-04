@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/05/26 22:59:29 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/03 22:37:34 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,13 +137,13 @@ char	*ft_rotate_b(t_stack *head2)
 	t_stack *tmp;
 
 	first_tmp = head2->next;
-	head2 = head2->next->next;
+	head2->next = head2->next->next;
 	tmp = head2->next;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = first_tmp;
 	first_tmp->next = NULL;
-	return ("ra\n");
+	return ("rb\n");
 }
 
 char	*ft_rotate_r(t_stack *head1, t_stack *head2)
@@ -224,33 +224,45 @@ void	ft_sort(t_stack *head1, t_stack *head2)
 	t_stack	*curr1;
 	t_stack	*curr2;
 
-	if (!head2->next)
-		ft_push_b(head1, head2);
-	curr1 = head1->next;
-	while (head1->next)
-	{
-		if (curr1->num > head2->next)
-		{
-			curr1 = curr1->next;
-			ft_push_b(head1, head2);
-		}
-		else if (curr1->num < head2->next)
-		{
-			while (head2->next)
-			{
-				ft_push_a(head1, head2);
-			}
-		}
-	}
+	printf("%s", ft_push_b(head1, head2));
+	ft_print_stacks(head1, head2);
+	printf("%s", ft_push_b(head1, head2));
+	ft_print_stacks(head1, head2);
+	printf("%s", ft_push_b(head1, head2));
+	ft_print_stacks(head1, head2);
+
+	printf("%s", ft_swap_a(head1));
+	ft_print_stacks(head1, head2);
+	printf("%s", ft_swap_b(head2));
+	ft_print_stacks(head1, head2);
+	printf("%s", ft_swap_s(head1, head2));
+	ft_print_stacks(head1, head2);
+
+	printf("%s", ft_rotate_a(head1));
+	ft_print_stacks(head1, head2);
+	printf("%s", ft_rotate_b(head2));
+	ft_print_stacks(head1, head2);
+	printf("%s", ft_rotate_r(head1, head2));
+	ft_print_stacks(head1, head2);
+
+	printf("%s", ft_reverse_rot_a(head1));
+	ft_print_stacks(head1, head2);
+	printf("%s", ft_reverse_rot_b(head2));
+	ft_print_stacks(head1, head2);
+	printf("%s", ft_reverse_rot_r(head1, head2));
+	ft_print_stacks(head1, head2);
+
+	printf("%s", ft_push_a(head1, head2));
+	ft_print_stacks(head1, head2);
+	printf("%s", ft_push_a(head1, head2));
+	ft_print_stacks(head1, head2);
+	printf("%s", ft_push_a(head1, head2));
+	ft_print_stacks(head1, head2);
 }
 
 void	ft_algo_control(t_stack *head1, t_stack *head2)
 {
-
-	while (!ft_check_order(head1, head2))
-	{
 		ft_sort(head1, head2);
-	}
 }
 
 t_stack	*ft_create_node(void)
