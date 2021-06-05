@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/05 11:27:22 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/05 15:28:16 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,14 +287,6 @@ void	part_control_a(t_stack *head1, t_stack *head2)
 		curr_part = curr_part->next;
 	while (head1->part_head->next->amt > 2)
 	{
-		t_stack *tmp = head1->next;
-		int i = 0;
-		while (tmp)
-		{
-			i++;
-			tmp = tmp->next;
-		}
-
 		curr_part->next = create_node_part();
 		curr_part = curr_part->next;
 		midp = head1->part_head->next->midp;
@@ -309,17 +301,18 @@ int	partitioning_a(t_stack *head1, t_stack *head2)
 {
 	int	i;
 	int	counter;
-	int	len;
+	int	len_og;
 	t_part	*curr_part;
 
 	curr_part = head1->part_head->next;
 	while (curr_part->next)
 		curr_part = curr_part->next;
-	len = stack_len(head1);
 	counter = 0;
 	i = 0;
-	while (i++ < curr_part->amt)
+	len_og = curr_part->amt;
+	while (i++ < len_og)
 	{
+		printf("Head1num: %d | i: %d\n", head1->next->num, i);
 		if (head1->next->num < curr_part->midp)
 		{
 			printf("%s", ft_push_b(head1, head2));
@@ -330,6 +323,7 @@ int	partitioning_a(t_stack *head1, t_stack *head2)
 		{
 			printf("%s", ft_rotate_a(head1));
 		}
+		ft_print_stacks(head1, head2);
 	}
 	part_midp(curr_part, head1);
 	return (counter);
@@ -397,15 +391,7 @@ void	ft_algo_control(t_stack *head1, t_stack *head2, int len)
 
 	part_control_a(head1, head2);
 	ft_print_stacks(head1, head2);
-	while (head2->next)
-	{
-		printf("ok\n");
-		part_control_b(head1, head2);
-		printf("YES\n");
-	}
-
-	ft_print_stacks(head1, head2);
-
+	//part_control_a(head1, head2);
 }
 
 t_part	*create_node_part(void)
@@ -414,6 +400,7 @@ t_part	*create_node_part(void)
 
 	node = (t_part *)malloc(sizeof(t_part));
 	node->amt = 0;
+	node->midp = 0;
 	node->next = NULL;
 	return (node);
 }
