@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:58:22 by laube             #+#    #+#             */
-/*   Updated: 2021/06/04 19:01:30 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/05 08:26:31 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 typedef struct s_part
 {
 	int				amt;
+	int				midp;
 	struct s_part	*next;
 } t_part;
 
 typedef struct s_stack
 {
 	int				num;
-	struct s_stack	*next;
 	struct s_part	*part_head;
+	struct s_stack	*next;
 } t_stack;
 
 t_part	*create_node_part(void);

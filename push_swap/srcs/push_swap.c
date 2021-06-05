@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/04 19:06:35 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/05 09:16:39 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,6 @@ int	stack_len(t_stack *head)
 	return (len);
 }
 
-t_stack	*ft_last_node(t_stack *head)
-{
-	t_stack	*tmp;
-
-	tmp = head->next;
-	if (!tmp)
-		return (head);
-	while (tmp->next)
-		tmp = tmp->next;
-	return (tmp);
-
-}
-
 int	ft_check_order(t_stack *head1, t_stack *head2)
 {
 	int	ordered = 1;
@@ -58,20 +45,6 @@ int	ft_check_order(t_stack *head1, t_stack *head2)
 	return (ordered);
 }
 
-
-void	ft_print_stack(t_stack *head)
-{
-	t_stack	*tmp;
-
-	tmp = head->next;
-	printf("Stack: ");
-	while (tmp)
-	{
-		printf("%d ", tmp->num);
-		tmp = tmp->next;
-	}
-	printf("\n");
-}
 void	ft_print_stacks(t_stack *head1, t_stack *head2)
 {
 	t_stack	*tmp;
@@ -285,12 +258,13 @@ void	arr_quicksort_control(int *arr, int low, int high)
 	}
 }
 
-int	partitioning(int len, int midpoint, t_stack *head1, t_stack *head2)
+int	partitioning_a(int midpoint, t_stack *head1, t_stack *head2)
 {
-	t_stack	*curr1;
 	int	i;
 	int	counter;
+	int	len;
 
+	len = stack_len(head1);
 	counter = 0;
 	i = 0;
 	printf("MID: %d\n", midpoint);
@@ -309,13 +283,31 @@ int	partitioning(int len, int midpoint, t_stack *head1, t_stack *head2)
 	return (counter);
 }
 
-void	recurse_partition(t_stack *head1, t_stack *head2)
+void	part_midp(t_part *part, t_stack *head)
+{
+	int	*arr;
+	int	len;
+	t_stack	*curr;
+
+	len = 0;
+	curr = head->next;
+	arr = ft_calloc(part->amt, sizeof(int));
+	while (len < part->amt && curr)
+	{
+		arr[len++] = curr->num;
+		curr = curr->next;
+	}
+	arr_quicksort_control(arr, 0, len - 1);
+	part->midp = arr[len / 2];
+}
+
+void	partition_a(t_stack *head1, t_stack *head2)
 {
 	int	*arr;
 	int	midp;
 	t_part	*curr_part;
 
-	curr_part = head1->part_head;
+	curr_part = head2->part_head;
 	while (stack_len(head1) > 2)
 	{
 		curr_part->next = create_node_part();
@@ -323,7 +315,43 @@ void	recurse_partition(t_stack *head1, t_stack *head2)
 		arr = stack_to_arr(head1, stack_len(head1));
 		arr_quicksort_control(arr, 0, stack_len(head1) - 1);
 		midp = arr[stack_len(head1) / 2];
-		curr_part->amt = partitioning(stack_len(head1), midp, head1, head2);
+		curr_part->amt = partitioning_a(midp, head1, head2);
+		part_midp(curr_part, head2);
+		printf("PART MIDP: %d\n", curr_part->midp);
+	}
+	if (head1->next->num > head1->next->next->num)
+		printf("%s", ft_swap_a(head1));
+}
+
+void	partition_b(t_stack *head1, t_stack *head2)
+{
+	t_part	*curr_part;
+
+	curr_part = head1->part_head;
+	while (head2->next)
+	{
+		partitioning_b(head1, head2);
+	}
+}
+
+int	partitioning_b(t_stack *head1, t_stack *head2)
+{
+	t_part	*curr_part;
+
+	curr_part = head2->part_head->next;
+	while (curr_part->next)
+		curr_part = curr_part->next;
+	while (curr_part->amt > 2)
+	{
+		if (head2->next->num > curr_part->midp)
+		{
+			printf("%s", ft_push_a(head1, head2));
+			curr_part->amt--;
+		}
+		else
+		{
+			printf("%s", ft_rotate_b(head2));
+		}
 	}
 }
 
@@ -332,16 +360,12 @@ void	ft_algo_control(t_stack *head1, t_stack *head2, int len)
 	int	*arr;
 	int	midpoint;
 
-	recurse_partition(head1, head2);
+	partition_a(head1, head2);
+	while (head2->next)
+		partition_b(head1, head2);
 
 	ft_print_stacks(head1, head2);
 
-	t_part *tmp = head1->part_head->next;
-	while (tmp)
-	{
-		printf("PART NUM: %d\n", tmp->amt);
-		tmp = tmp->next;
-	}
 }
 
 t_part	*create_node_part(void)
