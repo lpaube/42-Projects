@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/06 09:48:50 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/06 10:21:05 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,9 +292,11 @@ void	part_control_a(t_stack *head1, t_stack *head2)
 		midp = head1->part_head->next->midp;
 		curr_part->amt = partitioning_a(head1, head2);
 		part_midp(curr_part, head2);
+		ft_print_stacks(head1, head2);
 	}
 	if (head1->next->num > head1->next->next->num)
 		printf("%s", ft_swap_a(head1));
+	ft_print_stacks(head1, head2);
 }
 
 int	partitioning_a(t_stack *head1, t_stack *head2)
@@ -312,7 +314,6 @@ int	partitioning_a(t_stack *head1, t_stack *head2)
 	len_og = curr_part->amt;
 	while (i++ < len_og)
 	{
-		printf("Head1num: %d | i: %d\n", head1->next->num, i);
 		if (head1->next->num < curr_part->midp)
 		{
 			printf("%s", ft_push_b(head1, head2));
@@ -345,14 +346,18 @@ int	partitioning_b(t_stack *head1, t_stack *head2)
 		if (curr_part->amt == 2)
 		{
 			if (head2->next->num < head2->next->next->num)
-				ft_swap_b(head2);
+				printf("%s", ft_swap_b(head2));
 			printf("%s", ft_push_a(head1, head2));
 			printf("%s", ft_push_a(head1, head2));
 			counter += 2;
 			curr_part->amt -= 2;
 		}
 		else if (curr_part->amt == 1)
+		{
 			printf("%s", ft_push_a(head1, head2));
+			counter++;
+			curr_part->amt--;
+		}
 	}
 	while (i++ < curr_part->amt)
 	{
@@ -411,8 +416,8 @@ void	part_control_b(t_stack *head1, t_stack *head2)
 		curr_part = curr_part->next;
 		curr_part->amt = partitioning_b(head1, head2);
 		part_midp(curr_part, head1);
-		ft_print_stacks(head1, head2);
 		free_part(head2);
+		ft_print_stacks(head1, head2);
 	}
 }
 
@@ -422,9 +427,7 @@ void	ft_algo_control(t_stack *head1, t_stack *head2, int len)
 	int	midpoint;
 
 	part_control_a(head1, head2);
-	ft_print_stacks(head1, head2);
 	part_control_b(head1, head2);
-	ft_print_stacks(head1, head2);
 }
 
 t_part	*create_node_part(void)
