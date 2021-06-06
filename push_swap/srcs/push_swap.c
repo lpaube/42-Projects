@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/05 15:28:16 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/06 09:48:50 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -329,32 +329,6 @@ int	partitioning_a(t_stack *head1, t_stack *head2)
 	return (counter);
 }
 
-
-void	part_control_b(t_stack *head1, t_stack *head2)
-{
-	t_part	*curr_part;
-
-	curr_part = head1->part_head;
-	while (curr_part->next)
-		curr_part = curr_part->next;
-	while (stack_len(head2) > 2)
-	{
-		t_stack *tmp = head2->next;
-		int i = 0;
-		while (tmp)
-		{
-			printf("NUM: %d | i: %d\n", tmp->num, i);
-			i++;
-			tmp = tmp->next;
-		}
-
-		curr_part->next = create_node_part();
-		curr_part = curr_part->next;
-		curr_part->amt = partitioning_b(head1, head2);
-		part_midp(curr_part, head1);
-	}
-}
-
 int	partitioning_b(t_stack *head1, t_stack *head2)
 {
 	t_part	*curr_part;
@@ -366,9 +340,23 @@ int	partitioning_b(t_stack *head1, t_stack *head2)
 	curr_part = head2->part_head->next;
 	while (curr_part->next)
 		curr_part = curr_part->next;
+	if (curr_part->amt <= 2)
+	{
+		if (curr_part->amt == 2)
+		{
+			if (head2->next->num < head2->next->next->num)
+				ft_swap_b(head2);
+			printf("%s", ft_push_a(head1, head2));
+			printf("%s", ft_push_a(head1, head2));
+			counter += 2;
+			curr_part->amt -= 2;
+		}
+		else if (curr_part->amt == 1)
+			printf("%s", ft_push_a(head1, head2));
+	}
 	while (i++ < curr_part->amt)
 	{
-		printf("MIDP: %d | AMT: %d\n", curr_part->midp, curr_part->amt);
+	//	printf("MIDP: %d | AMT: %d | i: %d\n", curr_part->midp, curr_part->amt, i);
 		if (head2->next->num > curr_part->midp)
 		{
 			printf("%s", ft_push_a(head1, head2));
@@ -383,6 +371,50 @@ int	partitioning_b(t_stack *head1, t_stack *head2)
 	part_midp(curr_part, head2);
 	return (counter);
 }
+void	free_part(t_stack *head)
+{
+	t_part	*tmp;
+
+	tmp = head->part_head;
+	while (tmp->next)
+	{
+		if (tmp->next->amt == 0)
+		{
+			free(tmp->next);
+			tmp->next = NULL;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+}
+
+void	part_control_b(t_stack *head1, t_stack *head2)
+{
+	t_part	*curr_part;
+
+	curr_part = head1->part_head;
+	while (curr_part->next)
+		curr_part = curr_part->next;
+	while (stack_len(head2))
+	{
+	/*
+		t_stack *tmp = head2->next;
+		int i = 0;
+		while (tmp)
+		{
+			printf("NUM: %d | i: %d\n", tmp->num, i);
+			i++;
+			tmp = tmp->next;
+		}
+	*/
+		curr_part->next = create_node_part();
+		curr_part = curr_part->next;
+		curr_part->amt = partitioning_b(head1, head2);
+		part_midp(curr_part, head1);
+		ft_print_stacks(head1, head2);
+		free_part(head2);
+	}
+}
 
 void	ft_algo_control(t_stack *head1, t_stack *head2, int len)
 {
@@ -391,7 +423,8 @@ void	ft_algo_control(t_stack *head1, t_stack *head2, int len)
 
 	part_control_a(head1, head2);
 	ft_print_stacks(head1, head2);
-	//part_control_a(head1, head2);
+	part_control_b(head1, head2);
+	ft_print_stacks(head1, head2);
 }
 
 t_part	*create_node_part(void)
