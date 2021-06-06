@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/06 10:21:05 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/06 19:09:34 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,124 +258,6 @@ void	arr_quicksort_control(int *arr, int low, int high)
 	}
 }
 
-void	part_midp(t_part *part, t_stack *head)
-{
-	int	*arr;
-	int	len;
-	t_stack	*curr;
-
-	len = 0;
-	curr = head->next;
-	arr = ft_calloc(part->amt, sizeof(int));
-	while (len < part->amt && curr)
-	{
-		arr[len++] = curr->num;
-		curr = curr->next;
-	}
-	arr_quicksort_control(arr, 0, len - 1);
-	part->midp = arr[len / 2];
-}
-
-void	part_control_a(t_stack *head1, t_stack *head2)
-{
-	int	*arr;
-	int	midp;
-	t_part	*curr_part;
-	
-	curr_part = head2->part_head;
-	while (curr_part->next)
-		curr_part = curr_part->next;
-	while (head1->part_head->next->amt > 2)
-	{
-		curr_part->next = create_node_part();
-		curr_part = curr_part->next;
-		midp = head1->part_head->next->midp;
-		curr_part->amt = partitioning_a(head1, head2);
-		part_midp(curr_part, head2);
-		ft_print_stacks(head1, head2);
-	}
-	if (head1->next->num > head1->next->next->num)
-		printf("%s", ft_swap_a(head1));
-	ft_print_stacks(head1, head2);
-}
-
-int	partitioning_a(t_stack *head1, t_stack *head2)
-{
-	int	i;
-	int	counter;
-	int	len_og;
-	t_part	*curr_part;
-
-	curr_part = head1->part_head->next;
-	while (curr_part->next)
-		curr_part = curr_part->next;
-	counter = 0;
-	i = 0;
-	len_og = curr_part->amt;
-	while (i++ < len_og)
-	{
-		if (head1->next->num < curr_part->midp)
-		{
-			printf("%s", ft_push_b(head1, head2));
-			counter++;
-			curr_part->amt--;
-		}
-		else
-		{
-			printf("%s", ft_rotate_a(head1));
-		}
-		ft_print_stacks(head1, head2);
-	}
-	part_midp(curr_part, head1);
-	return (counter);
-}
-
-int	partitioning_b(t_stack *head1, t_stack *head2)
-{
-	t_part	*curr_part;
-	int	counter;
-	int	i;
-
-	i = 0;
-	counter = 0;
-	curr_part = head2->part_head->next;
-	while (curr_part->next)
-		curr_part = curr_part->next;
-	if (curr_part->amt <= 2)
-	{
-		if (curr_part->amt == 2)
-		{
-			if (head2->next->num < head2->next->next->num)
-				printf("%s", ft_swap_b(head2));
-			printf("%s", ft_push_a(head1, head2));
-			printf("%s", ft_push_a(head1, head2));
-			counter += 2;
-			curr_part->amt -= 2;
-		}
-		else if (curr_part->amt == 1)
-		{
-			printf("%s", ft_push_a(head1, head2));
-			counter++;
-			curr_part->amt--;
-		}
-	}
-	while (i++ < curr_part->amt)
-	{
-	//	printf("MIDP: %d | AMT: %d | i: %d\n", curr_part->midp, curr_part->amt, i);
-		if (head2->next->num > curr_part->midp)
-		{
-			printf("%s", ft_push_a(head1, head2));
-			counter++;
-			curr_part->amt--;
-		}
-		else
-		{
-			printf("%s", ft_rotate_b(head2));
-		}
-	}
-	part_midp(curr_part, head2);
-	return (counter);
-}
 void	free_part(t_stack *head)
 {
 	t_part	*tmp;
@@ -393,8 +275,212 @@ void	free_part(t_stack *head)
 	}
 }
 
+int	arr_is_sorted(int *arr, int len, int head_type)
+{
+	int	i;
+
+	i = 0;
+	if (len == 1)
+		return (1);
+	if (head_type == 1)
+		while (i < len - 1)
+		{
+			if (arr[i + 1] < arr[i])
+				return (0);
+			i++;
+		}
+	else if (head_type == 2)
+		while (i < len - 1)
+		{
+			if (arr[i + 1] > arr[i])
+				return (0);
+			i++;
+		}
+	return (1);
+}
+
+void	rev_rotation(t_stack *head, int rot_count, int head_type)
+{
+	if (head_type == 1)
+		while (rot_count-- > 0)
+			printf("%s", ft_reverse_rot_a(head));
+	else if (head_type == 2)
+		while (rot_count-- > 0)
+			printf("%s", ft_reverse_rot_b(head));
+}
+
+int	part_midp(t_part *part, t_stack *head, int head_type)
+{
+	int	*arr;
+	int	len;
+	t_stack	*curr;
+	int	sorted;
+
+	len = 0;
+	sorted = 0;
+	curr = head->next;
+	arr = ft_calloc(part->amt, sizeof(int));
+	while (len < part->amt && curr)
+	{
+		arr[len++] = curr->num;
+		curr = curr->next;
+	}
+	if (arr_is_sorted(arr, len, head_type) == 1)
+		sorted = 1;
+	arr_quicksort_control(arr, 0, len - 1);
+	part->midp = arr[len / 2];
+	free(arr);
+	arr = NULL;
+	return (sorted);
+}
+
+int	partitioning_a(t_stack *head1, t_stack *head2)
+{
+	int	i;
+	int	counter;
+	int	len_og;
+	int	rot_count;
+	t_part	*curr_part;
+
+	rot_count = 0;
+	i = 0;
+	counter = 0;
+	curr_part = head1->part_head->next;
+	while (curr_part->next)
+		curr_part = curr_part->next;
+	// IF GROUP IS ALREADY SORTED
+	if (curr_part->sorted == 1)
+		while (curr_part->amt && stack_len(head1) > 2)
+		{
+			printf("%s", ft_push_b(head1, head2));
+			curr_part->amt--;
+			counter++;
+		}
+	// IF AMOUNT IN GROUP IS EQUAL TO 2
+	else if (curr_part->amt == 2)
+	{
+		if (head1->next->num > head1->next->next->num)
+			printf("%s", ft_swap_a(head2));
+		printf("%s", ft_push_b(head1, head2));
+		printf("%s", ft_push_b(head1, head2));
+		counter += 2;
+		curr_part->amt -= 2;
+	}
+
+	len_og = curr_part->amt;
+	while (i++ < len_og)
+	{
+		if (head1->next->num < curr_part->midp)
+		{
+			printf("%s", ft_push_b(head1, head2));
+			counter++;
+			curr_part->amt--;
+		}
+		else
+		{
+			printf("%s", ft_rotate_a(head1));
+			rot_count++;
+		}
+	}
+	rev_rotation(head1, rot_count, 1);
+	curr_part->sorted = part_midp(curr_part, head1, 1);
+	return (counter);
+}
+
+void	part_control_a(t_stack *head1, t_stack *head2)
+{
+	int	*arr;
+	t_part	*curr_part;
+	
+	curr_part = head2->part_head;
+	while (curr_part->next)
+		curr_part = curr_part->next;
+	while (stack_len(head1) > 2)
+	{
+		curr_part->next = create_node_part();
+		curr_part = curr_part->next;
+
+		// TESTING MIDP
+		int	midp;
+		t_part	*tmp;
+		tmp = head1->part_head->next;
+		while (tmp->next)
+			tmp = tmp->next;
+		midp = tmp->midp;
+		// END OF TESTING
+
+		curr_part->amt = partitioning_a(head1, head2);
+		curr_part->sorted = part_midp(curr_part, head2, 2);
+		free_part(head1);
+		printf("\e[0;34mA->B |\e[0m AMT: %d | MIDP: %d\n", curr_part->amt, midp);
+		ft_print_stacks(head1, head2);
+	}
+	if (head1->next->num > head1->next->next->num)
+		printf("%s", ft_swap_a(head1));
+}
+
+int	partitioning_b(t_stack *head1, t_stack *head2)
+{
+	int	i;
+	int	counter;
+	int	len_og;
+	t_part	*curr_part;
+	int	rot_count;
+
+	i = 0;
+	counter = 0;
+	rot_count = 0;
+	curr_part = head2->part_head->next;
+	while (curr_part->next)
+		curr_part = curr_part->next;
+	// IF GROUP IS ALREADY SORTED
+	if (curr_part->sorted == 1)
+		while (curr_part->amt)
+		{
+			printf("%s", ft_push_a(head1, head2));
+			curr_part->amt--;
+			counter++;
+		}
+	// IF AMOUNT IN GROUP IS LESS OR EQUAL TO 2
+	if (curr_part->amt == 2)
+	{
+		if (head2->next->num < head2->next->next->num)
+			printf("%s", ft_swap_b(head2));
+		printf("%s", ft_push_a(head1, head2));
+		printf("%s", ft_push_a(head1, head2));
+		counter += 2;
+		curr_part->amt -= 2;
+	}
+	else if (curr_part->amt == 1)
+	{
+		printf("%s", ft_push_a(head1, head2));
+		counter++;
+		curr_part->amt--;
+	}
+
+	len_og = curr_part->amt;
+	while (i++ < len_og)
+	{
+		if (head2->next->num > curr_part->midp)
+		{
+			printf("%s", ft_push_a(head1, head2));
+			counter++;
+			curr_part->amt--;
+		}
+		else
+		{
+			printf("%s", ft_rotate_b(head2));
+			rot_count++;
+		}
+	}
+	rev_rotation(head2, rot_count, 2);
+	curr_part->sorted = part_midp(curr_part, head2, 2);
+	return (counter);
+}
+
 void	part_control_b(t_stack *head1, t_stack *head2)
 {
+	int	midp;
 	t_part	*curr_part;
 
 	curr_part = head1->part_head;
@@ -414,9 +500,20 @@ void	part_control_b(t_stack *head1, t_stack *head2)
 	*/
 		curr_part->next = create_node_part();
 		curr_part = curr_part->next;
+
+		// TESTING MIDP
+		int	midp;
+		t_part	*tmp;
+		tmp = head2->part_head->next;
+		while (tmp->next)
+			tmp = tmp->next;
+		midp = tmp->midp;
+		// END OF TESTING
+
 		curr_part->amt = partitioning_b(head1, head2);
-		part_midp(curr_part, head1);
+		curr_part->sorted = part_midp(curr_part, head1, 1);
 		free_part(head2);
+		printf("\e[0;33mB->A |\e[0m AMT: %d | MIDP: %d\n", curr_part->amt, midp);
 		ft_print_stacks(head1, head2);
 	}
 }
@@ -426,8 +523,11 @@ void	ft_algo_control(t_stack *head1, t_stack *head2, int len)
 	int	*arr;
 	int	midpoint;
 
-	part_control_a(head1, head2);
-	part_control_b(head1, head2);
+	while (ft_check_order(head1, head2) != 1)
+	{
+		part_control_a(head1, head2);
+		part_control_b(head1, head2);
+	}
 }
 
 t_part	*create_node_part(void)
@@ -437,6 +537,7 @@ t_part	*create_node_part(void)
 	node = (t_part *)malloc(sizeof(t_part));
 	node->amt = 0;
 	node->midp = 0;
+	node->sorted = 0;
 	node->next = NULL;
 	return (node);
 }
