@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/07 10:40:42 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/07 10:57:39 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -447,7 +447,7 @@ void	part_control_a(t_stack *head1, t_stack *head2)
 		curr_part->amt = partitioning_a(head1, head2);
 		curr_part->sorted = part_midp(curr_part, head2, 2);
 		free_part(head1);
-//		printf("\e[0;34mA->B |\e[0m AMT: %d | MIDP: %d\n", curr_part->amt, midp);
+		printf("\e[0;34mA->B |\e[0m AMT: %d\n", curr_part->amt);
 	}
 	if (head1->next->num > head1->next->next->num)
 		printf("%s", ft_swap_a(head1));
@@ -529,7 +529,7 @@ void	part_control_b(t_stack *head1, t_stack *head2)
 		curr_part->amt = partitioning_b(head1, head2);
 		curr_part->sorted = part_midp(curr_part, head1, 1);
 		free_part(head2);
-		//printf("\e[0;33mB->A |\e[0m AMT: %d | MIDP: %d\n", curr_part->amt, midp);
+		printf("\e[0;33mB->A |\e[0m AMT: %d | MIDP: %d\n", curr_part->amt, midp);
 		ft_print_stacks(head1, head2);
 	}
 }
