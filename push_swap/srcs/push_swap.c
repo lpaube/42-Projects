@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/06 19:09:34 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/06 22:02:34 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*ft_reverse_rot_b(t_stack *head2)
 	head2->next = tmp->next;
 	tmp->next = NULL;
 	head2->next->next = first_tmp;
-	return ("rra\n");
+	return ("rrb\n");
 }
 
 char	*ft_reverse_rot_r(t_stack *head1, t_stack *head2)
@@ -309,6 +309,26 @@ void	rev_rotation(t_stack *head, int rot_count, int head_type)
 			printf("%s", ft_reverse_rot_b(head));
 }
 
+int	not_in_part(t_stack *head, int head_type, int midp)
+{
+	int	*arr;
+	int	len;
+	int	i;
+
+	i = 0;
+	len = stack_len(head);
+	arr = stack_to_arr(head, len);
+	while (i < len)
+	{
+		if (head_type == 1 && arr[i] < midp)
+			return (0);
+		if (head_type == 2 && arr[i] > midp)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	part_midp(t_part *part, t_stack *head, int head_type)
 {
 	int	*arr;
@@ -333,6 +353,8 @@ int	part_midp(t_part *part, t_stack *head, int head_type)
 	arr = NULL;
 	return (sorted);
 }
+
+
 
 int	partitioning_a(t_stack *head1, t_stack *head2)
 {
@@ -370,6 +392,8 @@ int	partitioning_a(t_stack *head1, t_stack *head2)
 	len_og = curr_part->amt;
 	while (i++ < len_og)
 	{
+		if (not_in_part(head1, 1, curr_part->midp))
+			break ;
 		if (head1->next->num < curr_part->midp)
 		{
 			printf("%s", ft_push_b(head1, head2));
@@ -387,6 +411,20 @@ int	partitioning_a(t_stack *head1, t_stack *head2)
 	return (counter);
 }
 
+int	has_unsorted(t_stack *head)
+{
+	t_part	*tmp_part;
+
+	tmp_part = head->part_head->next;
+	while (tmp_part)
+	{
+		if (tmp_part->sorted == 0)
+			return (1);
+		tmp_part = tmp_part->next;
+	}
+	return (0);
+}
+
 void	part_control_a(t_stack *head1, t_stack *head2)
 {
 	int	*arr;
@@ -395,28 +433,19 @@ void	part_control_a(t_stack *head1, t_stack *head2)
 	curr_part = head2->part_head;
 	while (curr_part->next)
 		curr_part = curr_part->next;
-	while (stack_len(head1) > 2)
+	while (has_unsorted(head1) && stack_len(head1) > 2)
 	{
 		curr_part->next = create_node_part();
 		curr_part = curr_part->next;
 
-		// TESTING MIDP
-		int	midp;
-		t_part	*tmp;
-		tmp = head1->part_head->next;
-		while (tmp->next)
-			tmp = tmp->next;
-		midp = tmp->midp;
-		// END OF TESTING
-
 		curr_part->amt = partitioning_a(head1, head2);
 		curr_part->sorted = part_midp(curr_part, head2, 2);
 		free_part(head1);
-		printf("\e[0;34mA->B |\e[0m AMT: %d | MIDP: %d\n", curr_part->amt, midp);
-		ft_print_stacks(head1, head2);
+//		printf("\e[0;34mA->B |\e[0m AMT: %d | MIDP: %d\n", curr_part->amt, midp);
 	}
 	if (head1->next->num > head1->next->next->num)
 		printf("%s", ft_swap_a(head1));
+	ft_print_stacks(head1, head2);
 }
 
 int	partitioning_b(t_stack *head1, t_stack *head2)
@@ -451,16 +480,12 @@ int	partitioning_b(t_stack *head1, t_stack *head2)
 		counter += 2;
 		curr_part->amt -= 2;
 	}
-	else if (curr_part->amt == 1)
-	{
-		printf("%s", ft_push_a(head1, head2));
-		counter++;
-		curr_part->amt--;
-	}
 
 	len_og = curr_part->amt;
 	while (i++ < len_og)
 	{
+		if (not_in_part(head2, 2, curr_part->midp))
+			break ;
 		if (head2->next->num > curr_part->midp)
 		{
 			printf("%s", ft_push_a(head1, head2));
@@ -488,32 +513,13 @@ void	part_control_b(t_stack *head1, t_stack *head2)
 		curr_part = curr_part->next;
 	while (stack_len(head2))
 	{
-	/*
-		t_stack *tmp = head2->next;
-		int i = 0;
-		while (tmp)
-		{
-			printf("NUM: %d | i: %d\n", tmp->num, i);
-			i++;
-			tmp = tmp->next;
-		}
-	*/
 		curr_part->next = create_node_part();
 		curr_part = curr_part->next;
-
-		// TESTING MIDP
-		int	midp;
-		t_part	*tmp;
-		tmp = head2->part_head->next;
-		while (tmp->next)
-			tmp = tmp->next;
-		midp = tmp->midp;
-		// END OF TESTING
 
 		curr_part->amt = partitioning_b(head1, head2);
 		curr_part->sorted = part_midp(curr_part, head1, 1);
 		free_part(head2);
-		printf("\e[0;33mB->A |\e[0m AMT: %d | MIDP: %d\n", curr_part->amt, midp);
+		//printf("\e[0;33mB->A |\e[0m AMT: %d | MIDP: %d\n", curr_part->amt, midp);
 		ft_print_stacks(head1, head2);
 	}
 }
