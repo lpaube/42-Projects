@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/06 22:02:34 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/06 23:14:40 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,19 +281,25 @@ int	arr_is_sorted(int *arr, int len, int head_type)
 
 	i = 0;
 	if (len == 1)
+	{
 		return (1);
+	}
 	if (head_type == 1)
 		while (i < len - 1)
 		{
 			if (arr[i + 1] < arr[i])
+			{
 				return (0);
+			}
 			i++;
 		}
 	else if (head_type == 2)
 		while (i < len - 1)
 		{
 			if (arr[i + 1] > arr[i])
+			{
 				return (0);
+			}
 			i++;
 		}
 	return (1);
@@ -354,7 +360,19 @@ int	part_midp(t_part *part, t_stack *head, int head_type)
 	return (sorted);
 }
 
+int	has_unsorted(t_stack *head)
+{
+	t_part	*tmp_part;
 
+	tmp_part = head->part_head->next;
+	while (tmp_part)
+	{
+		if (tmp_part->sorted == 0)
+			return (1);
+		tmp_part = tmp_part->next;
+	}
+	return (0);
+}
 
 int	partitioning_a(t_stack *head1, t_stack *head2)
 {
@@ -411,20 +429,6 @@ int	partitioning_a(t_stack *head1, t_stack *head2)
 	return (counter);
 }
 
-int	has_unsorted(t_stack *head)
-{
-	t_part	*tmp_part;
-
-	tmp_part = head->part_head->next;
-	while (tmp_part)
-	{
-		if (tmp_part->sorted == 0)
-			return (1);
-		tmp_part = tmp_part->next;
-	}
-	return (0);
-}
-
 void	part_control_a(t_stack *head1, t_stack *head2)
 {
 	int	*arr;
@@ -445,6 +449,7 @@ void	part_control_a(t_stack *head1, t_stack *head2)
 	}
 	if (head1->next->num > head1->next->next->num)
 		printf("%s", ft_swap_a(head1));
+	part_midp(head1->part_head->next, head1, 1);
 	ft_print_stacks(head1, head2);
 }
 
