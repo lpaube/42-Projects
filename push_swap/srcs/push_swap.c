@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/06 23:14:40 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/07 10:40:42 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,6 +342,8 @@ int	part_midp(t_part *part, t_stack *head, int head_type)
 	t_stack	*curr;
 	int	sorted;
 
+	if (part->amt == 0)
+		return (0);
 	len = 0;
 	sorted = 0;
 	curr = head->next;
@@ -449,7 +451,10 @@ void	part_control_a(t_stack *head1, t_stack *head2)
 	}
 	if (head1->next->num > head1->next->next->num)
 		printf("%s", ft_swap_a(head1));
-	part_midp(head1->part_head->next, head1, 1);
+
+	// PROBLEM
+	if (stack_len(head1) == 2)
+		head1->part_head->next->sorted = part_midp(head1->part_head->next, head1, 1);
 	ft_print_stacks(head1, head2);
 }
 
@@ -516,7 +521,7 @@ void	part_control_b(t_stack *head1, t_stack *head2)
 	curr_part = head1->part_head;
 	while (curr_part->next)
 		curr_part = curr_part->next;
-	while (stack_len(head2))
+	while (stack_len(head2) && !has_unsorted(head1))
 	{
 		curr_part->next = create_node_part();
 		curr_part = curr_part->next;
