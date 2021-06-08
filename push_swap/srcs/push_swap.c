@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/08 13:50:37 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/08 16:04:41 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,7 +390,13 @@ int	partitioning_a(t_stack *head1, t_stack *head2)
 	curr_part = head1->part_head->next;
 	while (curr_part->next)
 		curr_part = curr_part->next;
+	if (curr_part->amt == 2)
+	{
+		if (head1->next->num > head1->next->next->num)
+			printf("%s", ft_swap_a(head2));
+	}
 	// IF GROUP IS ALREADY SORTED
+	/*
 	if (curr_part->sorted == 1)
 		while (curr_part->amt && stack_len(head1) > 2)
 		{
@@ -398,17 +404,7 @@ int	partitioning_a(t_stack *head1, t_stack *head2)
 			curr_part->amt--;
 			counter++;
 		}
-	// IF AMOUNT IN GROUP IS EQUAL TO 2
-	else if (curr_part->amt == 2)
-	{
-		if (head1->next->num > head1->next->next->num)
-			printf("%s", ft_swap_a(head2));
-		printf("%s", ft_push_b(head1, head2));
-		printf("%s", ft_push_b(head1, head2));
-		counter += 2;
-		curr_part->amt -= 2;
-	}
-
+		*/
 	len_og = curr_part->amt;
 	while (i++ < len_og)
 	{
@@ -431,11 +427,55 @@ int	partitioning_a(t_stack *head1, t_stack *head2)
 	return (counter);
 }
 
+void	solve_3(t_stack *head1)
+{
+	t_stack	*s;
+
+	s = head1->next;
+	if (s->next->next->num > s->num && s->num > s->next->num)
+		printf("%s", ft_swap_a(head1));
+	if (s->num > s->next->num && s->next->num > s->next->next->num)
+	{
+		printf("%s", ft_swap_a(head1));
+		printf("%s", ft_reverse_rot_a(head1));
+	}
+}
+
+void	solve_short(t_stack *head1, t_stack *head2)
+{
+	t_part	*part;
+
+	part = head1->part_head;
+	while (part->next)
+		part = part->next;
+	if (part->amt == 2 && head1->next->num > head1->next->next->num)
+		printf("%s", ft_swap_a(head1));
+	if (part->amt == 3)
+		solve_3(head1);
+
+	part->sorted = 1;
+}
+
 void	part_control_a(t_stack *head1, t_stack *head2)
 {
 	int	*arr;
 	t_part	*curr_part;
+	t_part	*tmp1;
 	
+// IF PART SMALLER OR EQUIAL 2
+	tmp1 = head1->part_head;
+	while (tmp1->next)
+		tmp1 = tmp1->next;
+	if (tmp1->amt <= 2)
+	{
+		if (tmp1->amt == 2 && head1->next->num > head1->next->next->num)
+		{
+			printf("%s", ft_swap_a(head1));
+		}
+		tmp1->sorted = 1;
+		return ;
+	}
+
 	curr_part = head2->part_head;
 	while (curr_part->next)
 		curr_part = curr_part->next;
@@ -453,14 +493,15 @@ void	part_control_a(t_stack *head1, t_stack *head2)
 		while (tmp->next)
 			tmp = tmp->next;
 
-
 		if (head1->next->num > head1->next->next->num)
+		{
 			printf("%s", ft_swap_a(head1));
-		printf("	A->B | AMT GIVEN: %d | MIDP OF GIVING: %d\n", curr_part->amt, tmp->midp);
-		ft_print_stacks(head1, head2);
+			return ;
+		}
+		//printf("	A->B | AMT GIVEN: %d | MIDP OF GIVING: %d\n", curr_part->amt, tmp->midp);
+		//ft_print_stacks(head1, head2);
 	}
 
-	// PROBLEM
 	if (stack_len(head1) == 2)
 		head1->part_head->next->sorted = part_midp(head1->part_head->next, head1, 1);
 //	ft_print_stacks(head1, head2);
@@ -540,8 +581,7 @@ void	part_control_b(t_stack *head1, t_stack *head2)
 		free_part(head2);
 
 		//printf("	B->A | AMT GIVEN: %d | MIDP WHEN GIVING: %d\n", curr_part->amt, head2->part_head->next->midp);
-		printf("hello\n");
-		ft_print_stacks(head1, head2);
+		//ft_print_stacks(head1, head2);
 	}
 }
 
