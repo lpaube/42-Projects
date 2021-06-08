@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/08 16:04:41 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/08 18:31:58 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,11 +308,23 @@ int	arr_is_sorted(int *arr, int len, int head_type)
 void	rev_rotation(t_stack *head, int rot_count, int head_type)
 {
 	if (head_type == 1)
-		while (rot_count-- > 0)
-			printf("%s", ft_reverse_rot_a(head));
+	{
+		if (rot_count > 0)
+			while (rot_count-- > 0)
+				printf("%s", ft_reverse_rot_a(head));
+		else
+			while (rot_count++ < 0)
+				printf("%s", ft_rotate_a(head));
+	}
 	else if (head_type == 2)
-		while (rot_count-- > 0)
-			printf("%s", ft_reverse_rot_b(head));
+	{
+		if (rot_count > 0)
+			while (rot_count-- > 0)
+				printf("%s", ft_reverse_rot_b(head));
+		else
+			while (rot_count++ < 0)
+				printf("%s", ft_rotate_b(head));
+	}
 }
 
 int	not_in_part(t_stack *head, int head_type, int midp)
@@ -376,6 +388,93 @@ int	has_unsorted(t_stack *head)
 	return (0);
 }
 
+void	solve_3(t_stack *head1)
+{
+	t_stack	*s;
+
+	s = head1->next;
+	if (s->next->next->num > s->num && s->num > s->next->num)
+		printf("%s", ft_swap_a(head1));
+	if (s->num > s->next->num && s->next->num > s->next->next->num)
+	{
+		printf("%s", ft_swap_a(head1));
+		printf("%s", ft_reverse_rot_a(head1));
+	}
+}
+
+void	solve_short(t_stack *head1, t_stack *head2)
+{
+	t_part	*part;
+
+	part = head1->part_head;
+	while (part->next)
+		part = part->next;
+	if (part->amt == 2 && head1->next->num > head1->next->next->num)
+		printf("%s", ft_swap_a(head1));
+	if (part->amt == 3)
+		solve_3(head1);
+
+	part->sorted = 1;
+}
+
+int	rot_or_revrot1(t_stack *head, int midp)
+{
+	int	*arr;
+	int	rot_count;
+	int	rev_count;
+	int	len;
+
+	rot_count = 1;
+	rev_count = 1;
+	len = stack_len(head);
+	arr = stack_to_arr(head, len);
+	while (rot_count < len)
+		if (arr[rot_count++] < midp)
+			break ;
+	while (rev_count < len)
+		if (arr[len - rev_count++] < midp)
+			break ;
+	if (rot_count > rev_count)
+	{
+		printf("%s", ft_reverse_rot_a(head));
+		return (-1);
+	}
+	else
+	{
+		printf("%s", ft_rotate_a(head));
+		return (1);
+	}
+}
+
+int	rot_or_revrot2(t_stack *head, int midp)
+{
+	int	*arr;
+	int	rot_count;
+	int	rev_count;
+	int	len;
+
+	rot_count = 1;
+	rev_count = 1;
+	len = stack_len(head);
+	arr = stack_to_arr(head, len);
+	while (rot_count < len)
+		if (arr[rot_count++] > midp)
+			break ;
+	while (rev_count < len)
+		if (arr[len - rev_count++] > midp)
+			break ;
+	if (rot_count > rev_count)
+	{
+		printf("%s", ft_reverse_rot_b(head));
+		return (-1);
+	}
+	else
+	{
+		printf("%s", ft_rotate_b(head));
+		return (1);
+	}
+}
+
 int	partitioning_a(t_stack *head1, t_stack *head2)
 {
 	int	i;
@@ -404,7 +503,7 @@ int	partitioning_a(t_stack *head1, t_stack *head2)
 			curr_part->amt--;
 			counter++;
 		}
-		*/
+	*/
 	len_og = curr_part->amt;
 	while (i++ < len_og)
 	{
@@ -418,42 +517,12 @@ int	partitioning_a(t_stack *head1, t_stack *head2)
 		}
 		else
 		{
-			printf("%s", ft_rotate_a(head1));
-			rot_count++;
+			rot_count += rot_or_revrot1(head1, curr_part->midp);
 		}
 	}
 	rev_rotation(head1, rot_count, 1);
 	curr_part->sorted = part_midp(curr_part, head1, 1);
 	return (counter);
-}
-
-void	solve_3(t_stack *head1)
-{
-	t_stack	*s;
-
-	s = head1->next;
-	if (s->next->next->num > s->num && s->num > s->next->num)
-		printf("%s", ft_swap_a(head1));
-	if (s->num > s->next->num && s->next->num > s->next->next->num)
-	{
-		printf("%s", ft_swap_a(head1));
-		printf("%s", ft_reverse_rot_a(head1));
-	}
-}
-
-void	solve_short(t_stack *head1, t_stack *head2)
-{
-	t_part	*part;
-
-	part = head1->part_head;
-	while (part->next)
-		part = part->next;
-	if (part->amt == 2 && head1->next->num > head1->next->next->num)
-		printf("%s", ft_swap_a(head1));
-	if (part->amt == 3)
-		solve_3(head1);
-
-	part->sorted = 1;
 }
 
 void	part_control_a(t_stack *head1, t_stack *head2)
@@ -507,6 +576,8 @@ void	part_control_a(t_stack *head1, t_stack *head2)
 //	ft_print_stacks(head1, head2);
 }
 
+
+
 int	partitioning_b(t_stack *head1, t_stack *head2)
 {
 	int	i;
@@ -554,8 +625,7 @@ int	partitioning_b(t_stack *head1, t_stack *head2)
 		}
 		else
 		{
-			printf("%s", ft_rotate_b(head2));
-			rot_count++;
+			rot_count += rot_or_revrot1(head2, curr_part->midp);
 		}
 	}
 	rev_rotation(head2, rot_count, 2);
