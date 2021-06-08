@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/07 10:57:39 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/08 13:50:37 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -447,15 +447,23 @@ void	part_control_a(t_stack *head1, t_stack *head2)
 		curr_part->amt = partitioning_a(head1, head2);
 		curr_part->sorted = part_midp(curr_part, head2, 2);
 		free_part(head1);
-		printf("\e[0;34mA->B |\e[0m AMT: %d\n", curr_part->amt);
+
+		// MIDP TESTS
+		t_part *tmp = head1->part_head;
+		while (tmp->next)
+			tmp = tmp->next;
+
+
+		if (head1->next->num > head1->next->next->num)
+			printf("%s", ft_swap_a(head1));
+		printf("	A->B | AMT GIVEN: %d | MIDP OF GIVING: %d\n", curr_part->amt, tmp->midp);
+		ft_print_stacks(head1, head2);
 	}
-	if (head1->next->num > head1->next->next->num)
-		printf("%s", ft_swap_a(head1));
 
 	// PROBLEM
 	if (stack_len(head1) == 2)
 		head1->part_head->next->sorted = part_midp(head1->part_head->next, head1, 1);
-	ft_print_stacks(head1, head2);
+//	ft_print_stacks(head1, head2);
 }
 
 int	partitioning_b(t_stack *head1, t_stack *head2)
@@ -490,6 +498,7 @@ int	partitioning_b(t_stack *head1, t_stack *head2)
 		counter += 2;
 		curr_part->amt -= 2;
 	}
+
 
 	len_og = curr_part->amt;
 	while (i++ < len_og)
@@ -529,7 +538,9 @@ void	part_control_b(t_stack *head1, t_stack *head2)
 		curr_part->amt = partitioning_b(head1, head2);
 		curr_part->sorted = part_midp(curr_part, head1, 1);
 		free_part(head2);
-		printf("\e[0;33mB->A |\e[0m AMT: %d | MIDP: %d\n", curr_part->amt, midp);
+
+		//printf("	B->A | AMT GIVEN: %d | MIDP WHEN GIVING: %d\n", curr_part->amt, head2->part_head->next->midp);
+		printf("hello\n");
 		ft_print_stacks(head1, head2);
 	}
 }
