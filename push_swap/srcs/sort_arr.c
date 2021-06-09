@@ -6,11 +6,31 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:23:01 by laube             #+#    #+#             */
-/*   Updated: 2021/06/09 13:25:04 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/09 16:14:31 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+
+int	low_num(t_stack *head)
+{
+	int	*arr;
+	int	len;
+	int	i;
+	int	low;
+
+	i = 0;
+	len = stack_len(head);
+	arr = stack_to_arr(head, len);
+	low = arr[0];
+	while (i < len)
+	{
+		if (arr[i] < low)
+			low = arr[i];
+		i++;
+	}
+	return (low);
+}
 
 int	*stack_to_arr(t_stack *head, int len)
 {

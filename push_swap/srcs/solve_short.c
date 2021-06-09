@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 12:48:16 by laube             #+#    #+#             */
-/*   Updated: 2021/06/09 14:05:19 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/09 16:14:34 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ void	solve_5(t_stack *head1, t_stack *head2)
 	solve_3(head1);
 	while (stack_len(head2))
 	{
+		if (head2->next->num < low_num(head1))
+		{
+			while (rot_count-- > 0)
+				ft_printf("%s", ft_reverse_rot_a(head1));
+			ft_printf("%s", ft_push_a(head1, head2));
+			continue ;
+		}
 		if (head2->next->num > last_num(head1))
 		{
 			ft_printf("%s", ft_push_a(head1, head2));
