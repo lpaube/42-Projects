@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:06:51 by laube             #+#    #+#             */
-/*   Updated: 2021/06/09 13:07:17 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/09 16:17:58 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_reverse_rot_b(t_stack *head2)
 char	*ft_rotate_a(t_stack *head1)
 {
 	t_stack	*first_tmp;
-	t_stack *tmp;
+	t_stack	*tmp;
 
 	first_tmp = head1->next;
 	head1->next = head1->next->next;
@@ -60,7 +60,7 @@ char	*ft_rotate_a(t_stack *head1)
 char	*ft_rotate_b(t_stack *head2)
 {
 	t_stack	*first_tmp;
-	t_stack *tmp;
+	t_stack	*tmp;
 
 	first_tmp = head2->next;
 	head2->next = head2->next->next;
@@ -71,4 +71,3 @@ char	*ft_rotate_b(t_stack *head2)
 	first_tmp->next = NULL;
 	return ("rb\n");
 }
-

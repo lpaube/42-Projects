@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:20:17 by laube             #+#    #+#             */
-/*   Updated: 2021/06/09 16:14:36 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/09 16:20:29 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_stack	*ft_create_node(void)
 void	init_part1(t_stack *head1)
 {
 	t_part	*part;
-	int	*arr;
+	int		*arr;
 
 	head1->part_head->next = create_node_part();
 	part = head1->part_head->next;

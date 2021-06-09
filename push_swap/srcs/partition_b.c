@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:00:35 by laube             #+#    #+#             */
-/*   Updated: 2021/06/09 13:01:32 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/09 17:19:30 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	partitioning_b(t_stack *head1, t_stack *head2)
 	i = 0;
 	counter = 0;
 	rot_count = 0;
-	curr_part = head2->part_head->next;
+	curr_part = head2->part_head;
 	while (curr_part->next)
 		curr_part = curr_part->next;
 	if (curr_part->sorted == 1)
