@@ -6,11 +6,12 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:58:22 by laube             #+#    #+#             */
-/*   Updated: 2021/06/06 13:14:47 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/09 13:51:32 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "../libft/include/ft_printf.h"
+#include "../libft/libft/libft.h"
 
 typedef struct s_part
 {
@@ -31,3 +32,33 @@ t_part	*create_node_part(void);
 int	partitioning_b(t_stack *head1, t_stack *head2);
 int	partitioning_a(t_stack *head1, t_stack *head2);
 int	part_midp(t_part *part, t_stack *head, int head_type);
+void	solve_3(t_stack *head1);
+void	solve_5(t_stack *head1, t_stack *head2);
+int	partitioning_a(t_stack *head1, t_stack *head2);
+void	part_control_a(t_stack *head1, t_stack *head2);
+int	partitioning_b(t_stack *head1, t_stack *head2);
+void	part_control_b(t_stack *head1, t_stack *head2);
+char	*ft_push_a(t_stack *head1, t_stack *head2);
+char	*ft_push_b(t_stack *head1, t_stack *head2);
+char	*ft_swap_a(t_stack *head1);
+char	*ft_swap_b(t_stack *head2);
+char	*ft_reverse_rot_a(t_stack *head1);
+char	*ft_reverse_rot_b(t_stack *head2);
+char	*ft_rotate_a(t_stack *head1);
+char	*ft_rotate_b(t_stack *head2);
+t_part	*create_node_part(void);
+t_stack	*ft_create_node(void);
+void	init_part1(t_stack *head1);
+t_stack	*ft_build_stack(char **argv);
+int	*stack_to_arr(t_stack *head, int len);
+int	arr_quicksort(int *arr, int low, int high);
+void	arr_quicksort_control(int *arr, int low, int high);
+int	arr_is_sorted(int *arr, int len, int head_type);
+void	free_part(t_stack *head);
+int	not_in_part(t_stack *head, int head_type, int midp);
+int	part_midp(t_part *part, t_stack *head, int head_type);
+void	rev_rotation(t_stack *head, int rot_count, int head_type);
+int	stack_len(t_stack *head);
+int	ft_check_order(t_stack *head1, t_stack *head2);
+int	last_num(t_stack *head);
+int	has_unsorted(t_stack *head);
