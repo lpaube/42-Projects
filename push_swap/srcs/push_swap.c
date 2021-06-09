@@ -30,19 +30,18 @@ int	stack_len(t_stack *head)
 
 int	ft_check_order(t_stack *head1, t_stack *head2)
 {
-	int	ordered = 1;
 	t_stack	*tmp;
 
 	tmp = head1->next;
 	while (tmp)
 	{
 		if (tmp->next && tmp->num > tmp->next->num)
-			ordered = 0;
+			return (0);
 		tmp = tmp->next;
 	}
 	if (head2->next)
-		ordered = 0;
-	return (ordered);
+		return (0);
+	return (1);
 }
 
 void	ft_print_stacks(t_stack *head1, t_stack *head2)
@@ -308,23 +307,11 @@ int	arr_is_sorted(int *arr, int len, int head_type)
 void	rev_rotation(t_stack *head, int rot_count, int head_type)
 {
 	if (head_type == 1)
-	{
-		if (rot_count > 0)
-			while (rot_count-- > 0)
-				printf("%s", ft_reverse_rot_a(head));
-		else
-			while (rot_count++ < 0)
-				printf("%s", ft_rotate_a(head));
-	}
+		while (rot_count-- > 0)
+			printf("%s", ft_reverse_rot_a(head));
 	else if (head_type == 2)
-	{
-		if (rot_count > 0)
-			while (rot_count-- > 0)
-				printf("%s", ft_reverse_rot_b(head));
-		else
-			while (rot_count++ < 0)
-				printf("%s", ft_rotate_b(head));
-	}
+		while (rot_count-- > 0)
+			printf("%s", ft_reverse_rot_b(head));
 }
 
 int	not_in_part(t_stack *head, int head_type, int midp)
@@ -355,7 +342,10 @@ int	part_midp(t_part *part, t_stack *head, int head_type)
 	int	sorted;
 
 	if (part->amt == 0)
+	{
+		free_part(head);
 		return (0);
+	}
 	len = 0;
 	sorted = 0;
 	curr = head->next;
@@ -417,7 +407,7 @@ void	solve_short(t_stack *head1, t_stack *head2)
 	part->sorted = 1;
 }
 
-int	rot_or_revrot1(t_stack *head, int midp)
+int	rot_or_revrot1(t_stack *head, int midp, int amt)
 {
 	int	*arr;
 	int	rot_count;
@@ -428,6 +418,8 @@ int	rot_or_revrot1(t_stack *head, int midp)
 	rev_count = 1;
 	len = stack_len(head);
 	arr = stack_to_arr(head, len);
+	if (len != amt)
+		return (1);
 	while (rot_count < len)
 		if (arr[rot_count++] < midp)
 			break ;
@@ -446,7 +438,7 @@ int	rot_or_revrot1(t_stack *head, int midp)
 	}
 }
 
-int	rot_or_revrot2(t_stack *head, int midp)
+int	rot_or_revrot2(t_stack *head, int midp, int amt)
 {
 	int	*arr;
 	int	rot_count;
@@ -457,6 +449,8 @@ int	rot_or_revrot2(t_stack *head, int midp)
 	rev_count = 1;
 	len = stack_len(head);
 	arr = stack_to_arr(head, len);
+	if (len != amt)
+		return (1);
 	while (rot_count < len)
 		if (arr[rot_count++] > midp)
 			break ;
@@ -517,7 +511,8 @@ int	partitioning_a(t_stack *head1, t_stack *head2)
 		}
 		else
 		{
-			rot_count += rot_or_revrot1(head1, curr_part->midp);
+			printf("%s", ft_rotate_a(head1));
+			rot_count++;
 		}
 	}
 	rev_rotation(head1, rot_count, 1);
@@ -535,13 +530,13 @@ void	part_control_a(t_stack *head1, t_stack *head2)
 	tmp1 = head1->part_head;
 	while (tmp1->next)
 		tmp1 = tmp1->next;
-	if (tmp1->amt <= 2)
+	if (tmp1->amt == 2 || tmp1->amt == 1)
 	{
 		if (tmp1->amt == 2 && head1->next->num > head1->next->next->num)
-		{
 			printf("%s", ft_swap_a(head1));
-		}
 		tmp1->sorted = 1;
+		printf("	A SWAP: %d for %d\n", head1->next->next->num, head1->next->num);
+		ft_print_stacks(head1, head2);
 		return ;
 	}
 
@@ -565,15 +560,16 @@ void	part_control_a(t_stack *head1, t_stack *head2)
 		if (head1->next->num > head1->next->next->num)
 		{
 			printf("%s", ft_swap_a(head1));
+			printf("	A SWAP: %d for %d\n", head1->next->next->num, head1->next->num);
+			ft_print_stacks(head1, head2);
 			return ;
 		}
-		//printf("	A->B | AMT GIVEN: %d | MIDP OF GIVING: %d\n", curr_part->amt, tmp->midp);
-		//ft_print_stacks(head1, head2);
+		printf("	A->B | AMT GIVEN: %d | MIDP OF GIVING: %d\n", curr_part->amt, tmp->midp);
+		ft_print_stacks(head1, head2);
 	}
 
 	if (stack_len(head1) == 2)
 		head1->part_head->next->sorted = part_midp(head1->part_head->next, head1, 1);
-//	ft_print_stacks(head1, head2);
 }
 
 
@@ -625,7 +621,8 @@ int	partitioning_b(t_stack *head1, t_stack *head2)
 		}
 		else
 		{
-			rot_count += rot_or_revrot1(head2, curr_part->midp);
+			printf("%s", ft_rotate_b(head2));
+			rot_count++;
 		}
 	}
 	rev_rotation(head2, rot_count, 2);
@@ -650,8 +647,9 @@ void	part_control_b(t_stack *head1, t_stack *head2)
 		curr_part->sorted = part_midp(curr_part, head1, 1);
 		free_part(head2);
 
-		//printf("	B->A | AMT GIVEN: %d | MIDP WHEN GIVING: %d\n", curr_part->amt, head2->part_head->next->midp);
-		//ft_print_stacks(head1, head2);
+		if (head2->part_head->next)
+			printf("	B->A | AMT GIVEN: %d | MIDP WHEN GIVING: %d\n", curr_part->amt, head2->part_head->next->midp);
+		ft_print_stacks(head1, head2);
 	}
 }
 
@@ -659,11 +657,21 @@ void	ft_algo_control(t_stack *head1, t_stack *head2, int len)
 {
 	int	*arr;
 	int	midpoint;
-
+	int	i;
+	
+	i = 0;
 	while (ft_check_order(head1, head2) != 1)
 	{
+		i++;
+		printf("ITERATION: %d\n", i);
+		ft_print_stacks(head1, head2);
 		part_control_a(head1, head2);
 		part_control_b(head1, head2);
+		if (i > 100)
+		{
+			printf("Iterations reached 100: check your loops\n");
+			return ;
+		}
 	}
 }
 
