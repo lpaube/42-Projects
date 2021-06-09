@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/08 18:31:58 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/09 12:40:24 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,6 +378,16 @@ int	has_unsorted(t_stack *head)
 	return (0);
 }
 
+int	last_num(t_stack *head)
+{
+	t_stack	*tmp;
+
+	tmp = head;
+	while (tmp->next)
+		tmp = tmp->next;
+	return (tmp->num);
+}
+
 void	solve_3(t_stack *head1)
 {
 	t_stack	*s;
@@ -385,87 +395,48 @@ void	solve_3(t_stack *head1)
 	s = head1->next;
 	if (s->next->next->num > s->num && s->num > s->next->num)
 		printf("%s", ft_swap_a(head1));
-	if (s->num > s->next->num && s->next->num > s->next->next->num)
+	else if (s->num > s->next->num && s->next->num > s->next->next->num)
 	{
 		printf("%s", ft_swap_a(head1));
 		printf("%s", ft_reverse_rot_a(head1));
 	}
-}
-
-void	solve_short(t_stack *head1, t_stack *head2)
-{
-	t_part	*part;
-
-	part = head1->part_head;
-	while (part->next)
-		part = part->next;
-	if (part->amt == 2 && head1->next->num > head1->next->next->num)
+	else if (s->num > s->next->next->num && s->next->next->num > s->next->num)
+		printf("%s", ft_rotate_a(head1));
+	else if (s->next->num > s->next->next->num && s->next->next->num > s->num)
+	{
 		printf("%s", ft_swap_a(head1));
-	if (part->amt == 3)
-		solve_3(head1);
-
-	part->sorted = 1;
+		printf("%s", ft_rotate_a(head1));
+	}
+	else if (s->next->num > s->num && s->num > s->next->next->num)
+		printf("%s", ft_reverse_rot_a(head1));
 }
 
-int	rot_or_revrot1(t_stack *head, int midp, int amt)
+void	solve_5(t_stack *head1, t_stack *head2)
 {
-	int	*arr;
 	int	rot_count;
-	int	rev_count;
-	int	len;
 
-	rot_count = 1;
-	rev_count = 1;
-	len = stack_len(head);
-	arr = stack_to_arr(head, len);
-	if (len != amt)
-		return (1);
-	while (rot_count < len)
-		if (arr[rot_count++] < midp)
-			break ;
-	while (rev_count < len)
-		if (arr[len - rev_count++] < midp)
-			break ;
-	if (rot_count > rev_count)
+	rot_count = 0;
+	printf("%s", ft_push_b(head1, head2));
+	printf("%s", ft_push_b(head1, head2));
+	solve_3(head1);
+	while (stack_len(head2))
 	{
-		printf("%s", ft_reverse_rot_a(head));
-		return (-1);
-	}
-	else
-	{
-		printf("%s", ft_rotate_a(head));
-		return (1);
-	}
-}
-
-int	rot_or_revrot2(t_stack *head, int midp, int amt)
-{
-	int	*arr;
-	int	rot_count;
-	int	rev_count;
-	int	len;
-
-	rot_count = 1;
-	rev_count = 1;
-	len = stack_len(head);
-	arr = stack_to_arr(head, len);
-	if (len != amt)
-		return (1);
-	while (rot_count < len)
-		if (arr[rot_count++] > midp)
-			break ;
-	while (rev_count < len)
-		if (arr[len - rev_count++] > midp)
-			break ;
-	if (rot_count > rev_count)
-	{
-		printf("%s", ft_reverse_rot_b(head));
-		return (-1);
-	}
-	else
-	{
-		printf("%s", ft_rotate_b(head));
-		return (1);
+		if (head2->next->num > last_num(head1))
+		{
+			printf("%s", ft_push_a(head1, head2));
+			printf("%s", ft_rotate_a(head1));
+			continue ;
+		}
+		while (head2->next->num > head1->next->num)
+		{
+			printf("%s", ft_rotate_a(head1));
+			rot_count++;
+			if (head2->next->num < head1->next->num)
+				break ;
+		}
+		printf("%s", ft_push_a(head1, head2));
+		while (rot_count-- > 0)
+			printf("%s", ft_reverse_rot_a(head1));
 	}
 }
 
@@ -535,8 +506,8 @@ void	part_control_a(t_stack *head1, t_stack *head2)
 		if (tmp1->amt == 2 && head1->next->num > head1->next->next->num)
 			printf("%s", ft_swap_a(head1));
 		tmp1->sorted = 1;
-		printf("	A SWAP: %d for %d\n", head1->next->next->num, head1->next->num);
-		ft_print_stacks(head1, head2);
+		//printf("	A SWAP: %d for %d\n", head1->next->next->num, head1->next->num);
+		//ft_print_stacks(head1, head2);
 		return ;
 	}
 
@@ -560,12 +531,12 @@ void	part_control_a(t_stack *head1, t_stack *head2)
 		if (head1->next->num > head1->next->next->num)
 		{
 			printf("%s", ft_swap_a(head1));
-			printf("	A SWAP: %d for %d\n", head1->next->next->num, head1->next->num);
-			ft_print_stacks(head1, head2);
+		//	printf("	A SWAP: %d for %d\n", head1->next->next->num, head1->next->num);
+			//ft_print_stacks(head1, head2);
 			return ;
 		}
-		printf("	A->B | AMT GIVEN: %d | MIDP OF GIVING: %d\n", curr_part->amt, tmp->midp);
-		ft_print_stacks(head1, head2);
+		//printf("	A->B | AMT GIVEN: %d | MIDP OF GIVING: %d\n", curr_part->amt, tmp->midp);
+		//ft_print_stacks(head1, head2);
 	}
 
 	if (stack_len(head1) == 2)
@@ -647,9 +618,9 @@ void	part_control_b(t_stack *head1, t_stack *head2)
 		curr_part->sorted = part_midp(curr_part, head1, 1);
 		free_part(head2);
 
-		if (head2->part_head->next)
-			printf("	B->A | AMT GIVEN: %d | MIDP WHEN GIVING: %d\n", curr_part->amt, head2->part_head->next->midp);
-		ft_print_stacks(head1, head2);
+	//	if (head2->part_head->next)
+			//printf("	B->A | AMT GIVEN: %d | MIDP WHEN GIVING: %d\n", curr_part->amt, head2->part_head->next->midp);
+		//ft_print_stacks(head1, head2);
 	}
 }
 
@@ -663,15 +634,25 @@ void	ft_algo_control(t_stack *head1, t_stack *head2, int len)
 	while (ft_check_order(head1, head2) != 1)
 	{
 		i++;
-		printf("ITERATION: %d\n", i);
-		ft_print_stacks(head1, head2);
+		if (i == 1 && stack_len(head1) == 3 || stack_len(head1) == 5)
+		{
+			if (stack_len(head1) == 3)
+				solve_3(head1);
+			else if (stack_len(head1) == 5)
+				solve_5(head1, head2);
+			return ;
+		}
+		//printf("ITERATION: %d\n", i);
+		//ft_print_stacks(head1, head2);
 		part_control_a(head1, head2);
 		part_control_b(head1, head2);
+		/*
 		if (i > 100)
 		{
 			printf("Iterations reached 100: check your loops\n");
 			return ;
 		}
+		*/
 	}
 }
 
