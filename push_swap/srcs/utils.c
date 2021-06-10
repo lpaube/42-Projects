@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:28:31 by laube             #+#    #+#             */
-/*   Updated: 2021/06/09 13:31:23 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/09 22:22:01 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,23 @@ int	ft_check_order(t_stack *head1, t_stack *head2)
 	if (head2->next)
 		return (0);
 	return (1);
+}
+
+int	high_num(t_stack *head)
+{
+	int	high;
+	t_stack	*tmp;
+
+	tmp = head->next;
+	if (tmp)
+		high = tmp->num;
+	while (tmp->next)
+	{
+		tmp = tmp->next;
+		if (tmp->num > high)
+			high = tmp->num;
+	}
+	return (high);
 }
 
 int	last_num(t_stack *head)

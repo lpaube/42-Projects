@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:58:22 by laube             #+#    #+#             */
-/*   Updated: 2021/06/09 16:05:53 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/09 22:22:25 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,3 +63,7 @@ int	ft_check_order(t_stack *head1, t_stack *head2);
 int	last_num(t_stack *head);
 int	has_unsorted(t_stack *head);
 int	low_num(t_stack *head);
+void	amt_is_2(t_stack *head1, t_part *tmp1);
+int	sub_a(t_stack *head1, t_stack *head2, t_part *curr_part, int *rot_count);
+void	ft_print_stacks(t_stack *head1, t_stack *head2);
+int	high_num(t_stack *head);

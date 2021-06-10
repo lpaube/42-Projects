@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 12:48:16 by laube             #+#    #+#             */
-/*   Updated: 2021/06/09 16:16:33 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/09 22:40:49 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,49 @@ void	solve_3(t_stack *head1)
 		ft_printf("%s", ft_reverse_rot_a(head1));
 }
 
+int	it_fits(t_stack *head1, t_stack *head2)
+{
+	t_stack	*h1;
+	t_stack	*h2;
+
+	h1 = head1->next;
+	h2 = head2->next;
+	if (h2->num < h1->num && h1->num == low_num(head1))
+	{
+		return (1);
+	}
+	if (h1->num > h2->num && last_num(head1) < h2->num)
+	{
+		return (1);
+	}
+	if (h2->num > high_num(head1) && h1->num == low_num(head1))
+	{
+		return (1);
+	}
+	return (0);
+}
+
+void	rot_revrot(t_stack *head)
+{
+	int	i;
+	int	*arr;
+	int	len;
+
+	len = stack_len(head);
+	arr = stack_to_arr(head, len);
+	i = 0;
+	while (i < len)
+	{
+		if (arr[i] == low_num(head))
+			break ;
+		i++;
+	}
+	if (i <= 2)
+		ft_printf("%s", ft_rotate_a(head));
+	else if (i > 2)
+		ft_printf("%s", ft_reverse_rot_a(head));
+}
+
 void	solve_5(t_stack *head1, t_stack *head2)
 {
 	int	rot_count;
@@ -45,31 +88,16 @@ void	solve_5(t_stack *head1, t_stack *head2)
 	solve_3(head1);
 	while (stack_len(head2))
 	{
-		if (head2->next->num < low_num(head1))
-		{
-			while (rot_count-- > 0)
-				ft_printf("%s", ft_reverse_rot_a(head1));
+		if (it_fits(head1, head2))
 			ft_printf("%s", ft_push_a(head1, head2));
-			continue ;
-		}
-		if (head2->next->num > last_num(head1))
-		{
-			ft_printf("%s", ft_push_a(head1, head2));
-			ft_printf("%s", ft_rotate_a(head1));
-			continue ;
-		}
-		while (head2->next->num > head1->next->num)
+		else
 		{
 			ft_printf("%s", ft_rotate_a(head1));
 			rot_count++;
-			if (head2->next->num < head1->next->num)
-			{
-				ft_printf("%s", ft_push_a(head1, head2));
-				break ;
-			}
 		}
-		//ft_printf("%s", ft_push_a(head1, head2));
+		if (ft_check_order(head1, head2))
+			return ;
 	}
-	while (rot_count-- > 0)
-		ft_printf("%s", ft_reverse_rot_a(head1));
+	while (ft_check_order(head1, head2) != 1)
+		rot_revrot(head1);
 }
