@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:23:01 by laube             #+#    #+#             */
-/*   Updated: 2021/06/09 16:16:35 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/10 11:59:30 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,26 +89,24 @@ int	arr_is_sorted(int *arr, int len, int head_type)
 
 	i = 0;
 	if (len == 1)
-	{
 		return (1);
-	}
 	if (head_type == 1)
+	{
 		while (i < len - 1)
 		{
 			if (arr[i + 1] < arr[i])
-			{
 				return (0);
-			}
 			i++;
 		}
+	}
 	else if (head_type == 2)
+	{
 		while (i < len - 1)
 		{
 			if (arr[i + 1] > arr[i])
-			{
 				return (0);
-			}
 			i++;
 		}
+	}
 	return (1);
 }

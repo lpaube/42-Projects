@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:28:31 by laube             #+#    #+#             */
-/*   Updated: 2021/06/09 22:22:01 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/10 12:00:14 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	stack_len(t_stack *head)
 {
-	int	len;
+	int		len;
 	t_stack	*curr_stack;
 
 	len = 0;
@@ -45,7 +45,7 @@ int	ft_check_order(t_stack *head1, t_stack *head2)
 
 int	high_num(t_stack *head)
 {
-	int	high;
+	int		high;
 	t_stack	*tmp;
 
 	tmp = head->next;

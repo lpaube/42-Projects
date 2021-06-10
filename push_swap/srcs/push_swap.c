@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/09 22:45:07 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/10 15:39:14 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_print_stacks(t_stack *head1, t_stack *head2)
 void	ft_algo_control(t_stack *head1, t_stack *head2)
 {
 	int	i;
-	
+
 	i = 0;
 	while (ft_check_order(head1, head2) != 1)
 	{
@@ -58,10 +58,10 @@ void	ft_algo_control(t_stack *head1, t_stack *head2)
 int	main(int argc, char **argv)
 {
 	t_stack	*head1;
-	t_stack *head2;
+	t_stack	*head2;
 	int		len;
 
-	if (argc < 3)
+	if (check_errors(argc, &(argv[1])))
 	{
 		ft_printf("Error\n");
 		return (-1);
@@ -70,6 +70,5 @@ int	main(int argc, char **argv)
 	head2 = ft_create_node();
 	head2->part_head = create_node_part();
 	len = stack_len(head1);
-
 	ft_algo_control(head1, head2);
 }

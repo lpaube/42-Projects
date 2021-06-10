@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:25:47 by laube             #+#    #+#             */
-/*   Updated: 2021/06/09 13:28:09 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/10 11:43:55 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ int	not_in_part(t_stack *head, int head_type, int midp)
 
 int	part_midp(t_part *part, t_stack *head, int head_type)
 {
-	int	*arr;
-	int	len;
+	int		*arr;
+	int		len;
 	t_stack	*curr;
-	int	sorted;
+	int		sorted;
 
 	if (part->amt == 0)
 	{
@@ -62,7 +62,6 @@ int	part_midp(t_part *part, t_stack *head, int head_type)
 		return (0);
 	}
 	len = 0;
-	sorted = 0;
 	curr = head->next;
 	arr = ft_calloc(part->amt, sizeof(int));
 	while (len < part->amt && curr)
@@ -70,8 +69,7 @@ int	part_midp(t_part *part, t_stack *head, int head_type)
 		arr[len++] = curr->num;
 		curr = curr->next;
 	}
-	if (arr_is_sorted(arr, len, head_type) == 1)
-		sorted = 1;
+	sorted = arr_is_sorted(arr, len, head_type);
 	arr_quicksort_control(arr, 0, len - 1);
 	part->midp = arr[len / 2];
 	free(arr);
