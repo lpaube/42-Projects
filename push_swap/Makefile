@@ -1,19 +1,23 @@
-NAME = push_swap
+NAME =		push_swap
+OBJ_DIR =	obj/
+SRC_DIR =	srcs/
+LIBFT =		libft/
+INCLUDES =	includes/
 
-SRCS = 	srcs/check_error.c \
-		srcs/commands_rotate.c \
-		srcs/commands_swap.c \
-		srcs/initialize.c \
-		srcs/partition_a.c \
-		srcs/partition_a2.c \
-		srcs/partition_b.c \
-		srcs/partition_utils.c \
-		srcs/push_swap.c \
-		srcs/solve_short.c \
-		srcs/sort_arr.c \
-		srcs/utils.c \
+SRCS = 	check_error.c \
+		commands_rotate.c \
+		commands_swap.c \
+		initialize.c \
+		partition_a.c \
+		partition_a2.c \
+		partition_b.c \
+		partition_utils.c \
+		push_swap.c \
+		solve_short.c \
+		sort_arr.c \
+		utils.c \
 
-OBJS = 	check_error.o \
+#OBJS = 	check_error.o \
 		commands_rotate.o \
 		commands_swap.o \
 		initialize.o \
@@ -26,27 +30,33 @@ OBJS = 	check_error.o \
 		sort_arr.o \
 		utils.o \
 
-INCLUDES = ./includes
-LIBFT = ./libft
-CC = gcc
-CFLAGS = -Wall -Werror -Wextra -I$(INCLUDES)
+CC =		gcc
+CFLAGS =	-Wall -Werror -Wextra -I$(INCLUDES)
+OBJS =		$(SRCS:.c=.o)
 
-all: $(NAME)
+all: $(OBJ_DIR) $(NAME)
+
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+	@echo Created: Object directory
 
 $(NAME): $(OBJS)
 	make re -C ./libft
 	$(CC) $(OBJS) -Llibft -lft -o $(NAME)
+	@echo "\\n\033[32;1m PUSH_SWAP HAS BEEN GENERATED \033[0m \\n"
 
 $(OBJS): $(SRCS)
 	$(CC) $(CFLAGS) -c $(SRCS)
 
 clean:
-	make clean -C ./libft
-	rm -f $(OBJS)
+	@make clean -C ./libft
+	@rm -f $(OBJS)
+	@echo "\\n\033[32;1m CLEANED OBJECT FILES \033[0m \\n"
 
 fclean: clean
-	make fclean -C ./libft
-	rm -f $(NAME)
+	@make fclean -C ./libft
+	@rm -f $(NAME)
+	@echo "\\n\033[32;1m CLEANED PUSH_SWAP \033[0m \\n"
 
 re: fclean all
 
