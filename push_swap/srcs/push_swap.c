@@ -6,11 +6,40 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 17:36:19 by laube             #+#    #+#             */
-/*   Updated: 2021/06/10 15:39:14 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/10 21:13:49 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+
+void	free_all_parts(t_stack *head)
+{
+	t_part	*tmp_part;
+	t_part	*tmp_head;
+
+	tmp_head = head->part_head;
+	while (tmp_head != NULL)
+	{
+		tmp_part = tmp_head;
+		tmp_head = tmp_head->next;
+		free(tmp_part);
+		tmp_part = NULL;
+	}
+}
+
+void	free_stack(t_stack *head)
+{
+	t_stack	*tmp_stack;
+
+	free_all_parts(head);
+	while (head != NULL)
+	{
+		tmp_stack = head;
+		head = head->next;
+		free(tmp_stack);
+		tmp_stack = NULL;
+	}
+}
 
 void	ft_print_stacks(t_stack *head1, t_stack *head2)
 {
@@ -71,4 +100,6 @@ int	main(int argc, char **argv)
 	head2->part_head = create_node_part();
 	len = stack_len(head1);
 	ft_algo_control(head1, head2);
+	free_stack(head1);
+	free_stack(head2);
 }

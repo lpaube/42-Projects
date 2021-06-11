@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 12:07:56 by laube             #+#    #+#             */
-/*   Updated: 2021/06/10 16:18:52 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/10 22:02:02 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int	check_errors(int argc, char **argv)
 		if (atoi_err(argv[i++]))
 			return (1);
 	arr = argv_to_arr(argc, argv);
-	while (i < argc - 2)
+	i = -1;
+	while (++i < argc - 2)
 	{
 		j = i + 1;
 		while (j < argc - 1)
@@ -93,7 +94,6 @@ int	check_errors(int argc, char **argv)
 			}
 			j++;
 		}
-		i++;
 	}
 	free(*arr);
 	return (0);
