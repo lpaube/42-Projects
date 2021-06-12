@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-#include <stdio.h>
 
 void	free_all_parts(t_stack *head)
 {
