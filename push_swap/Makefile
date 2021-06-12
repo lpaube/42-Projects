@@ -53,7 +53,7 @@ $(OBJS): $(SRC_PATH)
 
 clean:
 	@make clean -C ./libft
-	@rm -f $(OBJ_PATH)
+	@rm -rf $(OBJ_PATH) $(OBJ_DIR)
 	@echo "\\n\033[32;1m CLEANED OBJECT FILES \033[0m \\n"
 
 fclean: clean
