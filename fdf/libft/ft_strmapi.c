@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
+/*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/10 17:53:40 by laube             #+#    #+#             */
-/*   Updated: 2021/05/10 18:11:32 by laube            ###   ########.fr       */
+/*   Created: 2021/05/09 13:42:27 by laube             #+#    #+#             */
+/*   Updated: 2021/05/15 17:06:25 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	while (*s)
+	int		i;
+	char	*str;
+
+	i = 0;
+	if (f && s)
 	{
-		if (*s == c)
-			return ((char *)s);
-		s++;
+		str = ft_calloc((ft_strlen(s) + 1), sizeof(char));
+		if (!str)
+			return (NULL);
+		while (s[i])
+		{
+			str[i] = f(i, s[i]);
+			i++;
+		}
+		return (str);
 	}
-	if (*s == c)
-		return ((char *)s);
 	return (NULL);
 }

@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
+/*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/10 17:53:40 by laube             #+#    #+#             */
-/*   Updated: 2021/05/10 18:11:32 by laube            ###   ########.fr       */
+/*   Created: 2021/04/18 00:24:09 by laube             #+#    #+#             */
+/*   Updated: 2021/05/15 16:44:22 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	while (*s)
+	int	i;
+
+	i = 0;
+	c = (unsigned char)c;
+	while (len > 0)
 	{
-		if (*s == c)
-			return ((char *)s);
-		s++;
+		((char *)b)[i] = c;
+		i++;
+		len--;
 	}
-	if (*s == c)
-		return ((char *)s);
-	return (NULL);
+	return ((char *)b);
 }

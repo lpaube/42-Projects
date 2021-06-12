@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
+/*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/10 17:53:40 by laube             #+#    #+#             */
-/*   Updated: 2021/05/10 18:11:32 by laube            ###   ########.fr       */
+/*   Created: 2021/05/05 16:10:33 by laube             #+#    #+#             */
+/*   Updated: 2021/05/05 16:26:36 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+int	ft_toupper(int c)
 {
-	while (*s)
-	{
-		if (*s == c)
-			return ((char *)s);
-		s++;
-	}
-	if (*s == c)
-		return ((char *)s);
-	return (NULL);
+	if (c >= 97 && c <= 122)
+		return (c - ('a' - 'A'));
+	return (c);
 }

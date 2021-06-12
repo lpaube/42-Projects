@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
+/*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/10 17:53:40 by laube             #+#    #+#             */
-/*   Updated: 2021/05/10 18:11:32 by laube            ###   ########.fr       */
+/*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
+/*   Updated: 2021/06/12 16:31:04 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef FDF_H
+# define FDF_H
 
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s)
-	{
-		if (*s == c)
-			return ((char *)s);
-		s++;
-	}
-	if (*s == c)
-		return ((char *)s);
-	return (NULL);
-}
+# include "libft.h"
+# include "get_next_line.h"
+
+#endif

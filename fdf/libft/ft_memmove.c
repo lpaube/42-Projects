@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/10 17:53:40 by laube             #+#    #+#             */
-/*   Updated: 2021/05/10 18:11:32 by laube            ###   ########.fr       */
+/*   Created: 2021/05/10 14:03:01 by laube             #+#    #+#             */
+/*   Updated: 2021/05/11 14:09:19 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	while (*s)
+	char	*a;
+	char	*b;
+
+	a = (char *)src;
+	b = (char *)dst;
+	if (a < b)
 	{
-		if (*s == c)
-			return ((char *)s);
-		s++;
+		while (len--)
+			b[len] = a[len];
 	}
-	if (*s == c)
-		return ((char *)s);
-	return (NULL);
+	else
+		ft_memcpy(b, a, len);
+	return (dst);
 }
