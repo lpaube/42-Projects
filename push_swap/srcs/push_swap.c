@@ -109,7 +109,6 @@ int	main(int argc, char **argv)
 	head2 = ft_create_node();
 	head2->part_head = create_node_part();
 	ft_algo_control(head1, head2);
-	ft_print_stacks(head1, head2);
 	free_stack(head1);
 	free_stack(head2);
 	if (free_state)
