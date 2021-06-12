@@ -88,7 +88,6 @@ int	main(int argc, char **argv)
 {
 	t_stack	*head1;
 	t_stack	*head2;
-	int		len;
 
 	if (check_errors(argc, &(argv[1])))
 	{
@@ -98,7 +97,6 @@ int	main(int argc, char **argv)
 	head1 = ft_build_stack(argv);
 	head2 = ft_create_node();
 	head2->part_head = create_node_part();
-	len = stack_len(head1);
 	ft_algo_control(head1, head2);
 	free_stack(head1);
 	free_stack(head2);

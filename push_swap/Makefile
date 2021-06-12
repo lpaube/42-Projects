@@ -31,8 +31,11 @@ SRCS = 	check_error.c \
 		utils.o \
 
 CC =		gcc
-CFLAGS =	-Wall -Werror -Wextra -I$(INCLUDES)
+CFLAGS =	-Wall -Werror -Wextra -I$(INCLUDES) -c
 OBJS =		$(SRCS:.c=.o)
+
+SRC_PATH =	$(addprefix srcs/, $(SRCS))
+OBJ_PATH =	$(addprefix obj/, $(OBJS))
 
 all: $(OBJ_DIR) $(NAME)
 
@@ -41,12 +44,12 @@ $(OBJ_DIR):
 	@echo Created: Object directory
 
 $(NAME): $(OBJS)
-	make re -C ./libft
-	$(CC) $(OBJS) -Llibft -lft -o $(NAME)
+	@make re -C ./libft
+	$(CC) $(OBJ_PATH) -Llibft -lft -o $(NAME)
 	@echo "\\n\033[32;1m PUSH_SWAP HAS BEEN GENERATED \033[0m \\n"
 
-$(OBJS): $(SRCS)
-	$(CC) $(CFLAGS) -c $(SRCS)
+$(OBJS): $(SRC_PATH)
+	$(CC) $(CFLAGS) srcs/$(@:.o=.c) -o obj/$@
 
 clean:
 	@make clean -C ./libft

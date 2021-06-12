@@ -33,21 +33,21 @@ INCLUDES = -I./include
 OBJS = $(SRCS:.c=.o)
 
 $(NAME): $(OBJS)
-	make re -C ./libft
-	cp libft/libft.a ./$(NAME)
-	$(CC) $(CFLAGS) $(INCLUDES) $(SRCS)
-	ar -rcs $(NAME) $(OBJS)
+	@make re -C ./libft
+	@cp libft/libft.a ./$(NAME)
+	@$(CC) $(CFLAGS) $(INCLUDES) $(SRCS)
+	@ar -rcs $(NAME) $(OBJS)
 
 all: $(NAME)
 
 clean:
-	make clean -C ./libft
-	/bin/rm -f $(SURPL_O)
-	/bin/rm -f $(OBJS)
+	@make clean -C ./libft
+	@/bin/rm -f $(SURPL_O)
+	@/bin/rm -f $(OBJS)
 
 fclean: clean
-	make fclean -C ./libft
-	/bin/rm -f $(NAME)
+	@make fclean -C ./libft
+	@/bin/rm -f $(NAME)
 
 re: fclean all
 

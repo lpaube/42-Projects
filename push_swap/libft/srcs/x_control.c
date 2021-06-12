@@ -14,12 +14,10 @@
 
 int	x_val_len(unsigned int val)
 {
-	int	remain;
 	int	zeros;
 	int	len;
 
 	len = 0;
-	remain = 0;
 	zeros = 0;
 	while (val > 0)
 	{
@@ -104,8 +102,5 @@ void	x_val(char c, struct s_fmt *flag, unsigned int val)
 	if (c == 'X')
 		cap = 1;
 	rm_zeros = 1;
-	if (val < 0)
-		ft_dtohex(val, &rm_zeros, cap, flag);
-	else
-		ft_dtohex(val, &rm_zeros, cap, flag);
+	ft_dtohex(val, &rm_zeros, cap, flag);
 }
