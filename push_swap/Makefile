@@ -17,19 +17,6 @@ SRCS = 	check_error.c \
 		sort_arr.c \
 		utils.c \
 
-#OBJS = 	check_error.o \
-		commands_rotate.o \
-		commands_swap.o \
-		initialize.o \
-		partition_a.o \
-		partition_a2.o \
-		partition_b.o \
-		partition_utils.o \
-		push_swap.o \
-		solve_short.o \
-		sort_arr.o \
-		utils.o \
-
 CC =		gcc
 CFLAGS =	-Wall -Werror -Wextra -I$(INCLUDES) -c
 OBJS =		$(SRCS:.c=.o)
@@ -44,22 +31,23 @@ $(OBJ_DIR):
 	@echo Created: Object directory
 
 $(NAME): $(OBJS)
-	@make re -C ./libft
-	$(CC) $(OBJ_PATH) -Llibft -lft -o $(NAME)
+	@make re --no-print-directory -C ./libft
+	@$(CC) $(OBJ_PATH) -Llibft -lft -o $(NAME)
 	@echo "\\n\033[32;1m PUSH_SWAP HAS BEEN GENERATED \033[0m \\n"
 
 $(OBJS): $(SRC_PATH)
-	$(CC) $(CFLAGS) srcs/$(@:.o=.c) -o obj/$@
+	@echo "Created: obj/$@\033[1A\033[M"
+	@$(CC) $(CFLAGS) srcs/$(@:.o=.c) -o obj/$@
 
 clean:
-	@make clean -C ./libft
+	@make clean --no-print-directory -C ./libft
 	@rm -rf $(OBJ_PATH) $(OBJ_DIR)
-	@echo "\\n\033[32;1m CLEANED OBJECT FILES \033[0m \\n"
+	@echo "\033[34;1m CLEANED OBJECT FILES \033[0m"
 
 fclean: clean
-	@make fclean -C ./libft
+	@make fclean --no-print-directory -C ./libft
 	@rm -f $(NAME)
-	@echo "\\n\033[32;1m CLEANED PUSH_SWAP \033[0m \\n"
+	@echo "\033[34;1m CLEANED PUSH_SWAP \033[0m"
 
 re: fclean all
 
