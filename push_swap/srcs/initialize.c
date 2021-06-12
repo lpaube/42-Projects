@@ -54,7 +54,7 @@ t_stack	*ft_build_stack(char **argv)
 	t_stack	*tmp;
 	int		i;
 
-	i = 1;
+	i = 0;
 	head1 = ft_create_node();
 	head1->part_head = create_node_part();
 	tmp = head1;

@@ -53,16 +53,26 @@ int	atoi_err(char *str)
 	return (0);
 }
 
-int	**argv_to_arr(int argc, char **argv)
+int	table_len(char **table)
+{
+	int	i;
+
+	i = 0;
+	while (table[i])
+		i++;
+	return (i);
+}
+
+int	**argv_to_arr(char **argv)
 {
 	int	**arr_ptr;
 	int	*arr;
 	int	i;
 
-	arr = malloc((argc - 1) * sizeof(int));
+	arr = malloc((table_len(argv) * sizeof(int)));
 	i = 0;
 	arr_ptr = &arr;
-	while (i < argc - 1)
+	while (i < table_len(argv))
 	{
 		arr[i] = ft_atoi(argv[i]);
 		i++;
@@ -70,22 +80,22 @@ int	**argv_to_arr(int argc, char **argv)
 	return (arr_ptr);
 }
 
-int	check_errors(int argc, char **argv)
+int	check_errors(char **argv)
 {
 	int	i;
 	int	j;
 	int	**arr;
 
 	i = 0;
-	while (i < argc - 1)
+	while (i < table_len(argv))
 		if (atoi_err(argv[i++]))
 			return (1);
-	arr = argv_to_arr(argc, argv);
+	arr = argv_to_arr(argv);
 	i = -1;
-	while (++i < argc - 2)
+	while (++i < table_len(argv) - 1)
 	{
 		j = i + 1;
-		while (j < argc - 1)
+		while (j < table_len(argv))
 		{
 			if ((*arr)[i] == (*arr)[j])
 			{

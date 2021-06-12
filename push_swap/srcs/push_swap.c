@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+#include <stdio.h>
 
 void	free_all_parts(t_stack *head)
 {
@@ -50,6 +51,7 @@ void	ft_print_stacks(t_stack *head1, t_stack *head2)
 	while (tmp)
 	{
 		ft_putnbr_fd(tmp->num, 1);
+		ft_putchar_fd(' ', 1);
 		tmp = tmp->next;
 	}
 	ft_putstr_fd("\n", 1);
@@ -58,6 +60,7 @@ void	ft_print_stacks(t_stack *head1, t_stack *head2)
 	while (tmp)
 	{
 		ft_putnbr_fd(tmp->num, 1);
+		ft_putchar_fd(' ', 1);
 		tmp = tmp->next;
 	}
 	ft_putstr_fd("\n", 1);
@@ -88,8 +91,16 @@ int	main(int argc, char **argv)
 {
 	t_stack	*head1;
 	t_stack	*head2;
+	int		free_state;
 
-	if (check_errors(argc, &(argv[1])))
+	free_state = 0;
+	argv++;
+	if (argc == 2)
+	{
+		argv = ft_split(argv[0], ' ');
+		free_state = 1;
+	}
+	if (check_errors(argv))
 	{
 		ft_putstr_fd("Error\n", 1);
 		return (-1);
@@ -98,6 +109,9 @@ int	main(int argc, char **argv)
 	head2 = ft_create_node();
 	head2->part_head = create_node_part();
 	ft_algo_control(head1, head2);
+	ft_print_stacks(head1, head2);
 	free_stack(head1);
 	free_stack(head2);
+	if (free_state)
+		free(argv);
 }
