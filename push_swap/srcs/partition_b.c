@@ -21,13 +21,13 @@ int	sub_b(t_stack *head1, t_stack *head2, t_part *curr_part, int *rotc)
 		return (0);
 	if (head2->next->num > curr_part->midp)
 	{
-		ft_printf("%s", ft_push_a(head1, head2));
+		ft_putstr_fd(ft_push_a(head1, head2), 1);
 		counter++;
 		curr_part->amt--;
 	}
 	else
 	{
-		ft_printf("%s", ft_rotate_b(head2));
+		ft_putstr_fd(ft_rotate_b(head2), 1);
 		(*rotc)++;
 	}
 	return (counter);
@@ -42,7 +42,7 @@ int	sub_parting_b(t_stack *head1, t_stack *head2, t_part *curr_part)
 	{
 		while (curr_part->amt)
 		{
-			ft_printf("%s", ft_push_a(head1, head2));
+			ft_putstr_fd(ft_push_a(head1, head2), 1);
 			curr_part->amt--;
 			counter++;
 		}
@@ -50,9 +50,9 @@ int	sub_parting_b(t_stack *head1, t_stack *head2, t_part *curr_part)
 	if (curr_part->amt == 2)
 	{
 		if (head2->next->num < head2->next->next->num)
-			ft_printf("%s", ft_swap_b(head2));
-		ft_printf("%s", ft_push_a(head1, head2));
-		ft_printf("%s", ft_push_a(head1, head2));
+			ft_putstr_fd(ft_swap_b(head2), 1);
+		ft_putstr_fd(ft_push_a(head1, head2), 1);
+		ft_putstr_fd(ft_push_a(head1, head2), 1);
 		counter += 2;
 		curr_part->amt -= 2;
 	}

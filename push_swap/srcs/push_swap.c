@@ -46,21 +46,21 @@ void	ft_print_stacks(t_stack *head1, t_stack *head2)
 	t_stack	*tmp;
 
 	tmp = head1->next;
-	ft_printf("Stack A: ");
+	ft_putstr_fd("Stack A: ", 1);
 	while (tmp)
 	{
-		ft_printf("%d ", tmp->num);
+		ft_putnbr_fd(tmp->num, 1);
 		tmp = tmp->next;
 	}
-	ft_printf("\n");
+	ft_putstr_fd("\n", 1);
 	tmp = head2->next;
-	ft_printf("Stack B: ");
+	ft_putstr_fd("Stack B: ", 1);
 	while (tmp)
 	{
-		ft_printf("%d ", tmp->num);
+		ft_putnbr_fd(tmp->num, 1);
 		tmp = tmp->next;
 	}
-	ft_printf("\n");
+	ft_putstr_fd("\n", 1);
 }
 
 void	ft_algo_control(t_stack *head1, t_stack *head2)
@@ -91,7 +91,7 @@ int	main(int argc, char **argv)
 
 	if (check_errors(argc, &(argv[1])))
 	{
-		ft_printf("Error\n");
+		ft_putstr_fd("Error\n", 1);
 		return (-1);
 	}
 	head1 = ft_build_stack(argv);

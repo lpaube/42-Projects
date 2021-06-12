@@ -1,52 +1,59 @@
-LIBFT = ./libft/libft.a
+NAME =		libft.a
 
-NAME = libft.a
+CFLAGS =	-Wall -Werror -Wextra -I. -c
 
-SRCS =	srcs/ft_printf.c \
-		srcs/c_control.c \
-		srcs/d_control.c \
-		srcs/flags_print.c \
-		srcs/misc.c \
-		srcs/p_control.c \
-		srcs/s_control.c \
-		srcs/triage.c \
-		srcs/u_control.c \
-		srcs/x_control.c \
+SRCS =		ft_atoi.c \
+			ft_bzero.c \
+			ft_calloc.c \
+			ft_isalnum.c \
+			ft_isalpha.c \
+			ft_isascii.c \
+			ft_isdigit.c \
+			ft_isprint.c \
+			ft_itoa.c \
+			ft_memccpy.c \
+			ft_memchr.c \
+			ft_memcmp.c \
+			ft_memcpy.c \
+			ft_memmove.c \
+			ft_memset.c \
+			ft_putchar_fd.c \
+			ft_putendl_fd.c \
+			ft_putnbr_fd.c \
+			ft_putstr_fd.c \
+			ft_split.c \
+			ft_strchr.c \
+			ft_strdup.c \
+			ft_strjoin.c \
+			ft_strlcat.c \
+			ft_strlcpy.c \
+			ft_strlen.c \
+			ft_strmapi.c \
+			ft_strncmp.c \
+			ft_strnstr.c \
+			ft_strrchr.c \
+			ft_strtrim.c \
+			ft_substr.c \
+			ft_tolower.c \
+			ft_toupper.c \
+			ft_utoa.c \
+			ft_swap.c \
 
-SURPL_O = ft_printf.o \
-		c_control.o \
-		d_control.o \
-		flags_print.o \
-		misc.o \
-		p_control.o \
-		s_control.o \
-		triage.o \
-		u_control.o \
-		x_control.o \
-
-CC = gcc
-
-CFLAGS = -Wall -Werror -Wextra -c
-
-INCLUDES = -I./include
-
-OBJS = $(SRCS:.c=.o)
-
-$(NAME): $(OBJS)
-	@make re -C ./libft
-	@cp libft/libft.a ./$(NAME)
-	@$(CC) $(CFLAGS) $(INCLUDES) $(SRCS)
-	@ar -rcs $(NAME) $(OBJS)
+OBJS = 		$(SRCS:.c=.o)
 
 all: $(NAME)
 
+$(NAME): $(OBJS)
+	@ar rc $(NAME) $(OBJS)
+	@ranlib $(NAME)
+
+$(OBJS): $(SRCS)
+	@gcc $(CFLAGS) $(SRCS)
+
 clean:
-	@make clean -C ./libft
-	@/bin/rm -f $(SURPL_O)
 	@/bin/rm -f $(OBJS)
 
 fclean: clean
-	@make fclean -C ./libft
 	@/bin/rm -f $(NAME)
 
 re: fclean all

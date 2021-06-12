@@ -18,21 +18,21 @@ void	solve_3(t_stack *head1)
 
 	s = head1->next;
 	if (s->next->next->num > s->num && s->num > s->next->num)
-		ft_printf("%s", ft_swap_a(head1));
+		ft_putstr_fd(ft_swap_a(head1), 1);
 	else if (s->num > s->next->num && s->next->num > s->next->next->num)
 	{
-		ft_printf("%s", ft_swap_a(head1));
-		ft_printf("%s", ft_reverse_rot_a(head1));
+		ft_putstr_fd(ft_swap_a(head1), 1);
+		ft_putstr_fd(ft_reverse_rot_a(head1), 1);
 	}
 	else if (s->num > s->next->next->num && s->next->next->num > s->next->num)
-		ft_printf("%s", ft_rotate_a(head1));
+		ft_putstr_fd(ft_rotate_a(head1), 1);
 	else if (s->next->num > s->next->next->num && s->next->next->num > s->num)
 	{
-		ft_printf("%s", ft_swap_a(head1));
-		ft_printf("%s", ft_rotate_a(head1));
+		ft_putstr_fd(ft_swap_a(head1), 1);
+		ft_putstr_fd(ft_rotate_a(head1), 1);
 	}
 	else if (s->next->num > s->num && s->num > s->next->next->num)
-		ft_printf("%s", ft_reverse_rot_a(head1));
+		ft_putstr_fd(ft_reverse_rot_a(head1), 1);
 }
 
 int	it_fits(t_stack *head1, t_stack *head2)
@@ -73,9 +73,9 @@ void	rot_revrot(t_stack *head)
 		i++;
 	}
 	if (i <= 2)
-		ft_printf("%s", ft_rotate_a(head));
+		ft_putstr_fd(ft_rotate_a(head), 1);
 	else if (i > 2)
-		ft_printf("%s", ft_reverse_rot_a(head));
+		ft_putstr_fd(ft_reverse_rot_a(head), 1);
 }
 
 void	solve_5(t_stack *head1, t_stack *head2)
@@ -83,16 +83,16 @@ void	solve_5(t_stack *head1, t_stack *head2)
 	int	rot_count;
 
 	rot_count = 0;
-	ft_printf("%s", ft_push_b(head1, head2));
-	ft_printf("%s", ft_push_b(head1, head2));
+	ft_putstr_fd(ft_push_b(head1, head2), 1);
+	ft_putstr_fd(ft_push_b(head1, head2), 1);
 	solve_3(head1);
 	while (stack_len(head2))
 	{
 		if (it_fits(head1, head2))
-			ft_printf("%s", ft_push_a(head1, head2));
+			ft_putstr_fd(ft_push_a(head1, head2), 1);
 		else
 		{
-			ft_printf("%s", ft_rotate_a(head1));
+			ft_putstr_fd(ft_rotate_a(head1), 1);
 			rot_count++;
 		}
 		if (ft_check_order(head1, head2))

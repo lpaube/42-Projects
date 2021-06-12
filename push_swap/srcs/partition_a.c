@@ -56,7 +56,7 @@ void	len_is_2(t_stack *head1)
 void	amt_is_2(t_stack *head1, t_part *tmp1)
 {
 	if (tmp1->amt == 2 && head1->next->num > head1->next->next->num)
-		ft_printf("%s", ft_swap_a(head1));
+		ft_putstr_fd(ft_swap_a(head1), 1);
 	tmp1->sorted = 1;
 }
 
@@ -81,7 +81,7 @@ void	part_control_a(t_stack *head1, t_stack *head2)
 		curr_part = sub_control_a(curr_part, head1, head2);
 		if (head1->next->num > head1->next->next->num)
 		{
-			ft_printf("%s", ft_swap_a(head1));
+			ft_putstr_fd(ft_swap_a(head1), 1);
 			return ;
 		}
 	}

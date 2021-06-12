@@ -81,8 +81,8 @@ void	rev_rotation(t_stack *head, int rot_count, int head_type)
 {
 	if (head_type == 1)
 		while (rot_count-- > 0)
-			ft_printf("%s", ft_reverse_rot_a(head));
+			ft_putstr_fd(ft_reverse_rot_a(head), 1);
 	else if (head_type == 2)
 		while (rot_count-- > 0)
-			ft_printf("%s", ft_reverse_rot_b(head));
+			ft_putstr_fd(ft_reverse_rot_b(head), 1);
 }

@@ -21,13 +21,13 @@ int	sub_a(t_stack *h1, t_stack *h2, t_part *curr_part, int *rot_count)
 		return (0);
 	if (h1->next->num < curr_part->midp)
 	{
-		ft_printf("%s", ft_push_b(h1, h2));
+		ft_putstr_fd(ft_push_b(h1, h2), 1);
 		counter++;
 		curr_part->amt--;
 	}
 	else
 	{
-		ft_printf("%s", ft_rotate_a(h1));
+		ft_putstr_fd(ft_rotate_a(h1), 1);
 		(*rot_count)++;
 	}
 	return (counter);
