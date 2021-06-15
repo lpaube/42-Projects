@@ -1,0 +1,7 @@
+-L
+/usr/local/lib/
+-lmlx
+-lX11
+-lm
+-lz
+-lXextr

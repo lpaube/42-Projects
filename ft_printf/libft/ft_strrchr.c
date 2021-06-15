@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 18:12:00 by laube             #+#    #+#             */
-/*   Updated: 2021/05/11 13:04:16 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/14 10:37:16 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	int		i;
 	char	*res;
 
 	res = 0;
-	i = 0;
 	while (*s)
 	{
 		if (*s == c)

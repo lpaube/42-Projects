@@ -6,10 +6,11 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 16:12:23 by laube             #+#    #+#             */
-/*   Updated: 2021/05/24 17:04:02 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/14 10:39:23 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "../include/ft_printf.h"
 
 void	ft_putnstr_fd(char *s, int fd, int len)
@@ -60,4 +61,13 @@ void	s_val_control(va_list *ap, struct s_fmt *flag)
 		ft_putnstr_fd(val, 1, flag->fmt_len);
 	}
 	(*flag->ret) += flag->fmt_len;
+}
+
+int	main(void)
+{
+	ft_printf("MINE: %010s\n", "test");
+	printf("REAL: %010s\n", "test");
+
+	ft_printf("MINE: %010c\n", 't');
+	printf("REAL: %010c\n", 't');
 }

@@ -6,50 +6,41 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/06/12 22:39:53 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/14 16:34:31 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
-#include <X11/Xlib.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <X11/extensions/XShm.h>
+#include <stdio.h>
+#include <stdlib.h>
 
+//#include <X11/Xlib.h>
+//#include <sys/ipc.h>
+//#include <sys/shm.h>
+//#include <X11/extensions/XShm.h>
 
 typedef struct	s_data
 {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
+	void	*mlx_ptr;
+	void	*win_ptr;
 }	t_data;
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+int	esc_hook(int keycode, t_data *data)
 {
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	if (keycode == 65307)
+	{
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		exit(0);
+	}
+	return (0);
 }
 
 int main(void)
 {
-	void	*mlx;
-	void	*mlx_win;
-	t_data	img;
-
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello!!!!");
-	img.img = mlx_new_image(mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
-	my_mlx_pixel_put(&img, 5, 6, 0x00FF0000);
-	my_mlx_pixel_put(&img, 5, 7, 0x00FF0000);
-	my_mlx_pixel_put(&img, 5, 8, 0x00FF0000);
-	my_mlx_pixel_put(&img, 5, 20, 0x00FF0000);
-	my_mlx_pixel_put(&img, 5, 22, 0x00FF0000);
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx);
+	t_data	data;
+	
+	data.mlx_ptr = mlx_init();
+	data.win_ptr = mlx_new_window(data.mlx_ptr, 1000, 800, "What a good window!");
+	mlx_key_hook(data.win_ptr, esc_hook, &data);
+	mlx_loop(data.mlx_ptr);
 }
