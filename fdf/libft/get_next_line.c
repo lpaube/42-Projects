@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 17:46:17 by laube             #+#    #+#             */
-/*   Updated: 2021/05/19 11:43:59 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/15 17:02:58 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_strdup(char *s1)
 	int		i;
 
 	i = 0;
-	res = ft_calloc((ft_strlen(s1) + 1), sizeof(char));
+	res = gnl_calloc((gnl_strlen(s1) + 1), sizeof(char));
 	if (!res)
 		return (NULL);
 	while (s1 && s1[i])
@@ -47,7 +47,7 @@ char	*get_line(char **holder, char **line, char c)
 	i = 0;
 	while ((*holder)[i] != c && (*holder)[i] && (*holder)[i] != 0)
 		i++;
-	*line = ft_calloc(i + 1, sizeof(char));
+	*line = gnl_calloc(i + 1, sizeof(char));
 	i = 0;
 	while ((*holder)[i] != c && (*holder)[i] && (*holder)[i] != 0)
 	{
@@ -59,14 +59,14 @@ char	*get_line(char **holder, char **line, char c)
 	{
 		res = ft_strdup(&((*holder)[i + 1]));
 	}
-	free_it(holder, 0);
+	gnl_free_it(holder, 0);
 	return (res);
 }
 
 int	do_holder(char *buff, char **holder, char **line)
 {
-	*holder = ft_strjoin(holder, buff);
-	if (ft_strchr(*holder, '\n'))
+	*holder = gnl_strjoin(holder, buff);
+	if (gnl_strchr(*holder, '\n'))
 	{
 		*holder = get_line(holder, line, '\n');
 		return (1);
@@ -83,19 +83,19 @@ int	get_next_line(int fd, char **line)
 	bytes = 1;
 	if (!line || fd < 0 || BUFFER_SIZE <= 0)
 		if (holder)
-			return (free_it(&holder, -1));
+			return (gnl_free_it(&holder, -1));
 	if (bytes && !holder)
-		holder = ft_calloc(1, 1);
+		holder = gnl_calloc(1, 1);
 	while (norm_killer(fd, buff, BUFFER_SIZE, &bytes) > 0)
 		if (do_holder(buff, &holder, line))
 			return (1);
 	if (bytes < 0)
-		return (free_it(&holder, bytes));
-	if (ft_strchr(holder, '\n'))
+		return (gnl_free_it(&holder, bytes));
+	if (gnl_strchr(holder, '\n'))
 	{
 		holder = get_line(&holder, line, '\n');
 		return (1);
 	}
 	holder = get_line(&holder, line, '\n');
-	return (free_it(&holder, 0));
+	return (gnl_free_it(&holder, 0));
 }

@@ -6,13 +6,13 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:32:53 by laube             #+#    #+#             */
-/*   Updated: 2021/05/19 11:58:36 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/15 17:04:12 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	free_it(char **str, int bytes)
+int	gnl_free_it(char **str, int bytes)
 {
 	if (*str != 0)
 	{
@@ -26,7 +26,7 @@ int	free_it(char **str, int bytes)
 	return (0);
 }
 
-int	ft_strlen(const char *s)
+int	gnl_strlen(const char *s)
 {
 	int	i;
 
@@ -40,7 +40,7 @@ int	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strjoin(char **s1, char *s2)
+char	*gnl_strjoin(char **s1, char *s2)
 {
 	int		len;
 	char	*str;
@@ -48,8 +48,8 @@ char	*ft_strjoin(char **s1, char *s2)
 	int		i;
 
 	i = 0;
-	len = ft_strlen(*s1) + ft_strlen(s2) + 1;
-	str = ft_calloc(len, sizeof(char));
+	len = gnl_strlen(*s1) + gnl_strlen(s2) + 1;
+	str = gnl_calloc(len, sizeof(char));
 	if (!str)
 		return (NULL);
 	str_og = str;
@@ -65,11 +65,11 @@ char	*ft_strjoin(char **s1, char *s2)
 		str_og++;
 	}
 	*str_og = '\0';
-	free_it(s1, 0);
+	gnl_free_it(s1, 0);
 	return (str);
 }
 
-void	*ft_calloc(int count, int size)
+void	*gnl_calloc(int count, int size)
 {
 	void		*pointing;
 	int			i;
@@ -88,7 +88,7 @@ void	*ft_calloc(int count, int size)
 	return (pointing);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*gnl_strchr(const char *s, int c)
 {
 	int	i;
 
