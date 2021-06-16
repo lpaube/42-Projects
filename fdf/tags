@@ -1,0 +1,100 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/Users/laube/Desktop/42_projects/fdf/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/1469a65f/
+$(NAME)	Makefile	/^$(NAME): $(OBJS)$/;"	t
+$(NAME)	libft/Makefile	/^$(NAME): $(OBJS)$/;"	t
+$(OBJS)	libft/Makefile	/^$(OBJS): $(SRCS)$/;"	t
+CFLAGS	libft/Makefile	/^CFLAGS =	-Wall -Werror -Wextra -I. -c$/;"	m
+FDF_H	includes/fdf.h	/^# define FDF_H$/;"	d
+GET_NEXT_LINE_H	libft/get_next_line.h	/^# define GET_NEXT_LINE_H$/;"	d
+INC_DIR	Makefile	/^INC_DIR =	includes\/$/;"	m
+LIBFT	Makefile	/^LIBFT =		libft\/$/;"	m
+LIBFT_H	libft/libft.h	/^# define LIBFT_H$/;"	d
+NAME	Makefile	/^NAME =		fdf$/;"	m
+NAME	libft/Makefile	/^NAME =		libft.a$/;"	m
+OBJS	Makefile	/^OBJS =		$(SRCS:.c=.o)$/;"	m
+OBJS	libft/Makefile	/^OBJS = 		$(SRCS:.c=.o)$/;"	m
+OBJ_DIR	Makefile	/^OBJ_DIR =	obj\/$/;"	m
+SRCS	Makefile	/^SRCS =		fdf.c \\$/;"	m
+SRCS	libft/Makefile	/^SRCS =		ft_atoi.c \\$/;"	m
+SRC_DIR	Makefile	/^SRC_DIR =	srcs\/$/;"	m
+all	libft/Makefile	/^all: $(NAME)$/;"	t
+clean	libft/Makefile	/^clean:$/;"	t
+do_holder	libft/get_next_line.c	/^int	do_holder(char *buff, char **holder, char **line)$/;"	f	typeref:typename:int
+esc_hook	srcs/fdf.c	/^int	esc_hook(int keycode, t_fdf *fdf)$/;"	f	typeref:typename:int
+fclean	libft/Makefile	/^fclean: clean$/;"	t
+fdf_init	srcs/fdf.c	/^t_fdf	fdf_init(void)$/;"	f	typeref:typename:t_fdf
+ft_atoi	libft/ft_atoi.c	/^int	ft_atoi(const char *str)$/;"	f	typeref:typename:int
+ft_bzero	libft/ft_bzero.c	/^void	ft_bzero(void *s, size_t n)$/;"	f	typeref:typename:void
+ft_calloc	libft/ft_calloc.c	/^void	*ft_calloc(size_t count, size_t size)$/;"	f	typeref:typename:void *
+ft_checkneg	libft/ft_itoa.c	/^static void	ft_checkneg(int *n, int *intlen, char *str, int *i)$/;"	f	typeref:typename:void	file:
+ft_expo	libft/ft_itoa.c	/^static int	ft_expo(int base, int expo)$/;"	f	typeref:typename:int	file:
+ft_expo	libft/ft_utoa.c	/^static unsigned int	ft_expo(unsigned int base, unsigned int expo)$/;"	f	typeref:typename:unsigned int	file:
+ft_intlen	libft/ft_itoa.c	/^static int	ft_intlen(int n)$/;"	f	typeref:typename:int	file:
+ft_intlen	libft/ft_utoa.c	/^static unsigned int	ft_intlen(unsigned int n)$/;"	f	typeref:typename:unsigned int	file:
+ft_isalnum	libft/ft_isalnum.c	/^int	ft_isalnum(int c)$/;"	f	typeref:typename:int
+ft_isalpha	libft/ft_isalpha.c	/^int	ft_isalpha(int c)$/;"	f	typeref:typename:int
+ft_isascii	libft/ft_isascii.c	/^int	ft_isascii(int c)$/;"	f	typeref:typename:int
+ft_isdigit	libft/ft_isdigit.c	/^int	ft_isdigit(int c)$/;"	f	typeref:typename:int
+ft_isprint	libft/ft_isprint.c	/^int	ft_isprint(int c)$/;"	f	typeref:typename:int
+ft_itoa	libft/ft_itoa.c	/^char	*ft_itoa(int n)$/;"	f	typeref:typename:char *
+ft_memccpy	libft/ft_memccpy.c	/^void	*ft_memccpy(void *dst, const void *src, int c, size_t n)$/;"	f	typeref:typename:void *
+ft_memchr	libft/ft_memchr.c	/^void	*ft_memchr(const void *s, int c, size_t n)$/;"	f	typeref:typename:void *
+ft_memcmp	libft/ft_memcmp.c	/^int	ft_memcmp(const void *s1, const void *s2, size_t n)$/;"	f	typeref:typename:int
+ft_memcpy	libft/ft_memcpy.c	/^void	*ft_memcpy(void *dst, const void *src, size_t n)$/;"	f	typeref:typename:void *
+ft_memmove	libft/ft_memmove.c	/^void	*ft_memmove(void *dst, const void *src, size_t len)$/;"	f	typeref:typename:void *
+ft_memset	libft/ft_memset.c	/^void	*ft_memset(void *b, int c, size_t len)$/;"	f	typeref:typename:void *
+ft_putchar_fd	libft/ft_putchar_fd.c	/^void	ft_putchar_fd(char c, int fd)$/;"	f	typeref:typename:void
+ft_putendl_fd	libft/ft_putendl_fd.c	/^void	ft_putendl_fd(char const *s, int fd)$/;"	f	typeref:typename:void
+ft_putnbr_fd	libft/ft_putnbr_fd.c	/^void	ft_putnbr_fd(int n, int fd)$/;"	f	typeref:typename:void
+ft_putstr_fd	libft/ft_putstr_fd.c	/^void	ft_putstr_fd(char const *s, int fd)$/;"	f	typeref:typename:void
+ft_split	libft/ft_split.c	/^char	**ft_split(char const *s, char c)$/;"	f	typeref:typename:char **
+ft_strchr	libft/ft_strchr.c	/^char	*ft_strchr(const char *s, int c)$/;"	f	typeref:typename:char *
+ft_strdup	libft/ft_strdup.c	/^char	*ft_strdup(const char *s1)$/;"	f	typeref:typename:char *
+ft_strdup	libft/get_next_line.c	/^char	*ft_strdup(char *s1)$/;"	f	typeref:typename:char *
+ft_strjoin	libft/ft_strjoin.c	/^char	*ft_strjoin(char const *s1, char const *s2)$/;"	f	typeref:typename:char *
+ft_strlcat	libft/ft_strlcat.c	/^size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)$/;"	f	typeref:typename:size_t
+ft_strlcpy	libft/ft_strlcpy.c	/^size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)$/;"	f	typeref:typename:size_t
+ft_strlen	libft/ft_strlen.c	/^int	ft_strlen(const char *s)$/;"	f	typeref:typename:int
+ft_strmapi	libft/ft_strmapi.c	/^char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))$/;"	f	typeref:typename:char *
+ft_strncmp	libft/ft_strncmp.c	/^int	ft_strncmp(const char *s1, const char *s2, size_t n)$/;"	f	typeref:typename:int
+ft_strnstr	libft/ft_strnstr.c	/^char	*ft_strnstr(const char *haystack, const char *needle, size_t len)$/;"	f	typeref:typename:char *
+ft_strrchr	libft/ft_strrchr.c	/^char	*ft_strrchr(const char *s, int c)$/;"	f	typeref:typename:char *
+ft_strtrim	libft/ft_strtrim.c	/^char	*ft_strtrim(char const *s1, char const *set)$/;"	f	typeref:typename:char *
+ft_substr	libft/ft_substr.c	/^char	*ft_substr(char const *s, unsigned int start, size_t len)$/;"	f	typeref:typename:char *
+ft_swap	libft/ft_swap.c	/^void	ft_swap(int *a, int *b)$/;"	f	typeref:typename:void
+ft_tolower	libft/ft_tolower.c	/^int	ft_tolower(int c)$/;"	f	typeref:typename:int
+ft_toupper	libft/ft_toupper.c	/^int	ft_toupper(int c)$/;"	f	typeref:typename:int
+ft_utoa	libft/ft_utoa.c	/^char	*ft_utoa(unsigned int n)$/;"	f	typeref:typename:char *
+get_line	libft/get_next_line.c	/^char	*get_line(char **holder, char **line, char c)$/;"	f	typeref:typename:char *
+get_next_line	libft/get_next_line.c	/^int	get_next_line(int fd, char **line)$/;"	f	typeref:typename:int
+gnl_calloc	libft/get_next_line_utils.c	/^void	*gnl_calloc(int count, int size)$/;"	f	typeref:typename:void *
+gnl_free_it	libft/get_next_line_utils.c	/^int	gnl_free_it(char **str, int bytes)$/;"	f	typeref:typename:int
+gnl_strchr	libft/get_next_line_utils.c	/^char	*gnl_strchr(const char *s, int c)$/;"	f	typeref:typename:char *
+gnl_strjoin	libft/get_next_line_utils.c	/^char	*gnl_strjoin(char **s1, char *s2)$/;"	f	typeref:typename:char *
+gnl_strlen	libft/get_next_line_utils.c	/^int	gnl_strlen(const char *s)$/;"	f	typeref:typename:int
+height	includes/fdf.h	/^	int	height;$/;"	m	struct:s_map	typeref:typename:int
+is_member	libft/ft_strtrim.c	/^static int	is_member(char c, char const *set)$/;"	f	typeref:typename:int	file:
+main	srcs/fdf.c	/^int main(void)$/;"	f	typeref:typename:int
+map_init	srcs/fdf.c	/^t_map	map_init(void)$/;"	f	typeref:typename:t_map
+max_len	libft/ft_strtrim.c	/^static int	max_len(char const *s1, char const *set)$/;"	f	typeref:typename:int	file:
+mlx_ptr	includes/fdf.h	/^	void	*mlx_ptr;$/;"	m	struct:s_fdf	typeref:typename:void *
+norm_killer	libft/get_next_line.c	/^int	norm_killer(int fd, char *buff, int buff_size, int *bytes)$/;"	f	typeref:typename:int
+re	libft/Makefile	/^re: fclean all$/;"	t
+s_fdf	includes/fdf.h	/^typedef struct	s_fdf$/;"	s
+s_map	includes/fdf.h	/^typedef struct	s_map$/;"	s
+split_it	libft/ft_split.c	/^static void	split_it(char **table, char const *s, char c)$/;"	f	typeref:typename:void	file:
+str_alloc	libft/ft_split.c	/^static void	str_alloc(char **table, char const *s, char c)$/;"	f	typeref:typename:void	file:
+t_fdf	includes/fdf.h	/^}	t_fdf;$/;"	t	typeref:struct:s_fdf
+t_map	includes/fdf.h	/^}	t_map;$/;"	t	typeref:struct:s_map
+table_size	libft/ft_split.c	/^static int	table_size(char const *s, char c)$/;"	f	typeref:typename:int	file:
+width	includes/fdf.h	/^	int	width;$/;"	m	struct:s_map	typeref:typename:int
+win_ptr	includes/fdf.h	/^	void	*win_ptr;$/;"	m	struct:s_fdf	typeref:typename:void *

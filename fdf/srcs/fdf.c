@@ -6,11 +6,11 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/06/15 22:55:45 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/16 19:14:18 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
+#include "../mlx_mac/mlx.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "../includes/fdf.h"
@@ -31,20 +31,23 @@ int	esc_hook(int keycode, t_fdf *fdf)
 }
 
 
-t_fdf	fdf_init(void)
+t_fdf	*fdf_init(void)
 {
 	t_fdf	*fdf;
 
-	fdf->mlx_ptr = mlx.init();
-	fdf->win_ptr = mlx_new_window(mlx_ptr, 1000, 800, "Cool window!");
+	fdf->mlx_ptr = mlx_init();
+	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 1000, 800, "Cool window!");
+	return (fdf);
 }
 
-t_map	map_init(void)
+t_map	*map_init(void)
 {
 	t_map	*map;
 
+	map = malloc(sizeof(t_map));
 	map->width = 0;
 	map->height = 0;
+	return (map);
 }
 
 int main(void)
