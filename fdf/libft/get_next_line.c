@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 17:46:17 by laube             #+#    #+#             */
-/*   Updated: 2021/06/19 13:46:34 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/20 14:12:21 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	do_holder(char *buff, char **holder, char **line)
 	return (0);
 }
 
+// Returns 1 if not EOF; 0 if EOF; -1 if error
 int	get_next_line(int fd, char **line)
 {
 	char		buff[BUFFER_SIZE + 1];

@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/06/19 23:56:55 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/20 16:33:47 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,33 @@
 # define FDF_H
 
 # include "../libft/libft.h"
+# include "./error_message.h"
 # include "../libft/get_next_line.h"
+# include "../mlx_mac/mlx.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <math.h>
+# include <errno.h>
 
 # define HEIGHT	800
 # define WIDTH	1200
+
+typedef struct	s_point
+{
+	int	x;
+	int	y;
+	int	z;
+	int	color;
+	int	row;
+	int	col;
+}	t_point;
 
 typedef struct	s_map
 {
 	int	width;
 	int	height;
+	int	point_amt;
+	t_point	*point;
 }	t_map;
 
 typedef struct	s_fdf
@@ -37,15 +55,6 @@ typedef struct	s_fdf
 	t_map	*map;
 }	t_fdf;
 
-typedef struct	s_point
-{
-	int	x;
-	int	y;
-	int	z;
-	int	color;
-	int	row;
-	int	col;
-}	t_point;
 
 typedef struct	s_dda
 {
@@ -57,5 +66,7 @@ typedef struct	s_dda
 	int		sign_x;
 	int		sign_y;
 }	t_dda;
+
+t_point get_point(int z, int col, int row);
 
 #endif
