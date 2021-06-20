@@ -11,7 +11,7 @@ LIBFT =		libft/
 
 
 linux: 
-	gcc -g srcs/fdf.c -Imlx_linux -Lmlx_linux -Llibft -lft -lmlx -lX11 -lm -lz -lXext
+	gcc -g srcs/*.c -Imlx_linux -Lmlx_linux -Llibft -lft -lmlx -lX11 -lm -lz -lXext
 
 mac:
-	gcc -g srcs/fdf.c -Imlx_mac -Lmlx_mac -lmlx -framework OpenGL -framework AppKit
+	gcc -g srcs/*.c -Imlx_mac -Lmlx_mac -lmlx -framework OpenGL -framework AppKit

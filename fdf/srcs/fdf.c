@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/06/20 16:32:58 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/20 19:46:46 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,75 +42,6 @@ void	terminate(char *s)
 		perror(s);
 }
 
-void	get_map_dim(char **av, t_map *map)
-{
-	int		fd;
-	char	*line;
-	char	**table;
-	int		gnl_ret;
-
-	gnl_ret = 1;
-	map->width = 0;
-	map->height = 0;
-	fd = open(av[1], O_RDONLY);
-	while (gnl_ret > 0)
-	{
-		gnl_ret = get_next_line(fd, &line);
-		if (map->height == 0)
-		{
-			table = ft_split(line, ' ');
-			while (*table)
-			{
-				map->width++;
-				table++;
-			}
-		}
-		map->height++;
-	}
-	close(fd);
-}
-
-void	map_init(t_map *map, char **av)
-{
-	int		fd;
-	int		gnl_ret;
-	char	*line;
-	char	**row;
-	int		i;
-	int		curr_row;
-	int		curr_col;
-
-	i = 0;
-	map = malloc(sizeof(t_map));
-	get_map_dim(av, map);
-	gnl_ret = 1;
-	fd = open(av[1], O_RDONLY);
-	
-	// Puts map into dots
-	curr_row = 1;
-	map->point_amt = map->width * map->height;
-	map->point = malloc(sizeof(t_point) * map->point_amt);
-	fd = open(av[1], O_RDONLY);
-	if (fd == -1)
-		terminate(ERR_MAP_OPEN);
-	while (gnl_ret)
-	{
-		curr_col = 1;
-		gnl_ret = get_next_line(fd, &line);
-		if (gnl_ret < 0)
-			terminate(ERR_MAP_READ);
-		row = ft_split(line, ' ');
-		while (*row)
-		{
-			map->point[i] = get_point(ft_atoi(*row), curr_col, curr_row);
-			curr_col++;
-			row++;
-		}
-		curr_row++;
-	}
-	close(fd);
-}
-
 void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 {
 	int	pxl_pos;
@@ -133,22 +64,22 @@ void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 	}
 }
 
-int	get_pxl_pos(t_fdf *fdf, int x, int y)
+void	coord_to_point(t_point *point)
 {
-	int	pxl_pos;
-
-	pxl_pos = (y * fdf->line_length) + (x * (fdf->bits_per_pixel / 8));
-	return (pxl_pos);
+	printf("z: %d | row: %d | col: %d\n", point->z, point->row, point->col);
 }
 
-t_point get_point(int z, int col, int row)
+// Sets all the properties of the t_points in the points array made by map_init
+t_point set_point(t_map *map, int z, int col, int row)
 {
+	int		i;
 	t_point	point;
 
-	printf("z: %d | col: %d | row: %d\n", z, col, row);
+	i = 0;
+	point.col = col;
+	point.row = row;
 	point.z = z;
-
-	return (point);
+	coord_to_point(&point);
 }
 
 // Drawing a line using the algo Digital Differential Analyzer

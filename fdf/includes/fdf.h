@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/06/20 16:33:47 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/20 19:43:37 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct	s_map
 	int	width;
 	int	height;
 	int	point_amt;
+	int	line_len;
+	int	margin;
 	t_point	*point;
 }	t_map;
 
@@ -67,6 +69,8 @@ typedef struct	s_dda
 	int		sign_y;
 }	t_dda;
 
-t_point get_point(int z, int col, int row);
+t_point set_point(t_map *map, int z, int col, int row);
+void	map_init(t_map *map, char **av);
+void	terminate(char *s);
 
 #endif
