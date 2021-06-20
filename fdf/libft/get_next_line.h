@@ -6,12 +6,13 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 17:50:55 by laube             #+#    #+#             */
-/*   Updated: 2021/06/15 17:01:28 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/19 13:45:18 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+# define BUFFER_SIZE 42
 
 # include <unistd.h>
 # include <stdlib.h>

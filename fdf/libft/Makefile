@@ -40,6 +40,9 @@ SRCS =		ft_atoi.c \
 			ft_swap.c \
 			get_next_line.c \
 			get_next_line_utils.c \
+			ft_abs.c \
+			ft_dmax.c \
+			ft_dmin.c \
 
 OBJS = 		$(SRCS:.c=.o)
 

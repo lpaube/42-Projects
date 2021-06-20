@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 14:18:43 by laube             #+#    #+#             */
-/*   Updated: 2021/06/09 13:47:50 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/19 15:07:52 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,8 @@ int		ft_tolower(int c);
 int		ft_toupper(int c);
 char	*ft_utoa(unsigned int n);
 void	ft_swap(int *a, int *b);
+double	ft_abs(int x);
+double	ft_dmax(double a, double b);
+double	ft_dmin(double a, double b);
 
 #endif

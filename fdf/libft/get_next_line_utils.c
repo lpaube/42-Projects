@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:32:53 by laube             #+#    #+#             */
-/*   Updated: 2021/06/15 17:04:12 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/19 13:46:52 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,6 @@ void	*gnl_calloc(int count, int size)
 
 char	*gnl_strchr(const char *s, int c)
 {
-	int	i;
-
-	i = 0;
 	while (*s)
 	{
 		if (*s == c)

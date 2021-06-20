@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/06/18 21:04:05 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/19 23:56:55 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 # include "../libft/libft.h"
 # include "../libft/get_next_line.h"
 
-# define HEIGHT	1080
-# define WIDTH	1920
-# define ABS(a)	(a) < 0 ? -(a) : (a)
+# define HEIGHT	800
+# define WIDTH	1200
 
 typedef struct	s_map
 {
@@ -44,6 +43,19 @@ typedef struct	s_point
 	int	y;
 	int	z;
 	int	color;
+	int	row;
+	int	col;
 }	t_point;
+
+typedef struct	s_dda
+{
+	double	delta_x;
+	double	delta_y;
+	double	steps;
+	double	inc_x;
+	double	inc_y;
+	int		sign_x;
+	int		sign_y;
+}	t_dda;
 
 #endif

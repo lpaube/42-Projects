@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 17:46:17 by laube             #+#    #+#             */
-/*   Updated: 2021/06/15 17:02:58 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/19 13:46:34 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char	*get_line(char **holder, char **line, char c)
 {
 	int		i;
 	char	*res;
-	int		state;
 
 	res = 0;
 	i = 0;
@@ -53,7 +52,6 @@ char	*get_line(char **holder, char **line, char c)
 	{
 		(*line)[i] = (*holder)[i];
 		i++;
-		state = 1;
 	}
 	if ((*holder)[i + 1] != 0)
 	{
