@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/06/20 19:43:14 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/21 22:50:28 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	get_line_len(t_map *map)
 	len_x = (WIDTH - map->margin) / (map->width - 1);
 	len_y = (HEIGHT - map->margin) / (map->height - 1);
 	if (len_x < len_y)
-		line_len = len_x;
+		map->line_len = len_x;
 	else
-		line_len = len_y;
+		map->line_len = len_y;
 }
 
 // Makes array of points with correct number relative to num of points on map
@@ -65,10 +65,10 @@ void	map_to_point(t_map *map, int fd, int i)
 	char	*line;
 
 	gnl_ret = 1;
-	curr_row = 1;
+	curr_row = 0;
 	while (gnl_ret)
 	{
-		curr_col = 1;
+		curr_col = 0;
 		gnl_ret = get_next_line(fd, &line);
 		if (gnl_ret < 0)
 			terminate(ERR_MAP_READ);
@@ -83,21 +83,23 @@ void	map_to_point(t_map *map, int fd, int i)
 	}
 }
 
-void	map_init(t_map *map, char **av)
+t_map	*map_init(char **av)
 {
 	int		fd;
 	int		i;
 	int		curr_row;
 	int		curr_col;
+	t_map	*map;
 
-	i = 0;
 	map = malloc(sizeof(t_map));
+	i = 0;
 	get_map_dim(av, map);
 	get_line_len(map);
 	fd = open(av[1], O_RDONLY);
 	
 	// Mallocs memory for array of points
 	map->point_amt = map->width * map->height;
+	printf("point_amt from map_init: %d\n", map->point_amt);
 	map->point = malloc(sizeof(t_point) * map->point_amt);
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
@@ -105,5 +107,6 @@ void	map_init(t_map *map, char **av)
 	// Puts map into dots (without x and y coords)
 	map_to_point(map, fd, i);
 	close(fd);
-
+	printf("point_amt from map_init2: %d\n", map->point_amt);
+	return (map);
 }

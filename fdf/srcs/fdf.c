@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/06/20 19:46:46 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/21 23:00:30 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,21 @@ int	esc_hook(int keycode, t_fdf *fdf)
 	return (0);
 }
 
-void	fdf_init(t_fdf *fdf, t_map *map)
+t_fdf	*fdf_init(t_map *map)
 {
-	fdf = malloc(sizeof(t_fdf));
-	fdf->mlx_ptr = mlx_init();
-	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, WIDTH, HEIGHT, "Cool window!");
-	fdf->img_ptr = mlx_new_image(fdf->mlx_ptr, WIDTH, HEIGHT);
+	t_fdf	*fdf;
+
+	if (!(fdf = malloc(sizeof(t_fdf))))
+		printf("EMPTY 1\n");
+	if (!(fdf->mlx_ptr = mlx_init()))
+		printf("EMPTY 2\n");
+	if (!(fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, WIDTH, HEIGHT, "Cool window!")))
+		printf("EMPTY 3\n");
+	if (!(fdf->img_ptr = mlx_new_image(fdf->mlx_ptr, WIDTH, HEIGHT)))
+		printf("EMPTY 4\n");
+	fdf->addr = mlx_get_data_addr(fdf->img_ptr, &(fdf->bits_per_pixel), &(fdf->line_length), &(fdf->endian));
 	fdf->map = map;
+	return (fdf);
 }
 
 void	terminate(char *s)
@@ -64,24 +72,6 @@ void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 	}
 }
 
-void	coord_to_point(t_point *point)
-{
-	printf("z: %d | row: %d | col: %d\n", point->z, point->row, point->col);
-}
-
-// Sets all the properties of the t_points in the points array made by map_init
-t_point set_point(t_map *map, int z, int col, int row)
-{
-	int		i;
-	t_point	point;
-
-	i = 0;
-	point.col = col;
-	point.row = row;
-	point.z = z;
-	coord_to_point(&point);
-}
-
 // Drawing a line using the algo Digital Differential Analyzer
 t_dda	get_dda(t_point p1, t_point p2)
 {
@@ -115,6 +105,7 @@ int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)
 	dda = get_dda(p1, p2);
 	point_x = p1.x;
 	point_y = p1.y;
+	//printf("p1.row: %d | p2.row: %d | p1.col: %d | p2.col: %d\n", p1.row, p2.row, p1.col, p2.col);
 	while (dda.steps >= 0)
 	{
 		ft_put_pixel(fdf, round(point_x), round(point_y), p2.color);
@@ -125,12 +116,29 @@ int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)
 	return (0);
 }
 
-// Control function for drawing to an image
-void	draw_control(t_fdf *fdf)
+void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i)
 {
-	fdf->addr = mlx_get_data_addr(fdf->img_ptr, &fdf->bits_per_pixel, &fdf->line_length, &fdf->endian);
+	if (point[i].row < map->height - 1)
+		draw_line_dda(fdf, point[i], point[i + map->width]);
+	if (point[i].col < map->width - 1)
+		draw_line_dda(fdf, point[i], point[i + map->height]);
+	printf("p1.row: %d | p1.col: %d\n", point[i].row, point[i].col);
+}
+
+// Control function for drawing to an image
+void	draw_control(t_map *map, t_fdf *fdf)
+{
+	int	i;
+
+	i = 0;
+	while (i < map->point_amt)
+	{
+		printf("i: %d\n", i);
+		draw_point(fdf, map, map->point, i);
+		i++;
+	}
 	//draw_line_dda(fdf, fdf->map->point[0], fdf->map->point[1]);
-	//mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
+	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 }
 
 int main(int ac, char **av)
@@ -138,9 +146,9 @@ int main(int ac, char **av)
 	t_fdf	*fdf;
 	t_map	*map;
 
-	map_init(map, av);
-	fdf_init(fdf, map);
-	//draw_control(fdf);
-	//mlx_key_hook(fdf->win_ptr, esc_hook, fdf);
-	//mlx_loop(fdf->mlx_ptr);
+	map = map_init(av);
+	fdf = fdf_init(map);
+	draw_control(map, fdf);
+	mlx_key_hook(fdf->win_ptr, esc_hook, fdf);
+	mlx_loop(fdf->mlx_ptr);
 }
