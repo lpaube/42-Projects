@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/06/21 22:50:28 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/22 13:31:29 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	get_map_dim(char **av, t_map *map)
 				table++;
 			}
 		}
-		map->height++;
+		if (gnl_ret > 0)
+			map->height++;
 	}
 	close(fd);
 }
@@ -47,8 +48,8 @@ void	get_line_len(t_map *map)
 	int	line_len;
 
 	map->margin = 10;
-	len_x = (WIDTH - map->margin) / (map->width - 1);
-	len_y = (HEIGHT - map->margin) / (map->height - 1);
+	len_x = (WIDTH - map->margin * 2) / (map->width - 1);
+	len_y = (HEIGHT - map->margin * 2) / (map->height - 1);
 	if (len_x < len_y)
 		map->line_len = len_x;
 	else
@@ -78,6 +79,7 @@ void	map_to_point(t_map *map, int fd, int i)
 			map->point[i] = set_point(map, ft_atoi(*row), curr_col, curr_row);
 			curr_col++;
 			row++;
+			i++;
 		}
 		curr_row++;
 	}
@@ -99,14 +101,12 @@ t_map	*map_init(char **av)
 	
 	// Mallocs memory for array of points
 	map->point_amt = map->width * map->height;
-	printf("point_amt from map_init: %d\n", map->point_amt);
 	map->point = malloc(sizeof(t_point) * map->point_amt);
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 		terminate(ERR_MAP_OPEN);
-	// Puts map into dots (without x and y coords)
+	// Puts map into dots
 	map_to_point(map, fd, i);
 	close(fd);
-	printf("point_amt from map_init2: %d\n", map->point_amt);
 	return (map);
 }

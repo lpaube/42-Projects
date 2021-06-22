@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/06/21 23:00:30 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/22 16:18:52 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,17 @@ t_dda	get_dda(t_point p1, t_point p2)
 	return (dda);
 }
 
+void iso(int *x, int *y, int z)
+{
+	int	previous_x;
+	int	previous_y;
+
+	previous_x = *x;
+	previous_y = *y;
+	*x = (previous_x - previous_y) * cos(0.523599);
+	*y = -z + (previous_x - previous_y) * sin(0.523599);
+}
+
 int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)
 {
 	t_dda	dda;
@@ -105,7 +116,6 @@ int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)
 	dda = get_dda(p1, p2);
 	point_x = p1.x;
 	point_y = p1.y;
-	//printf("p1.row: %d | p2.row: %d | p1.col: %d | p2.col: %d\n", p1.row, p2.row, p1.col, p2.col);
 	while (dda.steps >= 0)
 	{
 		ft_put_pixel(fdf, round(point_x), round(point_y), p2.color);
@@ -118,11 +128,20 @@ int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)
 
 void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i)
 {
-	if (point[i].row < map->height - 1)
-		draw_line_dda(fdf, point[i], point[i + map->width]);
-	if (point[i].col < map->width - 1)
-		draw_line_dda(fdf, point[i], point[i + map->height]);
-	printf("p1.row: %d | p1.col: %d\n", point[i].row, point[i].col);
+	if (i < map->width * 2) //map->point_amt)
+	{
+		printf("PRE: i: %d | p.x: %d | p.y: %d\n", i, point[i].x, point[i].y);
+		//iso(&(point[i].x), &(point[i].y), point[i].z);
+		printf("POST: i: %d | p.x: %d | p.y: %d\n", i, point[i].x, point[i].y);
+		if (point[i].row < map->height - 1)
+		{
+			draw_line_dda(fdf, point[i], point[i + map->width]);
+		}
+		if (point[i].col < map->width - 1)
+		{
+			draw_line_dda(fdf, point[i], point[i + 1]);
+		}
+	}
 }
 
 // Control function for drawing to an image
@@ -133,7 +152,6 @@ void	draw_control(t_map *map, t_fdf *fdf)
 	i = 0;
 	while (i < map->point_amt)
 	{
-		printf("i: %d\n", i);
 		draw_point(fdf, map, map->point, i);
 		i++;
 	}
