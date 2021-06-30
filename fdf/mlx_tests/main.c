@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <math.h>
 
-double	angle = 0.5;
+double	angle = 1.57;
 
 double		projection[3][3] = {
 	{1, 0, 0},
@@ -64,6 +64,8 @@ void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 
 	pxl_pos = (y * fdf->size_line) + (x * (fdf->bits_per_pixel / 8));
 
+	if (x < 0 || y < 0 || x > 800 || y > 800)
+		return ;
 	if (fdf->endian == 1)
 	{
 		fdf->addr[pxl_pos + 0] = (color >> 24);
@@ -85,13 +87,17 @@ void	matmult(t_point *point, double matrix[3][3])
 	int	old_x;
 	int	old_y;
 	int	old_z;
+	int mid = 400;
 
-	old_x = point->x;
-	old_y = point->y;
+	old_x = point->x - mid;
+	old_y = point->y - mid;
+	printf("old_y pre: %d\n", old_y);
 	old_z = point->z;
-	point->x = old_x * matrix[0][0] + old_y * matrix[1][0] + old_z * matrix[2][0];
-	point->y = old_x * matrix[0][1] + old_y * matrix[1][1] + old_z * matrix[2][1];
-	point->z = old_x * matrix[0][2] + old_y * matrix[1][2] + old_z * matrix[2][2];
+	point->x = old_x * matrix[0][0] + old_y * matrix[1][0] + old_z * matrix[2][0] + mid;
+	point->y = old_x * matrix[0][1] + old_y * matrix[1][1] + old_z * matrix[2][1] + mid;
+	printf("point->y post: %d\n", point->y);
+	//this is off :(
+	point->z = old_x * matrix[0][2] + old_y * matrix[1][2] + old_z * matrix[2][2] + mid;
 }
 
 void	ft_rotate_x(t_point *point)
@@ -121,6 +127,8 @@ int	rotating(int keycode, t_fdf *fdf)
 		ft_rotate_x(&(fdf->points[i]));
 		printf("i: %d | x: %d | y: %d\n", i, (fdf->points[i]).x, (fdf->points[i]).y);
 	}
+	draw_control(fdf);
+	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 	return (0);
 }
 
