@@ -6,7 +6,7 @@
 /*   By: vbrazhni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/06 15:27:28 by vbrazhni          #+#    #+#             */
-/*   Updated: 2018/08/06 15:27:30 by vbrazhni         ###   ########.fr       */
+/*   Updated: 2021/06/24 11:41:37 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,9 @@ void		draw(t_map *map, t_fdf *fdf)
 		while (x < map->width)
 		{
 			if (x != fdf->map->width - 1)
-				draw_line(project(new_point(x, y, map), fdf),
-					project(new_point(x + 1, y, map), fdf), fdf);
+				draw_line(project(new_point(x, y, map), fdf), project(new_point(x + 1, y, map), fdf), fdf);
 			if (y != fdf->map->height - 1)
-				draw_line(project(new_point(x, y, map), fdf),
-					project(new_point(x, y + 1, map), fdf), fdf);
+				draw_line(project(new_point(x, y, map), fdf), project(new_point(x, y + 1, map), fdf), fdf);
 			x++;
 		}
 		y++;

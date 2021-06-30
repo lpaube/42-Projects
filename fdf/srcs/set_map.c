@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/06/22 13:31:29 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/24 12:02:25 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,34 +56,6 @@ void	get_line_len(t_map *map)
 		map->line_len = len_y;
 }
 
-// Makes array of points with correct number relative to num of points on map
-void	map_to_point(t_map *map, int fd, int i)
-{
-	int		gnl_ret;
-	int		curr_col;
-	int		curr_row;
-	char	**row;
-	char	*line;
-
-	gnl_ret = 1;
-	curr_row = 0;
-	while (gnl_ret)
-	{
-		curr_col = 0;
-		gnl_ret = get_next_line(fd, &line);
-		if (gnl_ret < 0)
-			terminate(ERR_MAP_READ);
-		row = ft_split(line, ' ');
-		while (*row)
-		{
-			map->point[i] = set_point(map, ft_atoi(*row), curr_col, curr_row);
-			curr_col++;
-			row++;
-			i++;
-		}
-		curr_row++;
-	}
-}
 
 t_map	*map_init(char **av)
 {

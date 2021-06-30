@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/06/22 16:18:52 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/24 12:45:27 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,6 @@ t_dda	get_dda(t_point p1, t_point p2)
 	return (dda);
 }
 
-void iso(int *x, int *y, int z)
-{
-	int	previous_x;
-	int	previous_y;
-
-	previous_x = *x;
-	previous_y = *y;
-	*x = (previous_x - previous_y) * cos(0.523599);
-	*y = -z + (previous_x - previous_y) * sin(0.523599);
-}
-
 int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)
 {
 	t_dda	dda;
@@ -128,11 +117,8 @@ int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)
 
 void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i)
 {
-	if (i < map->width * 2) //map->point_amt)
+	if (i < map->point_amt)
 	{
-		printf("PRE: i: %d | p.x: %d | p.y: %d\n", i, point[i].x, point[i].y);
-		//iso(&(point[i].x), &(point[i].y), point[i].z);
-		printf("POST: i: %d | p.x: %d | p.y: %d\n", i, point[i].x, point[i].y);
 		if (point[i].row < map->height - 1)
 		{
 			draw_line_dda(fdf, point[i], point[i + map->width]);
@@ -152,6 +138,7 @@ void	draw_control(t_map *map, t_fdf *fdf)
 	i = 0;
 	while (i < map->point_amt)
 	{
+		printf("DRAWING: p.x: %d | p.y: %d\n", fdf->map->point[i].x, fdf->map->point[i].y);
 		draw_point(fdf, map, map->point, i);
 		i++;
 	}
@@ -166,6 +153,8 @@ int main(int ac, char **av)
 
 	map = map_init(av);
 	fdf = fdf_init(map);
+	fdf->camera = camera_init(fdf);
+	adjust_points(fdf);
 	draw_control(map, fdf);
 	mlx_key_hook(fdf->win_ptr, esc_hook, fdf);
 	mlx_loop(fdf->mlx_ptr);
