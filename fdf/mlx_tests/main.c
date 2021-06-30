@@ -3,12 +3,12 @@
 #include <stdio.h>
 #include <math.h>
 
-double	angle = 1.57;
+double	angle = 0.5;
 
 double		projection[3][3] = {
 	{1, 0, 0},
 	{0, 1, 0},
-	{0, 0, 0}
+	{0, 0, 1}
 };
 
 typedef struct	s_point
@@ -51,9 +51,9 @@ t_fdf	*fdf_init(void)
 	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 800, 800, "CUB3D");
 	fdf->img_ptr = mlx_new_image(fdf->mlx_ptr, 800, 800);
 	fdf->addr = mlx_get_data_addr(fdf->img_ptr, &fdf->bits_per_pixel, &fdf->size_line, &fdf->endian);
-	fdf->points[0] = init_point(300, 300, 0, 0x00FF0000);
+	fdf->points[0] = init_point(300, 300, 0, 0x00FF00FF);
 	fdf->points[1] = init_point(500, 300, 0, 0x0000FF00);
-	fdf->points[2] = init_point(300, 500, 0, 0x000000FF);
+	fdf->points[2] = init_point(300, 500, 0, 0x0000FFFF);
 	fdf->points[3] = init_point(500, 500, 0, 0x00FFFF00);
 	return (fdf);
 }
@@ -84,20 +84,20 @@ void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 
 void	matmult(t_point *point, double matrix[3][3])
 {
-	int	old_x;
-	int	old_y;
-	int	old_z;
+	double	old_x;
+	double	old_y;
+	double	old_z;
 	int mid = 400;
 
 	old_x = point->x - mid;
 	old_y = point->y - mid;
-	printf("old_y pre: %d\n", old_y);
+	printf("old_y pre: %f\n", old_y);
 	old_z = point->z;
-	point->x = old_x * matrix[0][0] + old_y * matrix[1][0] + old_z * matrix[2][0] + mid;
-	point->y = old_x * matrix[0][1] + old_y * matrix[1][1] + old_z * matrix[2][1] + mid;
-	printf("point->y post: %d\n", point->y);
+	point->x = round(old_x * matrix[0][0] + old_y * matrix[1][0] + old_z * matrix[2][0] + mid);
+	point->y = round(old_x * matrix[0][1] + old_y * matrix[1][1] + old_z * matrix[2][1] + mid);
+	printf("point->y post: %d | old_x: %f | old_y: %f | old_z: %f | mat[0][1]: %f | mat[1][1]: %f\n", point->y, old_x, old_y, old_z, matrix[0][1], matrix[1][1]);
 	//this is off :(
-	point->z = old_x * matrix[0][2] + old_y * matrix[1][2] + old_z * matrix[2][2] + mid;
+	point->z = round(old_x * matrix[0][2] + old_y * matrix[1][2] + old_z * matrix[2][2]);
 }
 
 void	ft_rotate_x(t_point *point)
@@ -107,15 +107,41 @@ void	ft_rotate_x(t_point *point)
 		{0, cos(angle), -sin(angle)},
 		{0, sin(angle), cos(angle)}
 	};
+	printf("ROTATE_X\n");
 	matmult(point, rotate_x);
+}
+
+void	ft_rotate_z(t_point *point)
+{
+	double		rotate_z[3][3] = {
+		{cos(angle), -sin(angle), 0},
+		{sin(angle), cos(angle), 0},
+		{0, 0, 1}
+	};
+	printf("ROTATE_X\n");
+	matmult(point, rotate_z);
 }
 
 void	draw_control(t_fdf *fdf)
 {
 	for (int i = 0; i < 4; i++)
 	{
+		printf("PROJECTION\n");
 		matmult(&(fdf->points[i]), projection);
 		ft_put_pixel(fdf, (fdf->points[i]).x, (fdf->points[i]).y, (fdf->points[i]).color);
+	}
+	printf("\n");
+}
+
+void	clear_image(t_fdf *fdf)
+{
+	int	i;
+
+	i = 0;
+	while (i < (800 * 800 * 4))
+	{
+		fdf->addr[i] = 0;
+		i++;
 	}
 }
 
@@ -127,6 +153,8 @@ int	rotating(int keycode, t_fdf *fdf)
 		ft_rotate_x(&(fdf->points[i]));
 		printf("i: %d | x: %d | y: %d\n", i, (fdf->points[i]).x, (fdf->points[i]).y);
 	}
+	printf("--- ---\n");
+	clear_image(fdf);
 	draw_control(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 	return (0);
@@ -140,6 +168,5 @@ int	main(void)
 	draw_control(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 	mlx_key_hook(fdf->win_ptr, rotating, fdf);
-	printf("point0x: %d | point 3x: %d\n", (fdf->points)->x, ((fdf->points) + 3)->x);
 	mlx_loop(fdf->mlx_ptr);
 }
