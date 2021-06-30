@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/06/24 12:35:06 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/30 16:11:33 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,7 @@ typedef struct	s_map
 	int	line_len;
 	int	margin;
 	t_point	*point;
-}	t_map;
- 
-typedef struct			s_camera
-{
-	int					zoom;
-	double				alpha;
-	double				beta;
-	double				gamma;
-	float				z_divisor;
-	int					x_offset;
-	int					y_offset;
-}						t_camera;
+}				t_map;
 
 typedef struct	s_fdf
 {
@@ -66,8 +55,7 @@ typedef struct	s_fdf
 	int		line_length;
 	int		endian;
 	t_map	*map;
-	t_camera	*camera;
-}	t_fdf;
+}				t_fdf;
 
 
 typedef struct	s_dda
@@ -79,13 +67,13 @@ typedef struct	s_dda
 	double	inc_y;
 	int		sign_x;
 	int		sign_y;
-}	t_dda;
+}				t_dda;
 
 t_map	*map_init(char **av);
 void	terminate(char *s);
 t_point set_point(t_map *map, int z, int col, int row);
 void	map_to_point(t_map *map, int fd, int i);
-t_camera	*camera_init(t_fdf *fdf);
 void	adjust_points(t_fdf	*fdf);
+void 	iso(int *x, int *y, int z, t_map *map);
 
 #endif

@@ -6,99 +6,35 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 20:48:31 by laube             #+#    #+#             */
-/*   Updated: 2021/06/24 12:54:07 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/30 18:19:53 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-void	rotate_x(int *y, int *z, double alpha)
+void iso(int *x, int *y, int z, t_map *map)
 {
-	int	previous_y;
+	double	previous_x;
+	double	previous_y;
+	double	angle_rad;
+	double	trans;
 
-	previous_y = *y;
-	*y = previous_y * cos(alpha) + *z * sin(alpha);
-	*z = -previous_y * sin(alpha) + *z * cos(alpha);
-}
+	(void)z;
+	trans = (((map->width - 1) * 50) / 2);
+	angle_rad = 0.5;
+	previous_x = *x - trans - map->margin;
+	previous_y = *y - trans - map->margin;
 
-void	rotate_y(int *x, int *z, double beta)
-{
-	int previous_x;
-
-	previous_x = *x;
-	*x = previous_x * cos(beta) + *z * sin(beta);
-	*z = -previous_x * sin(beta) + *z * cos(beta);
-}
-
-void	rotate_z(int *x, int *y, double gamma)
-{
-	int previous_x;
-	int previous_y;
-
-	previous_x = *x;
-	previous_y = *y;
-	*x = previous_x * cos(gamma) - previous_y * sin(gamma);
-	*y = previous_x * sin(gamma) + previous_y * cos(gamma);
-}
-
-t_camera	*camera_init(t_fdf *fdf)
-{
-	t_camera	*camera;
-
-	camera = (t_camera *)malloc(sizeof(t_camera));
-	camera->zoom = ft_dmin(WIDTH / fdf->map->width / 2, HEIGHT / fdf->map->height / 2);
-	camera->alpha = 0;
-	camera->beta = 0;
-	camera->gamma = 0;
-	camera->z_divisor = 1;
-	camera->x_offset = 0;
-	camera->y_offset = 0;
-	return (camera);
-}
-
-void iso(int *x, int *y, int z)
-{
-	int	previous_x;
-	int	previous_y;
-
-	previous_x = *x;
-	previous_y = *y;
-	*x = (previous_x - previous_y) * cos(0.523599);
-	*y = -z + (previous_x - previous_y) * sin(0.523599);
-	/*
-	if (*x < 0)
-		*x = 0;
-	if (*y < 0)
-		*y = 0;
-		*/
-	printf("PRE: previous_x: %d | previous_y: %d | curr_x: %d | curr_y: %d\n", previous_x, previous_y, *x, *y);
-}
-
-void	adjust_points(t_fdf	*fdf)
-{
-	int	i;
-	t_point	*p;
-
-	i = 0;
-	while (i < fdf->map->point_amt)
-	{
-		p = fdf->map->point;
-		rotate_x(&p[i].y, &p[i].z, fdf->camera->alpha);
-		rotate_y(&p[i].x, &p[i].z, fdf->camera->beta);
-		rotate_z(&p[i].x, &p[i].y, fdf->camera->gamma);
-		iso(&p[i].x, &p[i].y, p[i].z);
-		p[i].x += WIDTH / 2 + fdf->camera->x_offset;
-		p[i].y += (HEIGHT + fdf->map->height * fdf->camera->zoom) / 2;
-
-		printf("POST: p.x: %d | p.y: %d\n", p[i].x, p[i].y);
-		i++;
-	}
+	*x = round((previous_x * cos(angle_rad)) + (previous_y * sin(angle_rad)) + 0) + trans + map->margin;
+	*y = round((previous_x * -sin(angle_rad)) + (previous_y * cos(angle_rad)) + 0) + trans + map->margin;
+	//printf("PRE: previous_x: %d | previous_y: %d | curr_x: %d | curr_y: %d\n", previous_x, previous_y, *x, *y);
 }
 
 void	coord_to_point(t_map *map, t_point *point)
 {
-	point->x = point->col * 30; //map->margin + (point->col * map->line_len);
-	point->y = point->row * 30; //map->margin + (point->row * map->line_len);
+	(void)map;
+	point->x = map->margin + (point->col * 50);
+	point->y = map->margin + (point->row * 50);
 }
 
 // Sets all the properties of the t_points in the points array made by map_init
@@ -112,7 +48,35 @@ t_point set_point(t_map *map, int z, int col, int row)
 	point.row = row;
 	point.z = z;
 	coord_to_point(map, &point);
-	point.color = 0x0000FFFF;
+	switch (row)
+	{
+		case 0:
+			point.color = 0x00FFFF55;
+			break;
+		case 1:
+			point.color = 0x00FFDD55;
+			break;
+		case 2:
+			point.color = 0x00FFBB55;
+			break;
+		case 3:
+			point.color = 0x00FF9955;
+			break;
+		case 4:
+			point.color = 0x00FF7755;
+			break;
+		case 5:
+			point.color = 0x00FF5555;
+			break;
+		case 6:
+			point.color = 0x00FF3355;
+			break;
+		case 7:
+			point.color = 0x00FF1155;
+			break;
+		default:
+			point.color = 0x00EE0055;
+	}
 	return (point);
 }
 

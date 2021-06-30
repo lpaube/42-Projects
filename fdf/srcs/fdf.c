@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/06/24 12:45:27 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/30 18:37:40 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,11 @@ int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)
 	t_dda	dda;
 	double	point_x;
 	double	point_y;
+	printf("p1.row: %d | p1.col: %d | p2.row: %d | p2.col: %d | p1.color: %x | p2.color: %x\n", p1.row, p1.col, p2.row, p2.col, p1.color, p2.color);
+	printf("p1.x: %d | p1.y: %d | p1.z: %d | p2.x: %d | p2.y: %d | p2.z: %d\n", p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
+	if (p1.x < 0 || p1.y < 0 || p1.z < 0 || p2.x < 0 || p2.y < 0 || p2.z < 0)
+		return (-1);
 	if (p1.x > WIDTH || p2.x > WIDTH || p1.y > HEIGHT || p2.y > HEIGHT)
 	{
 		ft_putstr_fd("Points for line out of bounds!\n", 1);
@@ -117,8 +121,16 @@ int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)
 
 void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i)
 {
+	if (point[i].x < 0 || point[i].y < 0 || point[i].z < 0)
+		return ;
+	if (point[i].x > WIDTH || point[i].y > HEIGHT)
+		return ;
 	if (i < map->point_amt)
 	{
+		//DRAWING POINTS
+		ft_put_pixel(fdf, point[i].x, point[i].y, point[i].color);
+		
+		//DRAWING LINES
 		if (point[i].row < map->height - 1)
 		{
 			draw_line_dda(fdf, point[i], point[i + map->width]);
@@ -138,7 +150,13 @@ void	draw_control(t_map *map, t_fdf *fdf)
 	i = 0;
 	while (i < map->point_amt)
 	{
-		printf("DRAWING: p.x: %d | p.y: %d\n", fdf->map->point[i].x, fdf->map->point[i].y);
+		//printf("DRAWING: p.x: %d | p.y: %d\n", fdf->map->point[i].x, fdf->map->point[i].y);
+		iso(&(fdf->map->point[i].x), &(fdf->map->point[i].y), fdf->map->point[i].z, fdf->map);
+		i++;
+	}
+	i = 0;
+	while (i < map->point_amt)
+	{
 		draw_point(fdf, map, map->point, i);
 		i++;
 	}
@@ -151,10 +169,9 @@ int main(int ac, char **av)
 	t_fdf	*fdf;
 	t_map	*map;
 
+	(void)ac;
 	map = map_init(av);
 	fdf = fdf_init(map);
-	fdf->camera = camera_init(fdf);
-	adjust_points(fdf);
 	draw_control(map, fdf);
 	mlx_key_hook(fdf->win_ptr, esc_hook, fdf);
 	mlx_loop(fdf->mlx_ptr);

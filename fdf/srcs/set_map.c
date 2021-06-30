@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/06/24 12:02:25 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/30 18:04:09 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,8 @@ void	get_line_len(t_map *map)
 {
 	int	len_x;
 	int	len_y;
-	int	line_len;
 
-	map->margin = 10;
+	map->margin = 100;
 	len_x = (WIDTH - map->margin * 2) / (map->width - 1);
 	len_y = (HEIGHT - map->margin * 2) / (map->height - 1);
 	if (len_x < len_y)
@@ -56,13 +55,10 @@ void	get_line_len(t_map *map)
 		map->line_len = len_y;
 }
 
-
 t_map	*map_init(char **av)
 {
 	int		fd;
 	int		i;
-	int		curr_row;
-	int		curr_col;
 	t_map	*map;
 
 	map = malloc(sizeof(t_map));
