@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/06/30 18:37:40 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/30 21:12:47 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void	draw_control(t_map *map, t_fdf *fdf)
 	while (i < map->point_amt)
 	{
 		//printf("DRAWING: p.x: %d | p.y: %d\n", fdf->map->point[i].x, fdf->map->point[i].y);
-		iso(&(fdf->map->point[i].x), &(fdf->map->point[i].y), fdf->map->point[i].z, fdf->map);
+		iso(&(fdf->map->point[i].x), &(fdf->map->point[i].y), &(fdf->map->point[i].z), fdf->map);
 		i++;
 	}
 	i = 0;

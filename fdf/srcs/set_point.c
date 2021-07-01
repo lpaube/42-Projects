@@ -6,28 +6,33 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 20:48:31 by laube             #+#    #+#             */
-/*   Updated: 2021/06/30 18:19:53 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/30 21:14:52 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-void iso(int *x, int *y, int z, t_map *map)
+void iso(int *x, int *y, int *z, t_map *map)
 {
 	double	previous_x;
 	double	previous_y;
 	double	angle_rad;
 	double	trans;
 
-	(void)z;
-	trans = (((map->width - 1) * 50) / 2);
+	(void)angle_rad;
+	//(void)z;
+	trans = ((map->width - 1) * 50) / 2;
 	angle_rad = 0.5;
 	previous_x = *x - trans - map->margin;
 	previous_y = *y - trans - map->margin;
 
+
+	*x = (previous_x - previous_y) * cos(0.523599) + trans + map->margin;
+    *y = -*z + (previous_x + previous_y) * sin(0.523599) + trans + map->margin;
+	/* ROTATION_Z
 	*x = round((previous_x * cos(angle_rad)) + (previous_y * sin(angle_rad)) + 0) + trans + map->margin;
 	*y = round((previous_x * -sin(angle_rad)) + (previous_y * cos(angle_rad)) + 0) + trans + map->margin;
-	//printf("PRE: previous_x: %d | previous_y: %d | curr_x: %d | curr_y: %d\n", previous_x, previous_y, *x, *y);
+	*/
 }
 
 void	coord_to_point(t_map *map, t_point *point)
@@ -40,10 +45,8 @@ void	coord_to_point(t_map *map, t_point *point)
 // Sets all the properties of the t_points in the points array made by map_init
 t_point set_point(t_map *map, int z, int col, int row)
 {
-	int		i;
 	t_point	point;
 
-	i = 0;
 	point.col = col;
 	point.row = row;
 	point.z = z;

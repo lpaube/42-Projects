@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/06/30 16:11:33 by laube            ###   ########.fr       */
+/*   Updated: 2021/06/30 21:13:04 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ void	terminate(char *s);
 t_point set_point(t_map *map, int z, int col, int row);
 void	map_to_point(t_map *map, int fd, int i);
 void	adjust_points(t_fdf	*fdf);
-void 	iso(int *x, int *y, int z, t_map *map);
+void 	iso(int *x, int *y, int *z, t_map *map);
 
 #endif
