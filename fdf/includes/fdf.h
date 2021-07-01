@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/06/30 21:13:04 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/01 17:01:06 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ typedef struct	s_map
 	int	point_amt;
 	int	line_len;
 	int	margin;
+	double	alpha;
+	double	gamma;
 	t_point	*point;
+	t_point *point_og;
 }				t_map;
 
 typedef struct	s_fdf

@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/07/01 14:59:09 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/01 17:02:56 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,14 @@ t_map	*map_init(char **av)
 	i = 0;
 	get_map_dim(av, map);
 	get_line_len(map);
+	map->alpha = 0;
+	map->gamma = 0;
 	fd = open(av[1], O_RDONLY);
 	
 	// Mallocs memory for array of points
 	map->point_amt = map->width * map->height;
 	map->point = malloc(sizeof(t_point) * map->point_amt);
+	map->point_og = malloc(sizeof(t_point) * map->point_amt);
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 		terminate(ERR_MAP_OPEN);

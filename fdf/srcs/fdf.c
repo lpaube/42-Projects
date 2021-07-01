@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/01 15:48:03 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/01 17:43:14 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,29 @@ void	clear_img(t_fdf *fdf)
 	}
 }
 
-void	rotate_z(t_fdf *fdf)
+void	rotate_xyz(t_fdf *fdf)
 {
 	int	i;
-	int	previous_x;
-	int	previous_y;
 	int	trans_x;
 	int	trans_y;
-	double	theta;
+	int	tmp_x;
+	int	tmp_y;
 
-	theta = 0.1;
-	i = 0;
 	trans_x = WIDTH / 2;
 	trans_y = HEIGHT / 2;
+	i = 0;
 	while (i < fdf->map->point_amt)
 	{
-		previous_x = fdf->map->point[i].x - trans_x;
-		previous_y = fdf->map->point[i].y - trans_y;
-		fdf->map->point[i].x = previous_x * cos(theta) + previous_y * sin(theta) + trans_x;
-		fdf->map->point[i].y = previous_x * sin(theta) + previous_y * cos(theta) + trans_y;
+		tmp_x = fdf->map->point_og[i].x - trans_x;
+		tmp_y = fdf->map->point_og[i].y - trans_y;
+		//Rotate Z
+		fdf->map->point[i].x = tmp_x * cos(fdf->map->gamma) + tmp_y * sin(fdf->map->gamma) + trans_x;
+		fdf->map->point[i].y = tmp_x * -sin(fdf->map->gamma) + tmp_y * cos(fdf->map->gamma);
+		//Rotate X
+		tmp_x = fdf->map->point[i].x;
+		tmp_y = fdf->map->point[i].y;
+		fdf->map->point[i].y = tmp_y * cos(fdf->map->alpha) + fdf->map->point_og[i].z * sin(fdf->map->alpha) + trans_y;
+		fdf->map->point[i].z = tmp_y * -sin(fdf->map->alpha) + fdf->map->point_og[i].z * cos(fdf->map->alpha);
 		i++;
 	}
 	i = 0;
@@ -55,22 +59,51 @@ void	rotate_z(t_fdf *fdf)
 		i++;
 	}
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
+}
 
+void	rotate_z(t_fdf *fdf)
+{
+	int	i;
+	int	trans_x;
+	int	trans_y;
+	int	tmp_x;
+	int	tmp_y;
+
+	trans_x = WIDTH / 2;
+	trans_y = HEIGHT / 2;
+	i = 0;
+	while (i < fdf->map->point_amt)
+	{
+		tmp_x = fdf->map->point_og[i].x - trans_x;
+		tmp_y = fdf->map->point_og[i].y - trans_y;
+		fdf->map->point[i].x = tmp_x * cos(fdf->map->gamma) + tmp_y * sin(fdf->map->gamma) + trans_x;
+		fdf->map->point[i].y = tmp_x * -sin(fdf->map->gamma) + tmp_y * cos(fdf->map->gamma) + trans_y;
+		i++;
+	}
+	i = 0;
+	while (i < fdf->map->point_amt)
+	{
+		draw_point(fdf, fdf->map, fdf->map->point, i);
+		i++;
+	}
+	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 }
 
 void	rotate_x(t_fdf *fdf)
 {
 	int	i;
-	int	previous_x;
-	int	previous_y;
+	int	trans_y;
+	int	tmp_y;
+	int	tmp_z;
 
 	i = 0;
+	trans_y = HEIGHT / 2;
 	while (i < fdf->map->point_amt)
 	{
-		previous_x = fdf->map->point[i].x;
-		previous_y = fdf->map->point[i].y;
-		fdf->map->point[i].x = previous_x * cos(0.1) + previous_y * sin(0.1);
-		fdf->map->point[i].y = previous_x * sin(0.1) + previous_y * cos(0.1);
+		tmp_y = fdf->map->point_og[i].y - trans_y;
+		tmp_z = fdf->map->point_og[i].z;
+		fdf->map->point[i].y = tmp_y * cos(fdf->map->alpha) + tmp_z * sin(fdf->map->alpha) + trans_y;
+		fdf->map->point[i].z = tmp_y * -sin(fdf->map->alpha) + tmp_z * cos(fdf->map->alpha);
 		i++;
 	}
 	i = 0;
@@ -80,20 +113,45 @@ void	rotate_x(t_fdf *fdf)
 		i++;
 	}
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
-
 }
 
 int	key_hook(int keycode, t_fdf *fdf)
 {
+	double			inc;
+
+	inc = 0.1;
 	if (keycode == 65307)
 	{
 		mlx_destroy_window(fdf->mlx_ptr, fdf->win_ptr);
 		exit(0);
 	}
+	if (keycode == 65361)
+	{
+		clear_img(fdf);
+		fdf->map->gamma += inc;
+		//rotate_z(fdf);
+		rotate_xyz(fdf);
+	}
 	if (keycode == 65363)
 	{
 		clear_img(fdf);
-		rotate_z(fdf);
+		fdf->map->gamma -= inc;
+		//rotate_z(fdf);
+		rotate_xyz(fdf);
+	}
+	if (keycode == 65362)
+	{
+		clear_img(fdf);
+		fdf->map->alpha -= inc;
+		//rotate_x(fdf);
+		rotate_xyz(fdf);
+	}
+	if (keycode == 65364)
+	{
+		clear_img(fdf);
+		fdf->map->alpha += inc;
+		//rotate_x(fdf);
+		rotate_xyz(fdf);
 	}
 	printf("keycode: %d\n", keycode);
 
@@ -243,6 +301,7 @@ void	trans_topleft(t_map *map)
 	{
 		map->point[i].x -= trans_left;
 		map->point[i].y -= trans_top;
+		map->point_og[i] = map->point[i];
 		i++;
 	}
 }
