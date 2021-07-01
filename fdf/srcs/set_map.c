@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/06/30 18:04:09 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/01 14:59:09 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ void	get_line_len(t_map *map)
 	int	len_x;
 	int	len_y;
 
-	map->margin = 100;
+	map->margin = 0;
 	len_x = (WIDTH - map->margin * 2) / (map->width - 1);
 	len_y = (HEIGHT - map->margin * 2) / (map->height - 1);
 	if (len_x < len_y)
 		map->line_len = len_x;
 	else
 		map->line_len = len_y;
+	map->line_len = round(map->line_len / 1.35);
 }
 
 t_map	*map_init(char **av)

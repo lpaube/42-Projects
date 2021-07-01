@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 20:48:31 by laube             #+#    #+#             */
-/*   Updated: 2021/06/30 21:14:52 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/01 14:53:50 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,18 @@ void iso(int *x, int *y, int *z, t_map *map)
 {
 	double	previous_x;
 	double	previous_y;
-	double	angle_rad;
-	double	trans;
+	//double	angle_rad;
+	//double	trans;
+	(void)map;
 
-	(void)angle_rad;
-	//(void)z;
-	trans = ((map->width - 1) * 50) / 2;
-	angle_rad = 0.5;
-	previous_x = *x - trans - map->margin;
-	previous_y = *y - trans - map->margin;
+	//trans = ((map->width - 1) * map->line_len) / 2;
+	//angle_rad = 0.5;
+	previous_x = *x; //- trans - map->margin;
+	previous_y = *y; //- trans - map->margin;
 
 
-	*x = (previous_x - previous_y) * cos(0.523599) + trans + map->margin;
-    *y = -*z + (previous_x + previous_y) * sin(0.523599) + trans + map->margin;
+	*x = (previous_x - previous_y) * cos(0.523599);// + trans + map->margin;
+    *y = -*z + (previous_x + previous_y) * sin(0.523599);// + trans + map->margin;
 	/* ROTATION_Z
 	*x = round((previous_x * cos(angle_rad)) + (previous_y * sin(angle_rad)) + 0) + trans + map->margin;
 	*y = round((previous_x * -sin(angle_rad)) + (previous_y * cos(angle_rad)) + 0) + trans + map->margin;
@@ -38,8 +37,8 @@ void iso(int *x, int *y, int *z, t_map *map)
 void	coord_to_point(t_map *map, t_point *point)
 {
 	(void)map;
-	point->x = map->margin + (point->col * 50);
-	point->y = map->margin + (point->row * 50);
+	point->x = map->margin + (point->col * map->line_len);
+	point->y = map->margin + (point->row * map->line_len);
 }
 
 // Sets all the properties of the t_points in the points array made by map_init
