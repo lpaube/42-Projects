@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/01 17:01:06 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/01 23:29:45 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@
 # include <math.h>
 # include <errno.h>
 
-# define HEIGHT	800
-# define WIDTH	1200
-
 typedef struct	s_point
 {
 	int	x;
@@ -37,12 +34,15 @@ typedef struct	s_point
 
 typedef struct	s_map
 {
+	int	win_width;
+	int	win_height;
 	int	width;
 	int	height;
 	int	point_amt;
 	int	line_len;
 	int	margin;
 	double	alpha;
+	double	beta;
 	double	gamma;
 	t_point	*point;
 	t_point *point_og;
@@ -78,5 +78,6 @@ t_point set_point(t_map *map, int z, int col, int row);
 void	map_to_point(t_map *map, int fd, int i);
 void	adjust_points(t_fdf	*fdf);
 void 	iso(int *x, int *y, int *z, t_map *map);
+void	trans_topleft(t_map *map, int id);
 
 #endif

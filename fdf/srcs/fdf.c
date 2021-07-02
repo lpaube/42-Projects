@@ -6,12 +6,13 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/01 17:43:14 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/01 23:38:45 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
+void	coord_to_point(t_map *map, t_point *point);
 void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i);
 
 
@@ -20,7 +21,7 @@ void	clear_img(t_fdf *fdf)
 	int	i;
 
 	i = 0;
-	while (i < (WIDTH * HEIGHT) * 4)
+	while (i < (fdf->map->win_width * fdf->map->win_height) * 4)
 	{
 		fdf->addr[i] = 0;
 		i++;
@@ -35,8 +36,9 @@ void	rotate_xyz(t_fdf *fdf)
 	int	tmp_x;
 	int	tmp_y;
 
-	trans_x = WIDTH / 2;
-	trans_y = HEIGHT / 2;
+	clear_img(fdf);
+	trans_x = fdf->map->win_width / 2;
+	trans_y = fdf->map->win_height / 2;
 	i = 0;
 	while (i < fdf->map->point_amt)
 	{
@@ -45,6 +47,9 @@ void	rotate_xyz(t_fdf *fdf)
 		//Rotate Z
 		fdf->map->point[i].x = tmp_x * cos(fdf->map->gamma) + tmp_y * sin(fdf->map->gamma) + trans_x;
 		fdf->map->point[i].y = tmp_x * -sin(fdf->map->gamma) + tmp_y * cos(fdf->map->gamma);
+		//Rotate Y
+		fdf->map->point[i].x = tmp_x * cos(fdf->map->beta) + fdf->map->point_og[i].z * -sin(fdf->map->beta) + trans_x;
+		fdf->map->point[i].z = tmp_x * sin(fdf->map->beta) + fdf->map->point_og[i].z * cos(fdf->map->beta);
 		//Rotate X
 		tmp_x = fdf->map->point[i].x;
 		tmp_y = fdf->map->point[i].y;
@@ -61,61 +66,40 @@ void	rotate_xyz(t_fdf *fdf)
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 }
 
-void	rotate_z(t_fdf *fdf)
+int	mouse_events(int button, int x, int y, t_fdf *fdf)
 {
 	int	i;
-	int	trans_x;
-	int	trans_y;
-	int	tmp_x;
-	int	tmp_y;
 
-	trans_x = WIDTH / 2;
-	trans_y = HEIGHT / 2;
-	i = 0;
-	while (i < fdf->map->point_amt)
+	(void)x;
+	(void)y;
+
+	printf("button: %d\n", button);
+	if (button == 4 && fdf->map->line_len < round(fdf->map->win_width / 8))
 	{
-		tmp_x = fdf->map->point_og[i].x - trans_x;
-		tmp_y = fdf->map->point_og[i].y - trans_y;
-		fdf->map->point[i].x = tmp_x * cos(fdf->map->gamma) + tmp_y * sin(fdf->map->gamma) + trans_x;
-		fdf->map->point[i].y = tmp_x * -sin(fdf->map->gamma) + tmp_y * cos(fdf->map->gamma) + trans_y;
-		i++;
+		fdf->map->line_len = ceil(fdf->map->line_len * 1.1);
+		i = 0;
+		while (i < fdf->map->point_amt)
+		{
+			coord_to_point(fdf->map, &(fdf->map->point_og[i]));
+			i++;
+		}
+		rotate_xyz(fdf);
 	}
-	i = 0;
-	while (i < fdf->map->point_amt)
+	if (button == 5 && fdf->map->line_len > 3)
 	{
-		draw_point(fdf, fdf->map, fdf->map->point, i);
-		i++;
+		fdf->map->line_len = floor(fdf->map->line_len / 1.1);
+		i = 0;
+		while (i < fdf->map->point_amt)
+		{
+			coord_to_point(fdf->map, &(fdf->map->point_og[i]));
+			i++;
+		}
+		rotate_xyz(fdf);
 	}
-	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
+	return (0);
 }
 
-void	rotate_x(t_fdf *fdf)
-{
-	int	i;
-	int	trans_y;
-	int	tmp_y;
-	int	tmp_z;
-
-	i = 0;
-	trans_y = HEIGHT / 2;
-	while (i < fdf->map->point_amt)
-	{
-		tmp_y = fdf->map->point_og[i].y - trans_y;
-		tmp_z = fdf->map->point_og[i].z;
-		fdf->map->point[i].y = tmp_y * cos(fdf->map->alpha) + tmp_z * sin(fdf->map->alpha) + trans_y;
-		fdf->map->point[i].z = tmp_y * -sin(fdf->map->alpha) + tmp_z * cos(fdf->map->alpha);
-		i++;
-	}
-	i = 0;
-	while (i < fdf->map->point_amt)
-	{
-		draw_point(fdf, fdf->map, fdf->map->point, i);
-		i++;
-	}
-	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
-}
-
-int	key_hook(int keycode, t_fdf *fdf)
+int	key_events(int keycode, t_fdf *fdf)
 {
 	double			inc;
 
@@ -127,30 +111,74 @@ int	key_hook(int keycode, t_fdf *fdf)
 	}
 	if (keycode == 65361)
 	{
-		clear_img(fdf);
-		fdf->map->gamma += inc;
+		fdf->map->beta += inc;
 		//rotate_z(fdf);
 		rotate_xyz(fdf);
 	}
 	if (keycode == 65363)
 	{
-		clear_img(fdf);
-		fdf->map->gamma -= inc;
+		fdf->map->beta -= inc;
 		//rotate_z(fdf);
 		rotate_xyz(fdf);
 	}
 	if (keycode == 65362)
 	{
-		clear_img(fdf);
 		fdf->map->alpha -= inc;
 		//rotate_x(fdf);
 		rotate_xyz(fdf);
 	}
 	if (keycode == 65364)
 	{
-		clear_img(fdf);
 		fdf->map->alpha += inc;
 		//rotate_x(fdf);
+		rotate_xyz(fdf);
+	}
+	if (keycode == 119)
+	{
+		int	i;
+
+		i = 0;
+		while (i < fdf->map->point_amt)
+		{
+			fdf->map->point_og[i].y += 20;
+			i++;
+		}
+		rotate_xyz(fdf);
+	}
+	if (keycode == 115)
+	{
+		int	i;
+
+		i = 0;
+		while (i < fdf->map->point_amt)
+		{
+			fdf->map->point_og[i].y -= 20;
+			i++;
+		}
+		rotate_xyz(fdf);
+	}
+	if (keycode == 97)
+	{
+		int	i;
+
+		i = 0;
+		while (i < fdf->map->point_amt)
+		{
+			fdf->map->point_og[i].x += 20;
+			i++;
+		}
+		rotate_xyz(fdf);
+	}
+	if (keycode == 100)
+	{
+		int	i;
+
+		i = 0;
+		while (i < fdf->map->point_amt)
+		{
+			fdf->map->point_og[i].x -= 20;
+			i++;
+		}
 		rotate_xyz(fdf);
 	}
 	printf("keycode: %d\n", keycode);
@@ -166,9 +194,9 @@ t_fdf	*fdf_init(t_map *map)
 		printf("EMPTY 1\n");
 	if (!(fdf->mlx_ptr = mlx_init()))
 		printf("EMPTY 2\n");
-	if (!(fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, WIDTH, HEIGHT, "Cool window!")))
+	if (!(fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, map->win_width, map->win_height, "Cool window!")))
 		printf("EMPTY 3\n");
-	if (!(fdf->img_ptr = mlx_new_image(fdf->mlx_ptr, WIDTH, HEIGHT)))
+	if (!(fdf->img_ptr = mlx_new_image(fdf->mlx_ptr, map->win_width, map->win_height)))
 		printf("EMPTY 4\n");
 	fdf->addr = mlx_get_data_addr(fdf->img_ptr, &(fdf->bits_per_pixel), &(fdf->line_length), &(fdf->endian));
 	fdf->map = map;
@@ -237,12 +265,12 @@ int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)
 
 	if (p1.x < 0 || p1.y < 0 || p2.x < 0 || p2.y < 0)
 	{
-		printf("DDA: point x or y is smaller than 0\n");
+	//	printf("DDA: point x or y is smaller than 0\n");
 		return (-1);
 	}
-	if (p1.x > WIDTH || p2.x > WIDTH || p1.y > HEIGHT || p2.y > HEIGHT)
+	if (p1.x > fdf->map->win_width || p2.x > fdf->map->win_width || p1.y > fdf->map->win_height || p2.y > fdf->map->win_height)
 	{
-		ft_putstr_fd("Points for line out of bounds!\n", 1);
+		//ft_putstr_fd("Points for line out of bounds!\n", 1);
 		return (-1);
 	}
 	dda = get_dda(p1, p2);
@@ -265,7 +293,7 @@ void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i)
 		printf("Point is smaller than 0 (OB) | p.x: %d | p.y: %d | i: %d\n", point[i].x, point[i].y, i);
 		return ;
 	}
-	if (point[i].x > WIDTH || point[i].y > HEIGHT)
+	if (point[i].x > map->win_width || point[i].y > map->win_height)
 	{
 		printf("Point is greater than 0 (OB) | p.x: %d | p.y: %d | i: %d\n", point[i].x, point[i].y, i);
 		return ;
@@ -273,7 +301,7 @@ void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i)
 	if (i < map->point_amt)
 	{
 		//DRAWING POINTS
-//		ft_put_pixel(fdf, point[i].x, point[i].y, point[i].color);
+		ft_put_pixel(fdf, point[i].x, point[i].y, point[i].color);
 		//DRAWING LINES
 		if (point[i].row < map->height - 1)
 		{
@@ -286,22 +314,32 @@ void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i)
 	}
 }
 
-void	trans_topleft(t_map *map)
+void	trans_topleft(t_map *map, int id)
 {
 	int	i;
 	int	trans_left;
 	int	trans_top;
 
 	trans_left = map->point[map->width * (map->height - 1)].x;
-	if (map->point[0].x > WIDTH)
+	/*
+	if (map->point[0].x > map->win_width)
 		trans_left = map->point[0].x;
+		*/
 	trans_top = map->point[0].y;
 	i = 0;
 	while (i < map->point_amt)
 	{
-		map->point[i].x -= trans_left;
-		map->point[i].y -= trans_top;
-		map->point_og[i] = map->point[i];
+		// 1 executes first if; 2 executes both if; 3 executes last if
+		if (id > 0 && id <= 2)
+		{
+			map->point[i].x -= trans_left;
+			map->point[i].y -= trans_top;
+		}
+		if (id > 1)
+		{
+			map->point_og[i].x -= trans_left;
+			map->point_og[i].y -= trans_top;
+		}
 		i++;
 	}
 }
@@ -314,14 +352,7 @@ void	draw_control(t_map *map, t_fdf *fdf)
 	int	i;
 
 	i = 0;
-	while (i < map->point_amt)
-	{
-		//printf("DRAWING: p.x: %d | p.y: %d\n", fdf->map->point[i].x, fdf->map->point[i].y);
-		iso(&(fdf->map->point[i].x), &(fdf->map->point[i].y), &(fdf->map->point[i].z), fdf->map);
-		i++;
-	}
-	trans_topleft(map);
-	i = 0;
+	trans_topleft(map, 2);
 	while (i < map->point_amt)
 	{
 		draw_point(fdf, map, map->point, i);
@@ -339,6 +370,7 @@ int main(int ac, char **av)
 	map = map_init(av);
 	fdf = fdf_init(map);
 	draw_control(map, fdf);
-	mlx_key_hook(fdf->win_ptr, key_hook, fdf);
+	mlx_key_hook(fdf->win_ptr, key_events, fdf);
+	mlx_mouse_hook(fdf->win_ptr, mouse_events, fdf);
 	mlx_loop(fdf->mlx_ptr);
 }

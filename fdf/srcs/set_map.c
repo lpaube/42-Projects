@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/07/01 17:02:56 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/01 21:46:39 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,22 @@ void	get_map_dim(char **av, t_map *map)
 			map->height++;
 	}
 	close(fd);
+	// Assign window sizing
+	if (map->width <= 10)
+	{
+		map->win_width = 600;
+		map->win_height = 400;
+	}
+	else if (map->width > 10 && map->width <= 50)
+	{
+		map->win_width = 1000;
+		map->win_height = 800;
+	}
+	else
+	{
+		map->win_width = 1400;
+		map->win_height = 800;
+	}
 }
 
 void	get_line_len(t_map *map)
@@ -47,13 +63,13 @@ void	get_line_len(t_map *map)
 	int	len_y;
 
 	map->margin = 0;
-	len_x = (WIDTH - map->margin * 2) / (map->width - 1);
-	len_y = (HEIGHT - map->margin * 2) / (map->height - 1);
+	len_x = (map->win_width - map->margin * 2) / (map->width - 1);
+	len_y = (map->win_height - map->margin * 2) / (map->height - 1);
 	if (len_x < len_y)
 		map->line_len = len_x;
 	else
 		map->line_len = len_y;
-	map->line_len = round(map->line_len / 1.35);
+	map->line_len = round(map->line_len / 1.3);
 }
 
 t_map	*map_init(char **av)

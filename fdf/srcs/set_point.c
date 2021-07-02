@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 20:48:31 by laube             #+#    #+#             */
-/*   Updated: 2021/07/01 14:53:50 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/01 22:14:03 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	coord_to_point(t_map *map, t_point *point)
 	(void)map;
 	point->x = map->margin + (point->col * map->line_len);
 	point->y = map->margin + (point->row * map->line_len);
+	iso(&(point->x), &(point->y), &(point->z), map);
 }
 
 // Sets all the properties of the t_points in the points array made by map_init
@@ -103,6 +104,7 @@ void	map_to_point(t_map *map, int fd, int i)
 		while (*row)
 		{
 			map->point[i] = set_point(map, ft_atoi(*row), curr_col, curr_row);
+			map->point_og[i] = set_point(map, ft_atoi(*row), curr_col, curr_row);
 			curr_col++;
 			row++;
 			i++;
