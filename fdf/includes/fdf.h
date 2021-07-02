@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/02 17:03:19 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/02 17:26:42 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct	s_map
 	int	mouse_x;
 	int	mouse_y;
 	int	iso;
+	char	bg_color;
 	double	z_scale;
 	double	alpha;
 	double	beta;
