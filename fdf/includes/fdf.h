@@ -6,13 +6,14 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/01 23:29:45 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/02 13:11:11 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
+# include "./key_codes_mac.h"
 # include "../libft/libft.h"
 # include "./error_message.h"
 # include "../libft/get_next_line.h"
@@ -41,6 +42,9 @@ typedef struct	s_map
 	int	point_amt;
 	int	line_len;
 	int	margin;
+	int	move_x;
+	int	move_y;
+	double	z_scale;
 	double	alpha;
 	double	beta;
 	double	gamma;
@@ -77,7 +81,7 @@ void	terminate(char *s);
 t_point set_point(t_map *map, int z, int col, int row);
 void	map_to_point(t_map *map, int fd, int i);
 void	adjust_points(t_fdf	*fdf);
-void 	iso(int *x, int *y, int *z, t_map *map);
+void 	iso(t_point *point, t_map *map);
 void	trans_topleft(t_map *map, int id);
 
 #endif

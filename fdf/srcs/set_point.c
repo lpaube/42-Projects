@@ -6,24 +6,28 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 20:48:31 by laube             #+#    #+#             */
-/*   Updated: 2021/07/02 11:29:10 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/02 12:30:03 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-void iso(int *x, int *y, int *z, t_map *map)
+void iso(t_point *point, t_map *map)
 {
-	double	previous_x;
-	double	previous_y;
-	(void)map;
+	double	tmp_x;
+	double	tmp_y;
+	int		i;
 
-	previous_x = *x;
-	previous_y = *y;
+	i = 0;
+	while (i < map->point_amt)
+	{
+		tmp_x = point[i].x;
+		tmp_y = point[i].y;
 
-
-	*x = (previous_x - previous_y) * cos(0.523599);// + trans + map->margin;
-    *y = (3.5 * -*z) + (previous_x + previous_y) * sin(0.523599);// + trans + map->margin;
+		point[i].x = (tmp_x - tmp_y) * cos(0.523599);
+		point[i].y = (map->z_scale * -point[i].z) + (tmp_x + tmp_y) * sin(0.523599);
+		i++;
+	}
 }
 
 void	coord_to_point(t_map *map, t_point *point)
@@ -31,7 +35,6 @@ void	coord_to_point(t_map *map, t_point *point)
 	(void)map;
 	point->x = map->margin + (point->col * map->line_len);
 	point->y = map->margin + (point->row * map->line_len);
-	iso(&(point->x), &(point->y), &(point->z), map);
 }
 
 // Sets all the properties of the t_points in the points array made by map_init

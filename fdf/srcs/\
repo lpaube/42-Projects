@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/02 13:44:02 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/02 12:18:17 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,36 +36,29 @@ void	rotate_xyz(t_fdf *fdf)
 	int	tmp_y;
 
 	clear_img(fdf);
+	printf("here we go\n");
 	trans_x = fdf->map->win_width / 2;
 	trans_y = fdf->map->win_height / 2;
 	i = 0;
 	while (i < fdf->map->point_amt)
 	{
 		fdf->map->point[i] = fdf->map->point_og[i];
-		i++;
 	}
-	iso(fdf->map->point, fdf->map);
-	
-	i = 0;
 	while (i < fdf->map->point_amt)
 	{
-		tmp_x = fdf->map->point[i].x - trans_x;
-		tmp_y = fdf->map->point[i].y - trans_y;
+		tmp_x = fdf->map->point_og[i].x - trans_x;
+		tmp_y = fdf->map->point_og[i].y - trans_y;
 		//Rotate Z
 		fdf->map->point[i].x = tmp_x * cos(fdf->map->gamma) + tmp_y * sin(fdf->map->gamma) + trans_x;
 		fdf->map->point[i].y = tmp_x * -sin(fdf->map->gamma) + tmp_y * cos(fdf->map->gamma);
 		//Rotate Y
-		fdf->map->point[i].x = tmp_x * cos(fdf->map->beta) + fdf->map->point[i].z * -sin(fdf->map->beta) + trans_x;
-		fdf->map->point[i].z = tmp_x * sin(fdf->map->beta) + fdf->map->point[i].z * cos(fdf->map->beta);
+		fdf->map->point[i].x = tmp_x * cos(fdf->map->beta) + fdf->map->point_og[i].z * -sin(fdf->map->beta) + trans_x;
+		fdf->map->point[i].z = tmp_x * sin(fdf->map->beta) + fdf->map->point_og[i].z * cos(fdf->map->beta);
 		//Rotate X
 		tmp_x = fdf->map->point[i].x;
 		tmp_y = fdf->map->point[i].y;
-		fdf->map->point[i].y = tmp_y * cos(fdf->map->alpha) + fdf->map->point[i].z * sin(fdf->map->alpha) + trans_y;
-		fdf->map->point[i].z = tmp_y * -sin(fdf->map->alpha) + fdf->map->point[i].z * cos(fdf->map->alpha);
-		//Movement
-		fdf->map->point[i].x += fdf->map->move_x;
-		printf("move_x: %d\n", fdf->map->move_x);
-		fdf->map->point[i].y += fdf->map->move_y;
+		fdf->map->point[i].y = tmp_y * cos(fdf->map->alpha) + fdf->map->point_og[i].z * sin(fdf->map->alpha) + trans_y;
+		fdf->map->point[i].z = tmp_y * -sin(fdf->map->alpha) + fdf->map->point_og[i].z * cos(fdf->map->alpha);
 		i++;
 	}
 	i = 0;
@@ -124,52 +117,80 @@ int	key_events(int keycode, t_fdf *fdf)
 	if (keycode == ARROW_LEFT)
 	{
 		fdf->map->beta += inc;
+		//rotate_z(fdf);
 		rotate_xyz(fdf);
 	}
 	if (keycode == ARROW_RIGHT)
 	{
 		fdf->map->beta -= inc;
+		//rotate_z(fdf);
 		rotate_xyz(fdf);
 	}
 	if (keycode == ARROW_UP)
 	{
 		fdf->map->alpha -= inc;
+		//rotate_x(fdf);
 		rotate_xyz(fdf);
 	}
 	if (keycode == ARROW_DOWN)
 	{
 		fdf->map->alpha += inc;
+		//rotate_x(fdf);
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_W)
 	{
-		fdf->map->move_y += 20;
+		int	i;
+
+		i = 0;
+		while (i < fdf->map->point_amt)
+		{
+			fdf->map->point_og[i].y += 20;
+			i++;
+		}
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_S)
 	{
-		fdf->map->move_y -= 20;
+		int	i;
+
+		i = 0;
+		while (i < fdf->map->point_amt)
+		{
+			fdf->map->point_og[i].y -= 20;
+			i++;
+		}
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_D)
 	{
-		fdf->map->move_x -= 20;
+		int	i;
+
+		i = 0;
+		while (i < fdf->map->point_amt)
+		{
+			fdf->map->point_og[i].x += 20;
+			i++;
+		}
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_A)
 	{
-		fdf->map->move_x += 20;
+		int	i;
+
+		i = 0;
+		while (i < fdf->map->point_amt)
+		{
+			fdf->map->point_og[i].x -= 20;
+			i++;
+		}
 		rotate_xyz(fdf);
 	}
-	if (keycode == MAIN_LESS && fdf->map->z_scale > 0.5)
+	if (keycode == MAIN_LESS)
 	{
-		fdf->map->z_scale /= 1.1;
+		//fdf->map->z_scale /= 1.1;
 		rotate_xyz(fdf);
-	}
-	if (keycode == MAIN_MORE && fdf->map->z_scale < 20)
-	{
-		fdf->map->z_scale *= 1.1;
-		rotate_xyz(fdf);
+		printf("\n");
 	}
 
 	return (0);
@@ -303,7 +324,6 @@ void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i)
 	}
 }
 
-/*
 void	trans_topleft(t_map *map, int id)
 {
 	int	i;
@@ -311,8 +331,10 @@ void	trans_topleft(t_map *map, int id)
 	int	trans_top;
 
 	trans_left = map->point[map->width * (map->height - 1)].x;
+	/*
 	if (map->point[0].x > map->win_width)
 		trans_left = map->point[0].x;
+		*/
 	trans_top = map->point[0].y;
 	i = 0;
 	while (i < map->point_amt)
@@ -331,16 +353,28 @@ void	trans_topleft(t_map *map, int id)
 		i++;
 	}
 }
-*/
+
+//Scales the map to have the biggest line segments before going OB
 
 // Control function for drawing to an image
 void	draw_control(t_map *map, t_fdf *fdf)
 {
-	// Attaches the initial map to top left corner
-	iso(map->point, map);
-	map->move_x += -map->point[map->width * (map->height - 1)].x;
-	map->move_y += -map->point[0].y;
-	rotate_xyz(fdf);
+	int	i;
+
+	i = 0;
+	trans_topleft(map, 2);
+	while (i < map->point_amt)
+	{
+		iso(&(map->point[i].x), &(map->point[i].y), &(map->point.z), map);
+		i++;
+	}
+	i = 0;
+	while (i < map->point_amt)
+	{
+		draw_point(fdf, map, map->point, i);
+		i++;
+	}
+	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 }
 
 int main(int ac, char **av)
