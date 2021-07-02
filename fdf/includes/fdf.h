@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/02 13:11:11 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/02 14:29:02 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct	s_map
 	int	margin;
 	int	move_x;
 	int	move_y;
+	int	mouse_press;
 	double	z_scale;
 	double	alpha;
 	double	beta;

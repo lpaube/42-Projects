@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/07/02 13:11:37 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/02 14:29:22 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ t_map	*map_init(char **av)
 	map->z_scale = 3.0;
 	map->move_x = 0;
 	map->move_y = 0;
+	map->mouse_press = 0;
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 		terminate(ERR_MAP_OPEN);
