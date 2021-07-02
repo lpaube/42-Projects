@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/01 23:38:45 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/02 11:15:46 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	coord_to_point(t_map *map, t_point *point);
 void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i);
-
 
 void	clear_img(t_fdf *fdf)
 {

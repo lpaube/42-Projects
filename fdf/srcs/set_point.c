@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 20:48:31 by laube             #+#    #+#             */
-/*   Updated: 2021/07/01 22:14:03 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/02 11:29:10 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,14 @@ void iso(int *x, int *y, int *z, t_map *map)
 {
 	double	previous_x;
 	double	previous_y;
-	//double	angle_rad;
-	//double	trans;
 	(void)map;
 
-	//trans = ((map->width - 1) * map->line_len) / 2;
-	//angle_rad = 0.5;
-	previous_x = *x; //- trans - map->margin;
-	previous_y = *y; //- trans - map->margin;
+	previous_x = *x;
+	previous_y = *y;
 
 
 	*x = (previous_x - previous_y) * cos(0.523599);// + trans + map->margin;
-    *y = -*z + (previous_x + previous_y) * sin(0.523599);// + trans + map->margin;
-	/* ROTATION_Z
-	*x = round((previous_x * cos(angle_rad)) + (previous_y * sin(angle_rad)) + 0) + trans + map->margin;
-	*y = round((previous_x * -sin(angle_rad)) + (previous_y * cos(angle_rad)) + 0) + trans + map->margin;
-	*/
+    *y = (3.5 * -*z) + (previous_x + previous_y) * sin(0.523599);// + trans + map->margin;
 }
 
 void	coord_to_point(t_map *map, t_point *point)
