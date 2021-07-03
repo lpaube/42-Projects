@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/07/03 16:09:17 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/03 17:02:25 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ t_map	*map_init(char **av)
 	map->iso = 1;
 	map->bg_color = 'b';
 	map->first = 1;
+	map->big_z = 1;
+	map->small_z = -1;
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 		terminate(ERR_MAP_OPEN);

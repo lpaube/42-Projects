@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/03 16:20:41 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/03 18:01:27 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,66 @@ void	clear_img(t_fdf *fdf)
 
 	i = 0;
 	if (fdf->map->bg_color == 'w')
-		color = 0x00FFFFFF;
+		color = 0x00CCC9C9;
 	else if (fdf->map->bg_color == 'g')
 		color = 0x00335555;
 	else
-		color = 0;
+		color = 0x00322E2F;
 	while (i < (fdf->map->win_width * fdf->map->win_height))
 	{
 		ft_put_pixel(fdf, i % fdf->map->win_width, i / fdf->map->win_width, color);
+		i++;
+	}
+}
+
+int	create_trgb(int t, int r, int g, int b)
+{
+	
+}
+
+void	get_color(t_map *map)
+{
+	if (map->bg_color == 'w')
+	{
+		map->level_color = 0x00000000;
+		map->above_color = 0x000088DD;
+		map->below_color = 0x00AA00AA;
+	}
+	else if (map->bg_color == 'g')
+	{
+		map->level_color = 0x00E2D810;
+		map->above_color = 0x00D9138A;
+		map->below_color = 0x00322E2F;
+	}
+	else
+	{
+		map->level_color = 0x0012A4D9;
+		map->above_color = 0x00D9138A;
+		map->below_color = 0x00D9138A;
+	}
+}
+
+void	color_point(t_map *map, t_point *point)
+{
+	int	i;
+
+
+	get_color(map);
+	i = 0;
+	while (i < map->point_amt)
+	{
+		if (point[i].z > 0)
+		{
+			point[i].color = map->above_color;
+			printf("bigger than 0:pointi: %d\n", i);
+		}
+		else if (point[i].z < 0)
+		{
+			point[i].color = map->below_color;
+			printf("smaller than 0:pointi: %d\n", i);
+		}
+		else
+			point[i].color = map->level_color;
 		i++;
 	}
 }
@@ -51,6 +103,7 @@ void	rotate_xyz(t_fdf *fdf)
 	(void)trans_y;
 	(void)trans_x;
 	clear_img(fdf);
+	color_point(fdf->map, fdf->map->point_og);
 	i = 0;
 	while (i < fdf->map->point_amt)
 	{
@@ -78,7 +131,7 @@ void	rotate_xyz(t_fdf *fdf)
 		fdf->map->point[i].y = tmp_y * cos(fdf->map->alpha) + (fdf->map->point_og[i].z * fdf->map->z_scale) * sin(fdf->map->alpha) + trans_y;
 		fdf->map->point[i].z = tmp_y * -sin(fdf->map->alpha) + (fdf->map->point_og[i].z * fdf->map->z_scale) * cos(fdf->map->alpha);
 		//Movement
-		printf("movex: %d | p.x: %d | movey: %d | p0.y: %d\n", fdf->map->move_x, -fdf->map->point[fdf->map->width * (fdf->map->height - 1)].x, fdf->map->move_y, -fdf->map->point[0].y);
+		//printf("movex: %d | p.x: %d | movey: %d | p0.y: %d\n", fdf->map->move_x, -fdf->map->point[fdf->map->width * (fdf->map->height - 1)].x, fdf->map->move_y, -fdf->map->point[0].y);
 		//fdf->map->point[i].x += fdf->map->move_x;
 		//fdf->map->point[i].y += fdf->map->move_y;
 		i++;
@@ -381,7 +434,8 @@ int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)
 	point_y = p1.y;
 	while (dda.steps >= 0)
 	{
-		ft_put_pixel(fdf, round(point_x), round(point_y), p2.color);
+		//printf("dda:p1.color: %d\n", p1.color);
+		ft_put_pixel(fdf, round(point_x), round(point_y), p1.color);
 		point_x += dda.sign_x * dda.inc_x;
 		point_y += dda.sign_y * dda.inc_y;
 		dda.steps--;
@@ -418,42 +472,15 @@ void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i)
 }
 
 /*
-void	trans_topleft(t_map *map, int id)
-{
-	int	i;
-	int	trans_left;
-	int	trans_top;
-
-	trans_left = map->point[map->width * (map->height - 1)].x;
-	if (map->point[0].x > map->win_width)
-		trans_left = map->point[0].x;
-	trans_top = map->point[0].y;
-	i = 0;
-	while (i < map->point_amt)
-	{
-		// 1 executes first if; 2 executes both if; 3 executes last if
-		if (id > 0 && id <= 2)
-		{
-			map->point[i].x -= trans_left;
-			map->point[i].y -= trans_top;
-		}
-		if (id > 1)
-		{
-			map->point_og[i].x -= trans_left;
-			map->point_og[i].y -= trans_top;
-		}
-		i++;
-	}
-}
-*/
-
 // Control function for drawing to an image
 void	draw_control(t_map *map, t_fdf *fdf)
 {
 	// Attaches the initial map to top left corner
-	iso(map->point, map);
+//	iso(map->point, map);
+	(void)map;
 	rotate_xyz(fdf);
 }
+*/
 
 int main(int ac, char **av)
 {
@@ -463,7 +490,7 @@ int main(int ac, char **av)
 	(void)ac;
 	map = map_init(av);
 	fdf = fdf_init(map);
-	draw_control(map, fdf);
+	rotate_xyz(fdf);
 	//Mouse presses
 	mlx_hook(fdf->win_ptr, 4, 0, mouse_press, fdf);
 	mlx_mouse_hook(fdf->win_ptr, mouse_press, fdf);

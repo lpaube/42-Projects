@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 20:48:31 by laube             #+#    #+#             */
-/*   Updated: 2021/07/03 13:32:23 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/03 17:08:49 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ t_point set_point(t_map *map, int z, int col, int row)
 	point.row = row;
 	point.z = z;
 	coord_to_point(map, &point);
+	if (z > map->big_z)
+		map->big_z = z;
+	if (z < map->small_z)
+		map->small_z = z;
 	switch (row)
 	{
 		case 0:
@@ -98,7 +102,7 @@ void	map_to_point(t_map *map, int fd, int i)
 		row = ft_split(line, ' ');
 		while (*row)
 		{
-			map->point[i] = set_point(map, ft_atoi(*row), curr_col, curr_row);
+			//map->point[i] = set_point(map, ft_atoi(*row), curr_col, curr_row);
 			map->point_og[i] = set_point(map, ft_atoi(*row), curr_col, curr_row);
 			curr_col++;
 			row++;
