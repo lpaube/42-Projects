@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 20:48:31 by laube             #+#    #+#             */
-/*   Updated: 2021/07/02 12:30:03 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/03 13:32:23 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void iso(t_point *point, t_map *map)
 		tmp_y = point[i].y;
 
 		point[i].x = (tmp_x - tmp_y) * cos(0.523599);
-		point[i].y = (map->z_scale * -point[i].z) + (tmp_x + tmp_y) * sin(0.523599);
+		point[i].y = -point[i].z + (tmp_x + tmp_y) * sin(0.523599);
 		i++;
 	}
 }

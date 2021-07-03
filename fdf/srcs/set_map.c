@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/07/03 12:38:47 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/03 12:54:12 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_map	*map_init(char **av)
 	map->point_amt = map->width * map->height;
 	map->point = malloc(sizeof(t_point) * map->point_amt);
 	map->point_og = malloc(sizeof(t_point) * map->point_amt);
-	map->z_scale = 3.0;
+	map->z_scale = 4.0;
 	map->move_x = 0;
 	map->move_y = 0;
 	map->mouse_press = 0;

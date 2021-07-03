@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/03 12:41:00 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/03 13:40:25 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ void	rotate_xyz(t_fdf *fdf)
 
 	(void)tmp_x;
 	(void)tmp_y;
+	(void)mid_p;
+	(void)trans_y;
+	(void)trans_x;
 	clear_img(fdf);
 	i = 0;
 	while (i < fdf->map->point_amt)
@@ -53,7 +56,6 @@ void	rotate_xyz(t_fdf *fdf)
 		fdf->map->point[i] = fdf->map->point_og[i];
 		i++;
 	}
-	iso(fdf->map->point, fdf->map);
 	mid_p = fdf->map->point[((fdf->map->height / 2) * fdf->map->width) + (fdf->map->width / 2)];
 	trans_x = mid_p.x;
 	trans_y = mid_p.y;
@@ -67,18 +69,19 @@ void	rotate_xyz(t_fdf *fdf)
 		fdf->map->point[i].x = tmp_x * cos(fdf->map->gamma) + tmp_y * sin(fdf->map->gamma);
 		fdf->map->point[i].y = tmp_x * -sin(fdf->map->gamma) + tmp_y * cos(fdf->map->gamma);
 		//Rotate Y
-		fdf->map->point[i].x = tmp_x * cos(fdf->map->beta) + fdf->map->point[i].z * -sin(fdf->map->beta) + trans_x;
-		fdf->map->point[i].z = tmp_x * sin(fdf->map->beta) + fdf->map->point[i].z * cos(fdf->map->beta);
+		fdf->map->point[i].x = tmp_x * cos(fdf->map->beta) + (fdf->map->point_og[i].z * fdf->map->z_scale) * -sin(fdf->map->beta) + trans_x;
+		fdf->map->point[i].z = tmp_x * sin(fdf->map->beta) + (fdf->map->point_og[i].z * fdf->map->z_scale) * cos(fdf->map->beta);
 		//Rotate X
 		tmp_x = fdf->map->point[i].x;
 		tmp_y = fdf->map->point[i].y;
-		fdf->map->point[i].y = tmp_y * cos(fdf->map->alpha) + fdf->map->point[i].z * sin(fdf->map->alpha) + trans_y;
-		fdf->map->point[i].z = tmp_y * -sin(fdf->map->alpha) + fdf->map->point[i].z * cos(fdf->map->alpha);
+		fdf->map->point[i].y = tmp_y * cos(fdf->map->alpha) + (fdf->map->point_og[i].z * fdf->map->z_scale) * sin(fdf->map->alpha) + trans_y;
+		fdf->map->point[i].z = tmp_y * -sin(fdf->map->alpha) + (fdf->map->point_og[i].z * fdf->map->z_scale) * cos(fdf->map->alpha);
 		//Movement
 		fdf->map->point[i].x += fdf->map->move_x;
 		fdf->map->point[i].y += fdf->map->move_y;
 		i++;
 	}
+	iso(fdf->map->point, fdf->map);
 	i = 0;
 	while (i < fdf->map->point_amt)
 	{
@@ -198,22 +201,26 @@ int	key_press(int keycode, t_fdf *fdf)
 	}
 	if (keycode == MAIN_W)
 	{
-		fdf->map->move_y += 20;
+		fdf->map->move_y += 15;
+		fdf->map->move_x += 15;
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_S)
 	{
-		fdf->map->move_y -= 20;
+		fdf->map->move_y -= 15;
+		fdf->map->move_x -= 15;
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_D)
 	{
-		fdf->map->move_x -= 20;
+		fdf->map->move_x -= 15;
+		fdf->map->move_y += 15;
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_A)
 	{
-		fdf->map->move_x += 20;
+		fdf->map->move_x += 15;
+		fdf->map->move_y -= 15;
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_LESS && fdf->map->z_scale > 0.5)
@@ -221,7 +228,7 @@ int	key_press(int keycode, t_fdf *fdf)
 		fdf->map->z_scale /= 1.1;
 		rotate_xyz(fdf);
 	}
-	if (keycode == MAIN_MORE && fdf->map->z_scale < 20)
+	if (keycode == MAIN_MORE && fdf->map->z_scale < 30)
 	{
 		fdf->map->z_scale *= 1.1;
 		rotate_xyz(fdf);
