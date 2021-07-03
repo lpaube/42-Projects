@@ -33,6 +33,7 @@
 # define MAIN_A				0
 # define MAIN_S				1
 # define MAIN_D				2
+# define MAIN_B				11
 
 # define MAIN_0				29
 # define MAIN_1				18

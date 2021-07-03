@@ -13,8 +13,8 @@
 #ifndef FDF_H
 # define FDF_H
 
-//# include "./key_codes_mac.h"
-# include "./key_codes_linux.h"
+# include "./key_codes_mac.h"
+//# include "./key_codes_linux.h"
 # include "../libft/libft.h"
 # include "./error_message.h"
 # include "../libft/get_next_line.h"

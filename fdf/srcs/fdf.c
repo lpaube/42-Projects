@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/03 13:40:25 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/03 13:57:11 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -436,13 +436,13 @@ int main(int ac, char **av)
 	draw_control(map, fdf);
 	//Mouse presses
 	mlx_hook(fdf->win_ptr, 4, 0, mouse_press, fdf);
-	mlx_mouse_hook(fdf->win_ptr, mouse_press, fdf);
+//	mlx_mouse_hook(fdf->win_ptr, mouse_press, fdf);
 	//Mouse release
 	mlx_hook(fdf->win_ptr, 5, 0, mouse_release, fdf);
 	//Mouse movement
 	mlx_hook(fdf->win_ptr, 6, 0, mouse_move, fdf);
 	//Keyboard presses
 	mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
-	mlx_key_hook(fdf->win_ptr, key_press, fdf);
+//	mlx_key_hook(fdf->win_ptr, key_press, fdf);
 	mlx_loop(fdf->mlx_ptr);
 }
