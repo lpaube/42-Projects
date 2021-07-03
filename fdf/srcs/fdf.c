@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/02 17:08:10 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/03 12:41:00 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,23 @@
 
 void	coord_to_point(t_map *map, t_point *point);
 void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i);
+void	ft_put_pixel(t_fdf *fdf, int x, int y, int color);
 
 void	clear_img(t_fdf *fdf)
 {
 	int	i;
+	int	color;
 
 	i = 0;
-	while (i < (fdf->map->win_width * fdf->map->win_height) * 4)
+	if (fdf->map->bg_color == 'w')
+		color = 0x00FFFFFF;
+	else if (fdf->map->bg_color == 'g')
+		color = 0x00335555;
+	else
+		color = 0;
+	while (i < (fdf->map->win_width * fdf->map->win_height))
 	{
-		fdf->addr[i] = 0;
+		ft_put_pixel(fdf, i % fdf->map->win_width, i / fdf->map->win_width, color);
 		i++;
 	}
 }
@@ -87,6 +95,7 @@ int	mouse_press(int button, int x, int y, t_fdf *fdf)
 {
 	int	i;
 
+	printf("mouse button: %d\n", button);
 	//SCROLL TO ZOOM
 	if (button == 4 && fdf->map->line_len < round(fdf->map->win_width / 8))
 	{
@@ -156,10 +165,11 @@ int	mouse_move(int x, int y, t_fdf *fdf)
 	return (0);
 }
 
-int	key_events(int keycode, t_fdf *fdf)
+int	key_press(int keycode, t_fdf *fdf)
 {
 	double			inc;
 
+	printf("keycode: %d\n", keycode);
 	inc = 0.1;
 	if (keycode == MAIN_ESC)
 	{
@@ -226,6 +236,16 @@ int	key_events(int keycode, t_fdf *fdf)
 		fdf->map->iso = 0;
 		rotate_xyz(fdf);
 	}
+	if (keycode == MAIN_B)
+	{
+		if (fdf->map->bg_color == 'b')
+			fdf->map->bg_color = 'g';
+		else if (fdf->map->bg_color == 'g')
+			fdf->map->bg_color = 'w';
+		else
+			fdf->map->bg_color = 'b';
+		rotate_xyz(fdf);
+	}
 	return (0);
 }
 
@@ -257,6 +277,7 @@ void	terminate(char *s)
 		perror(s);
 }
 
+// y and x begins at 0, like an index
 void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 {
 	int	pxl_pos;
@@ -408,11 +429,13 @@ int main(int ac, char **av)
 	draw_control(map, fdf);
 	//Mouse presses
 	mlx_hook(fdf->win_ptr, 4, 0, mouse_press, fdf);
+	mlx_mouse_hook(fdf->win_ptr, mouse_press, fdf);
 	//Mouse release
 	mlx_hook(fdf->win_ptr, 5, 0, mouse_release, fdf);
 	//Mouse movement
 	mlx_hook(fdf->win_ptr, 6, 0, mouse_move, fdf);
 	//Keyboard presses
-	mlx_hook(fdf->win_ptr, 2, 0, key_events, fdf);
+	mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
+	mlx_key_hook(fdf->win_ptr, key_press, fdf);
 	mlx_loop(fdf->mlx_ptr);
 }

@@ -6,14 +6,15 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/02 17:26:42 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/03 11:47:43 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include "./key_codes_mac.h"
+//# include "./key_codes_mac.h"
+# include "./key_codes_linux.h"
 # include "../libft/libft.h"
 # include "./error_message.h"
 # include "../libft/get_next_line.h"
