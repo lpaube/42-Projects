@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/03 13:57:11 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/03 16:20:41 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	clear_img(t_fdf *fdf)
 void	rotate_xyz(t_fdf *fdf)
 {
 	int	i;
+	int	j;
 	int	trans_x;
 	int	trans_y;
 	int	tmp_x;
@@ -77,20 +78,29 @@ void	rotate_xyz(t_fdf *fdf)
 		fdf->map->point[i].y = tmp_y * cos(fdf->map->alpha) + (fdf->map->point_og[i].z * fdf->map->z_scale) * sin(fdf->map->alpha) + trans_y;
 		fdf->map->point[i].z = tmp_y * -sin(fdf->map->alpha) + (fdf->map->point_og[i].z * fdf->map->z_scale) * cos(fdf->map->alpha);
 		//Movement
-		fdf->map->point[i].x += fdf->map->move_x;
-		fdf->map->point[i].y += fdf->map->move_y;
+		printf("movex: %d | p.x: %d | movey: %d | p0.y: %d\n", fdf->map->move_x, -fdf->map->point[fdf->map->width * (fdf->map->height - 1)].x, fdf->map->move_y, -fdf->map->point[0].y);
+		//fdf->map->point[i].x += fdf->map->move_x;
+		//fdf->map->point[i].y += fdf->map->move_y;
 		i++;
 	}
-	iso(fdf->map->point, fdf->map);
+	if (fdf->map->iso)
+		iso(fdf->map->point, fdf->map);
+	if (fdf->map->first == 1)
+	{
+		fdf->map->first = 0;
+		fdf->map->move_x = -(fdf->map->point[fdf->map->width * (fdf->map->height - 1)].x);
+		fdf->map->move_y = -(fdf->map->point[0].y);
+	}
+	j = 0;
+	while (j < fdf->map->point_amt)
+	{
+		fdf->map->point[j].x += fdf->map->move_x;
+		fdf->map->point[j].y += fdf->map->move_y;
+		j++;
+	}
 	i = 0;
 	while (i < fdf->map->point_amt)
-	{
-		if (fdf->map->iso)
-			draw_point(fdf, fdf->map, fdf->map->point, i);
-		else if (fdf->map->iso == 0)
-			draw_point(fdf, fdf->map, fdf->map->point_og, i);
-		i++;
-	}
+			draw_point(fdf, fdf->map, fdf->map->point, i++);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 }
 
@@ -170,9 +180,11 @@ int	mouse_move(int x, int y, t_fdf *fdf)
 
 int	key_press(int keycode, t_fdf *fdf)
 {
-	double			inc;
+	int		i;
+	double	inc;
 
 	printf("keycode: %d\n", keycode);
+	i = 0;
 	inc = 0.1;
 	if (keycode == MAIN_ESC)
 	{
@@ -201,26 +213,22 @@ int	key_press(int keycode, t_fdf *fdf)
 	}
 	if (keycode == MAIN_W)
 	{
-		fdf->map->move_y += 15;
-		fdf->map->move_x += 15;
+		fdf->map->move_y += 20;
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_S)
 	{
-		fdf->map->move_y -= 15;
-		fdf->map->move_x -= 15;
+		fdf->map->move_y -= 20;
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_D)
 	{
-		fdf->map->move_x -= 15;
-		fdf->map->move_y += 15;
+		fdf->map->move_x -= 20;
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_A)
 	{
-		fdf->map->move_x += 15;
-		fdf->map->move_y -= 15;
+		fdf->map->move_x += 20;
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_LESS && fdf->map->z_scale > 0.5)
@@ -236,11 +244,35 @@ int	key_press(int keycode, t_fdf *fdf)
 	if (keycode == MAIN_I && fdf->map->iso != 1)
 	{
 		fdf->map->iso = 1;
+		fdf->map->alpha = 0;
+		fdf->map->beta = 0;
+		fdf->map->gamma = 0;
+		fdf->map->first = 1;
+		//fdf->map->move_x = -((fdf->map->point[fdf->map->width * (fdf->map->height - 1)].x) - fdf->map->move_x);
+		//fdf->map->move_y = -((fdf->map->point[0].y) + fdf->map->move_y);
+		get_line_len(fdf->map);
+		while (i < fdf->map->point_amt)
+		{
+			coord_to_point(fdf->map, &(fdf->map->point_og[i]));
+			i++;
+		}
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_P && fdf->map->iso != 0)
 	{
 		fdf->map->iso = 0;
+		fdf->map->alpha = 0;
+		fdf->map->beta = 0;
+		fdf->map->gamma = 0;
+		fdf->map->first = 1;
+		//fdf->map->move_x = -((fdf->map->point[fdf->map->width * (fdf->map->height - 1)].x) - fdf->map->move_x);
+		//fdf->map->move_y = -((fdf->map->point[0].y) + fdf->map->move_y);
+		get_line_len(fdf->map);
+		while (i < fdf->map->point_amt)
+		{
+			coord_to_point(fdf->map, &(fdf->map->point_og[i]));
+			i++;
+		}
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_B)
@@ -420,8 +452,6 @@ void	draw_control(t_map *map, t_fdf *fdf)
 {
 	// Attaches the initial map to top left corner
 	iso(map->point, map);
-	map->move_x += -map->point[map->width * (map->height - 1)].x;
-	map->move_y += -map->point[0].y;
 	rotate_xyz(fdf);
 }
 
@@ -436,13 +466,13 @@ int main(int ac, char **av)
 	draw_control(map, fdf);
 	//Mouse presses
 	mlx_hook(fdf->win_ptr, 4, 0, mouse_press, fdf);
-//	mlx_mouse_hook(fdf->win_ptr, mouse_press, fdf);
+	mlx_mouse_hook(fdf->win_ptr, mouse_press, fdf);
 	//Mouse release
 	mlx_hook(fdf->win_ptr, 5, 0, mouse_release, fdf);
 	//Mouse movement
 	mlx_hook(fdf->win_ptr, 6, 0, mouse_move, fdf);
 	//Keyboard presses
 	mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
-//	mlx_key_hook(fdf->win_ptr, key_press, fdf);
+	mlx_key_hook(fdf->win_ptr, key_press, fdf);
 	mlx_loop(fdf->mlx_ptr);
 }

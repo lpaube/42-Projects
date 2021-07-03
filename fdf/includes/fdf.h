@@ -6,15 +6,15 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/03 11:47:43 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/03 16:06:59 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include "./key_codes_mac.h"
-//# include "./key_codes_linux.h"
+//# include "./key_codes_mac.h"
+# include "./key_codes_linux.h"
 # include "../libft/libft.h"
 # include "./error_message.h"
 # include "../libft/get_next_line.h"
@@ -49,6 +49,7 @@ typedef struct	s_map
 	int	mouse_x;
 	int	mouse_y;
 	int	iso;
+	int	first;
 	char	bg_color;
 	double	z_scale;
 	double	alpha;
@@ -89,5 +90,7 @@ void	map_to_point(t_map *map, int fd, int i);
 void	adjust_points(t_fdf	*fdf);
 void 	iso(t_point *point, t_map *map);
 void	trans_topleft(t_map *map, int id);
+void	get_line_len(t_map *map);
+
 
 #endif
