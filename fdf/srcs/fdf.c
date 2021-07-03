@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/03 18:01:27 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/03 18:05:27 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 void	coord_to_point(t_map *map, t_point *point);
 void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i);
 void	ft_put_pixel(t_fdf *fdf, int x, int y, int color);
+
+int	get_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
 
 void	clear_img(t_fdf *fdf)
 {
@@ -27,17 +32,12 @@ void	clear_img(t_fdf *fdf)
 	else if (fdf->map->bg_color == 'g')
 		color = 0x00335555;
 	else
-		color = 0x00322E2F;
+		color = get_trgb(0, 0, 255, 255);
 	while (i < (fdf->map->win_width * fdf->map->win_height))
 	{
 		ft_put_pixel(fdf, i % fdf->map->win_width, i / fdf->map->win_width, color);
 		i++;
 	}
-}
-
-int	create_trgb(int t, int r, int g, int b)
-{
-	
 }
 
 void	get_color(t_map *map)
