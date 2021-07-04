@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/03 22:54:25 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/04 00:05:30 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	color_point(t_map *map, t_point *point)
 		max_no_col = 255 - round((((double)point[i].z - map->small_z) / max_z) * 255);
 		max_full_col = round((((double)point[i].z - map->small_z) / max_z) * 255);
 		if (map->bg_color == 'w')
-			point[i].color = get_trgb(0, 0, max_no_col, max_no_col);
+			point[i].color = get_trgb(0, 0, max_full_col, max_full_col);
 		else if (map->bg_color == 'g')
 			point[i].color = get_trgb(0, max_full_col, max_no_col, max_no_col);
 		else
@@ -212,6 +212,7 @@ int	key_press(int keycode, t_fdf *fdf)
 	int		i;
 	double	inc;
 
+	(void)inc;
 	printf("keycode: %d\n", keycode);
 	i = 0;
 	inc = 0.1;
@@ -222,22 +223,22 @@ int	key_press(int keycode, t_fdf *fdf)
 	}
 	if (keycode == ARROW_LEFT)
 	{
-		fdf->map->beta += inc;
+		fdf->map->beta += 1.5708;
 		rotate_xyz(fdf);
 	}
 	if (keycode == ARROW_RIGHT)
 	{
-		fdf->map->beta -= inc;
+		fdf->map->beta -= 1.5708;
 		rotate_xyz(fdf);
 	}
 	if (keycode == ARROW_UP)
 	{
-		fdf->map->alpha -= inc;
+		fdf->map->alpha -= 1.5708;
 		rotate_xyz(fdf);
 	}
 	if (keycode == ARROW_DOWN)
 	{
-		fdf->map->alpha += inc;
+		fdf->map->alpha += 1.5708;
 		rotate_xyz(fdf);
 	}
 	if (keycode == MAIN_W)
@@ -270,15 +271,13 @@ int	key_press(int keycode, t_fdf *fdf)
 		fdf->map->z_scale *= 1.1;
 		rotate_xyz(fdf);
 	}
-	if (keycode == MAIN_I && fdf->map->iso != 1)
+	if (keycode == MAIN_I)
 	{
 		fdf->map->iso = 1;
 		fdf->map->alpha = 0;
 		fdf->map->beta = 0;
 		fdf->map->gamma = 0;
 		fdf->map->first = 1;
-		//fdf->map->move_x = -((fdf->map->point[fdf->map->width * (fdf->map->height - 1)].x) - fdf->map->move_x);
-		//fdf->map->move_y = -((fdf->map->point[0].y) + fdf->map->move_y);
 		get_line_len(fdf->map);
 		while (i < fdf->map->point_amt)
 		{
@@ -287,15 +286,13 @@ int	key_press(int keycode, t_fdf *fdf)
 		}
 		rotate_xyz(fdf);
 	}
-	if (keycode == MAIN_P && fdf->map->iso != 0)
+	if (keycode == MAIN_P)
 	{
 		fdf->map->iso = 0;
 		fdf->map->alpha = 0;
 		fdf->map->beta = 0;
 		fdf->map->gamma = 0;
 		fdf->map->first = 1;
-		//fdf->map->move_x = -((fdf->map->point[fdf->map->width * (fdf->map->height - 1)].x) - fdf->map->move_x);
-		//fdf->map->move_y = -((fdf->map->point[0].y) + fdf->map->move_y);
 		get_line_len(fdf->map);
 		while (i < fdf->map->point_amt)
 		{
@@ -387,6 +384,40 @@ t_dda	get_dda(t_point p1, t_point p2)
 	return (dda);
 }
 
+double	percent(int start, int end, int curr)
+{
+	double	placement;
+	double	distance;
+
+	placement = curr - start;
+	distance = end - start;
+	if (distance == 0)
+		return (1.0);
+	return (placement / distance);
+}
+
+int	get_light(int start, int end, double percentage)
+{
+	return ((int)((1 - percentage) * start + percentage * end));
+}
+
+int	get_color(int curr_x, int curr_y, t_point p1, t_point p2)
+{
+	int	red;
+	int	green;
+	int	blue;
+	double	percentage;
+
+	if (p2.x - p1.x > p2.y - p1.y)
+		percentage = percent(p1.x, p2.x, curr_x);
+	else
+		percentage = percent(p1.y, p2.y, curr_y);
+	red = get_light((p1.color >> 16) & 0xFF, (p2.color >> 16) & 0xFF, percentage);
+	green = get_light((p1.color >> 8) & 0xFF, (p2.color >> 8) & 0xFF, percentage);
+	blue = get_light(p1.color & 0xFF, p2.color & 0xFF, percentage);
+	return ((red << 16) | (green << 8) | blue);
+}
+
 int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)
 {
 	t_dda	dda;
@@ -411,7 +442,7 @@ int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)
 	while (dda.steps >= 0)
 	{
 		//printf("dda:p1.color: %d\n", p1.color);
-		ft_put_pixel(fdf, round(point_x), round(point_y), p1.color);
+		ft_put_pixel(fdf, round(point_x), round(point_y), get_color(point_x, point_y, p1, p2));
 		point_x += dda.sign_x * dda.inc_x;
 		point_y += dda.sign_y * dda.inc_y;
 		dda.steps--;

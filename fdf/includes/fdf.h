@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/03 17:15:44 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/04 00:13:30 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct	s_point
 	int	color;
 	int	row;
 	int	col;
+	int	expl_color;
 }	t_point;
 
 typedef struct	s_map

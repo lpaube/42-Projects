@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 20:48:31 by laube             #+#    #+#             */
-/*   Updated: 2021/07/03 17:08:49 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/04 00:17:57 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,36 +50,18 @@ t_point set_point(t_map *map, int z, int col, int row)
 		map->big_z = z;
 	if (z < map->small_z)
 		map->small_z = z;
-	switch (row)
-	{
-		case 0:
-			point.color = 0x00FFFF55;
-			break;
-		case 1:
-			point.color = 0x00FFDD55;
-			break;
-		case 2:
-			point.color = 0x00FFBB55;
-			break;
-		case 3:
-			point.color = 0x00FF9955;
-			break;
-		case 4:
-			point.color = 0x00FF7755;
-			break;
-		case 5:
-			point.color = 0x00FF5555;
-			break;
-		case 6:
-			point.color = 0x00FF3355;
-			break;
-		case 7:
-			point.color = 0x00FF1155;
-			break;
-		default:
-			point.color = 0x00EE0055;
-	}
 	return (point);
+}
+
+void	explicit_color(t_map *map, t_point *point)
+{
+	int	i;
+
+	i = 0;
+	while (i < map->point_amt)
+	{
+		
+	}
 }
 
 // Makes array of points with correct number relative to num of points on map
@@ -110,4 +92,5 @@ void	map_to_point(t_map *map, int fd, int i)
 		}
 		curr_row++;
 	}
+	explicit_color(map->point_og);
 }
