@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/03 18:05:27 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/03 22:54:25 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	coord_to_point(t_map *map, t_point *point);
 void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i);
 void	ft_put_pixel(t_fdf *fdf, int x, int y, int color);
-
 int	get_trgb(int t, int r, int g, int b)
 {
 	return (t << 24 | r << 16 | g << 8 | b);
@@ -28,11 +27,11 @@ void	clear_img(t_fdf *fdf)
 
 	i = 0;
 	if (fdf->map->bg_color == 'w')
-		color = 0x00CCC9C9;
+		color = 0x00AA8888;
 	else if (fdf->map->bg_color == 'g')
 		color = 0x00335555;
 	else
-		color = get_trgb(0, 0, 255, 255);
+		color = 0X00000000;
 	while (i < (fdf->map->win_width * fdf->map->win_height))
 	{
 		ft_put_pixel(fdf, i % fdf->map->win_width, i / fdf->map->win_width, color);
@@ -40,49 +39,26 @@ void	clear_img(t_fdf *fdf)
 	}
 }
 
-void	get_color(t_map *map)
-{
-	if (map->bg_color == 'w')
-	{
-		map->level_color = 0x00000000;
-		map->above_color = 0x000088DD;
-		map->below_color = 0x00AA00AA;
-	}
-	else if (map->bg_color == 'g')
-	{
-		map->level_color = 0x00E2D810;
-		map->above_color = 0x00D9138A;
-		map->below_color = 0x00322E2F;
-	}
-	else
-	{
-		map->level_color = 0x0012A4D9;
-		map->above_color = 0x00D9138A;
-		map->below_color = 0x00D9138A;
-	}
-}
-
 void	color_point(t_map *map, t_point *point)
 {
 	int	i;
+	int	max_z;
+	int	max_full_col;
+	int	max_no_col;
 
+	max_z = map->big_z - map->small_z;
 
-	get_color(map);
 	i = 0;
 	while (i < map->point_amt)
 	{
-		if (point[i].z > 0)
-		{
-			point[i].color = map->above_color;
-			printf("bigger than 0:pointi: %d\n", i);
-		}
-		else if (point[i].z < 0)
-		{
-			point[i].color = map->below_color;
-			printf("smaller than 0:pointi: %d\n", i);
-		}
+		max_no_col = 255 - round((((double)point[i].z - map->small_z) / max_z) * 255);
+		max_full_col = round((((double)point[i].z - map->small_z) / max_z) * 255);
+		if (map->bg_color == 'w')
+			point[i].color = get_trgb(0, 0, max_no_col, max_no_col);
+		else if (map->bg_color == 'g')
+			point[i].color = get_trgb(0, max_full_col, max_no_col, max_no_col);
 		else
-			point[i].color = map->level_color;
+			point[i].color = get_trgb(0, 225, max_full_col, max_full_col);
 		i++;
 	}
 }
