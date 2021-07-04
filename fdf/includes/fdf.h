@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/04 00:13:30 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/04 12:02:41 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct	s_point
 	int	row;
 	int	col;
 	int	expl_color;
+	int	expl_color_set;
 }	t_point;
 
 typedef struct	s_map
@@ -91,7 +92,7 @@ typedef struct	s_dda
 
 t_map	*map_init(char **av);
 void	terminate(char *s);
-t_point set_point(t_map *map, int z, int col, int row);
+t_point set_point(t_map *map, char *num, int col, int row);
 void	map_to_point(t_map *map, int fd, int i);
 void	adjust_points(t_fdf	*fdf);
 void 	iso(t_point *point, t_map *map);

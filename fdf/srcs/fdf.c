@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/04 00:05:30 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/04 13:15:16 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	clear_img(t_fdf *fdf)
 	else if (fdf->map->bg_color == 'g')
 		color = 0x00335555;
 	else
-		color = 0X00000000;
+		color = 0x0015202B;
 	while (i < (fdf->map->win_width * fdf->map->win_height))
 	{
 		ft_put_pixel(fdf, i % fdf->map->win_width, i / fdf->map->win_width, color);
@@ -59,6 +59,10 @@ void	color_point(t_map *map, t_point *point)
 			point[i].color = get_trgb(0, max_full_col, max_no_col, max_no_col);
 		else
 			point[i].color = get_trgb(0, 225, max_full_col, max_full_col);
+		if (point[i].expl_color_set == 1)
+		{
+			point[i].color = point[i].expl_color;
+		}
 		i++;
 	}
 }
@@ -454,18 +458,16 @@ void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i)
 {
 	if (point[i].x < 0 || point[i].y < 0)
 	{
-	//	printf("Point is smaller than 0 (OB) | p.x: %d | p.y: %d | i: %d\n", point[i].x, point[i].y, i);
 		return ;
 	}
 	if (point[i].x > map->win_width || point[i].y > map->win_height)
 	{
-		//printf("Point is greater than 0 (OB) | p.x: %d | p.y: %d | i: %d\n", point[i].x, point[i].y, i);
 		return ;
 	}
 	if (i < map->point_amt)
 	{
 		//DRAWING POINTS
-		ft_put_pixel(fdf, point[i].x, point[i].y, point[i].color);
+		//ft_put_pixel(fdf, point[i].x, point[i].y, point[i].color);
 		//DRAWING LINES
 		if (point[i].row < map->height - 1)
 		{
