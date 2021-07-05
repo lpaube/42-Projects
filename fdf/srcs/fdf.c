@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/04 13:15:16 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/04 21:29:15 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,60 +14,8 @@
 
 void	coord_to_point(t_map *map, t_point *point);
 void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i);
-void	ft_put_pixel(t_fdf *fdf, int x, int y, int color);
-int	get_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
 
-void	clear_img(t_fdf *fdf)
-{
-	int	i;
-	int	color;
-
-	i = 0;
-	if (fdf->map->bg_color == 'w')
-		color = 0x00AA8888;
-	else if (fdf->map->bg_color == 'g')
-		color = 0x00335555;
-	else
-		color = 0x0015202B;
-	while (i < (fdf->map->win_width * fdf->map->win_height))
-	{
-		ft_put_pixel(fdf, i % fdf->map->win_width, i / fdf->map->win_width, color);
-		i++;
-	}
-}
-
-void	color_point(t_map *map, t_point *point)
-{
-	int	i;
-	int	max_z;
-	int	max_full_col;
-	int	max_no_col;
-
-	max_z = map->big_z - map->small_z;
-
-	i = 0;
-	while (i < map->point_amt)
-	{
-		max_no_col = 255 - round((((double)point[i].z - map->small_z) / max_z) * 255);
-		max_full_col = round((((double)point[i].z - map->small_z) / max_z) * 255);
-		if (map->bg_color == 'w')
-			point[i].color = get_trgb(0, 0, max_full_col, max_full_col);
-		else if (map->bg_color == 'g')
-			point[i].color = get_trgb(0, max_full_col, max_no_col, max_no_col);
-		else
-			point[i].color = get_trgb(0, 225, max_full_col, max_full_col);
-		if (point[i].expl_color_set == 1)
-		{
-			point[i].color = point[i].expl_color;
-		}
-		i++;
-	}
-}
-
-void	rotate_xyz(t_fdf *fdf)
+void	rotate_xyz(t_fdf *fdf, t_map *map, t_cam *cam)
 {
 	int	i;
 	int	j;
@@ -82,58 +30,55 @@ void	rotate_xyz(t_fdf *fdf)
 	(void)mid_p;
 	(void)trans_y;
 	(void)trans_x;
-	clear_img(fdf);
-	color_point(fdf->map, fdf->map->point_og);
+	clear_img(fdf, map);
+	color_point(map, map->point_og);
 	i = 0;
-	while (i < fdf->map->point_amt)
+	while (i < map->point_amt)
 	{
-		fdf->map->point[i] = fdf->map->point_og[i];
+		map->point[i] = map->point_og[i];
 		i++;
 	}
-	mid_p = fdf->map->point[((fdf->map->height / 2) * fdf->map->width) + (fdf->map->width / 2)];
+	mid_p = map->point[((map->height / 2) * map->width) + (map->width / 2)];
 	trans_x = mid_p.x;
 	trans_y = mid_p.y;
 	
 	i = 0;
-	while (i < fdf->map->point_amt)
+	while (i < map->point_amt)
 	{
-		tmp_x = fdf->map->point[i].x - trans_x;
-		tmp_y = fdf->map->point[i].y - trans_y;
+		tmp_x = map->point[i].x - trans_x;
+		tmp_y = map->point[i].y - trans_y;
 		//Rotate Z
-		fdf->map->point[i].x = tmp_x * cos(fdf->map->gamma) + tmp_y * sin(fdf->map->gamma);
-		fdf->map->point[i].y = tmp_x * -sin(fdf->map->gamma) + tmp_y * cos(fdf->map->gamma);
+		map->point[i].x = tmp_x * cos(cam->gamma) + tmp_y * sin(cam->gamma);
+		map->point[i].y = tmp_x * -sin(cam->gamma) + tmp_y * cos(cam->gamma);
 		//Rotate Y
-		fdf->map->point[i].x = tmp_x * cos(fdf->map->beta) + (fdf->map->point_og[i].z * fdf->map->z_scale) * -sin(fdf->map->beta) + trans_x;
-		fdf->map->point[i].z = tmp_x * sin(fdf->map->beta) + (fdf->map->point_og[i].z * fdf->map->z_scale) * cos(fdf->map->beta);
+		map->point[i].x = tmp_x * cos(cam->beta) + (map->point_og[i].z * cam->z_scale) * -sin(cam->beta) + trans_x;
+		map->point[i].z = tmp_x * sin(cam->beta) + (map->point_og[i].z * cam->z_scale) * cos(cam->beta);
 		//Rotate X
-		tmp_x = fdf->map->point[i].x;
-		tmp_y = fdf->map->point[i].y;
-		fdf->map->point[i].y = tmp_y * cos(fdf->map->alpha) + (fdf->map->point_og[i].z * fdf->map->z_scale) * sin(fdf->map->alpha) + trans_y;
-		fdf->map->point[i].z = tmp_y * -sin(fdf->map->alpha) + (fdf->map->point_og[i].z * fdf->map->z_scale) * cos(fdf->map->alpha);
+		tmp_x = map->point[i].x;
+		tmp_y = map->point[i].y;
+		map->point[i].y = tmp_y * cos(cam->alpha) + (map->point_og[i].z * cam->z_scale) * sin(cam->alpha) + trans_y;
+		map->point[i].z = tmp_y * -sin(cam->alpha) + (map->point_og[i].z * cam->z_scale) * cos(cam->alpha);
 		//Movement
-		//printf("movex: %d | p.x: %d | movey: %d | p0.y: %d\n", fdf->map->move_x, -fdf->map->point[fdf->map->width * (fdf->map->height - 1)].x, fdf->map->move_y, -fdf->map->point[0].y);
-		//fdf->map->point[i].x += fdf->map->move_x;
-		//fdf->map->point[i].y += fdf->map->move_y;
 		i++;
 	}
-	if (fdf->map->iso)
-		iso(fdf->map->point, fdf->map);
-	if (fdf->map->first == 1)
+	if (cam->iso)
+		iso(map->point, map);
+	if (map->first == 1)
 	{
-		fdf->map->first = 0;
-		fdf->map->move_x = -(fdf->map->point[fdf->map->width * (fdf->map->height - 1)].x);
-		fdf->map->move_y = -(fdf->map->point[0].y);
+		map->first = 0;
+		cam->move_x = -(map->point[map->width * (map->height - 1)].x);
+		cam->move_y = -(map->point[0].y);
 	}
 	j = 0;
-	while (j < fdf->map->point_amt)
+	while (j < map->point_amt)
 	{
-		fdf->map->point[j].x += fdf->map->move_x;
-		fdf->map->point[j].y += fdf->map->move_y;
+		map->point[j].x += cam->move_x;
+		map->point[j].y += cam->move_y;
 		j++;
 	}
 	i = 0;
-	while (i < fdf->map->point_amt)
-			draw_point(fdf, fdf->map, fdf->map->point, i++);
+	while (i < map->point_amt)
+			draw_point(fdf, map, map->point, i++);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 }
 
@@ -152,7 +97,7 @@ int	mouse_press(int button, int x, int y, t_fdf *fdf)
 			coord_to_point(fdf->map, &(fdf->map->point_og[i]));
 			i++;
 		}
-		rotate_xyz(fdf);
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
 	if (button == 5 && fdf->map->line_len > 3)
 	{
@@ -163,14 +108,14 @@ int	mouse_press(int button, int x, int y, t_fdf *fdf)
 			coord_to_point(fdf->map, &(fdf->map->point_og[i]));
 			i++;
 		}
-		rotate_xyz(fdf);
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
 	//MOUSE CLICK AND HOLD
 	if (button == 1)
 	{
-		fdf->map->mouse_press = 1;
-		fdf->map->mouse_x = x;
-		fdf->map->mouse_y = y;
+		fdf->cam->mouse_press = 1;
+		fdf->cam->mouse_x = x;
+		fdf->cam->mouse_y = y;
 	}
 	return (0);
 }
@@ -180,7 +125,7 @@ int	mouse_release(int button, int x, int y, t_fdf *fdf)
 	(void)button;
 	(void)x;
 	(void)y;
-	fdf->map->mouse_press = 0;
+	fdf->cam->mouse_press = 0;
 	return (0);
 }
 
@@ -191,22 +136,22 @@ int	mouse_move(int x, int y, t_fdf *fdf)
 
 	change_state = 0;
 	inc = 0.01;
-	if (fdf->map->mouse_press)
+	if (fdf->cam->mouse_press)
 	{
-		if (fdf->map->mouse_x != x)
+		if (fdf->cam->mouse_x != x)
 		{
-			fdf->map->beta += inc * (fdf->map->mouse_x - x);
-			fdf->map->mouse_x = x;
+			fdf->cam->beta += inc * (fdf->cam->mouse_x - x);
+			fdf->cam->mouse_x = x;
 			change_state = 1;
 		}
-		if (fdf->map->mouse_y != y)
+		if (fdf->cam->mouse_y != y)
 		{
-			fdf->map->alpha -= inc * (fdf->map->mouse_y - y);
-			fdf->map->mouse_y = y;
+			fdf->cam->alpha -= inc * (fdf->cam->mouse_y - y);
+			fdf->cam->mouse_y = y;
 			change_state = 1;
 		}
 		if (change_state == 1)
-			rotate_xyz(fdf);
+			rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
 	return (0);
 }
@@ -227,60 +172,60 @@ int	key_press(int keycode, t_fdf *fdf)
 	}
 	if (keycode == ARROW_LEFT)
 	{
-		fdf->map->beta += 1.5708;
-		rotate_xyz(fdf);
+		fdf->cam->beta += 1.5708;
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
 	if (keycode == ARROW_RIGHT)
 	{
-		fdf->map->beta -= 1.5708;
-		rotate_xyz(fdf);
+		fdf->cam->beta -= 1.5708;
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
 	if (keycode == ARROW_UP)
 	{
-		fdf->map->alpha -= 1.5708;
-		rotate_xyz(fdf);
+		fdf->cam->alpha -= 1.5708;
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
 	if (keycode == ARROW_DOWN)
 	{
-		fdf->map->alpha += 1.5708;
-		rotate_xyz(fdf);
+		fdf->cam->alpha += 1.5708;
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
 	if (keycode == MAIN_W)
 	{
-		fdf->map->move_y += 20;
-		rotate_xyz(fdf);
+		fdf->cam->move_y += 20;
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
 	if (keycode == MAIN_S)
 	{
-		fdf->map->move_y -= 20;
-		rotate_xyz(fdf);
+		fdf->cam->move_y -= 20;
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
 	if (keycode == MAIN_D)
 	{
-		fdf->map->move_x -= 20;
-		rotate_xyz(fdf);
+		fdf->cam->move_x -= 20;
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
 	if (keycode == MAIN_A)
 	{
-		fdf->map->move_x += 20;
-		rotate_xyz(fdf);
+		fdf->cam->move_x += 20;
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
-	if (keycode == MAIN_LESS && fdf->map->z_scale > 0.5)
+	if (keycode == MAIN_LESS && fdf->cam->z_scale > 0.5)
 	{
-		fdf->map->z_scale /= 1.1;
-		rotate_xyz(fdf);
+		fdf->cam->z_scale /= 1.1;
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
-	if (keycode == MAIN_MORE && fdf->map->z_scale < 30)
+	if (keycode == MAIN_MORE && fdf->cam->z_scale < 30)
 	{
-		fdf->map->z_scale *= 1.1;
-		rotate_xyz(fdf);
+		fdf->cam->z_scale *= 1.1;
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
 	if (keycode == MAIN_I)
 	{
-		fdf->map->iso = 1;
-		fdf->map->alpha = 0;
-		fdf->map->beta = 0;
-		fdf->map->gamma = 0;
+		fdf->cam->iso = 1;
+		fdf->cam->alpha = 0;
+		fdf->cam->beta = 0;
+		fdf->cam->gamma = 0;
 		fdf->map->first = 1;
 		get_line_len(fdf->map);
 		while (i < fdf->map->point_amt)
@@ -288,14 +233,14 @@ int	key_press(int keycode, t_fdf *fdf)
 			coord_to_point(fdf->map, &(fdf->map->point_og[i]));
 			i++;
 		}
-		rotate_xyz(fdf);
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
 	if (keycode == MAIN_P)
 	{
-		fdf->map->iso = 0;
-		fdf->map->alpha = 0;
-		fdf->map->beta = 0;
-		fdf->map->gamma = 0;
+		fdf->cam->iso = 0;
+		fdf->cam->alpha = 0;
+		fdf->cam->beta = 0;
+		fdf->cam->gamma = 0;
 		fdf->map->first = 1;
 		get_line_len(fdf->map);
 		while (i < fdf->map->point_amt)
@@ -303,7 +248,7 @@ int	key_press(int keycode, t_fdf *fdf)
 			coord_to_point(fdf->map, &(fdf->map->point_og[i]));
 			i++;
 		}
-		rotate_xyz(fdf);
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
 	if (keycode == MAIN_B)
 	{
@@ -313,12 +258,12 @@ int	key_press(int keycode, t_fdf *fdf)
 			fdf->map->bg_color = 'w';
 		else
 			fdf->map->bg_color = 'b';
-		rotate_xyz(fdf);
+		rotate_xyz(fdf, fdf->map, fdf->cam);
 	}
 	return (0);
 }
 
-t_fdf	*fdf_init(t_map *map)
+t_fdf	*fdf_init(t_map *map, t_cam *cam)
 {
 	t_fdf	*fdf;
 
@@ -332,6 +277,7 @@ t_fdf	*fdf_init(t_map *map)
 		printf("EMPTY 4\n");
 	fdf->addr = mlx_get_data_addr(fdf->img_ptr, &(fdf->bits_per_pixel), &(fdf->line_length), &(fdf->endian));
 	fdf->map = map;
+	fdf->cam = cam;
 	return (fdf);
 }
 
@@ -388,39 +334,6 @@ t_dda	get_dda(t_point p1, t_point p2)
 	return (dda);
 }
 
-double	percent(int start, int end, int curr)
-{
-	double	placement;
-	double	distance;
-
-	placement = curr - start;
-	distance = end - start;
-	if (distance == 0)
-		return (1.0);
-	return (placement / distance);
-}
-
-int	get_light(int start, int end, double percentage)
-{
-	return ((int)((1 - percentage) * start + percentage * end));
-}
-
-int	get_color(int curr_x, int curr_y, t_point p1, t_point p2)
-{
-	int	red;
-	int	green;
-	int	blue;
-	double	percentage;
-
-	if (p2.x - p1.x > p2.y - p1.y)
-		percentage = percent(p1.x, p2.x, curr_x);
-	else
-		percentage = percent(p1.y, p2.y, curr_y);
-	red = get_light((p1.color >> 16) & 0xFF, (p2.color >> 16) & 0xFF, percentage);
-	green = get_light((p1.color >> 8) & 0xFF, (p2.color >> 8) & 0xFF, percentage);
-	blue = get_light(p1.color & 0xFF, p2.color & 0xFF, percentage);
-	return ((red << 16) | (green << 8) | blue);
-}
 
 int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)
 {
@@ -480,26 +393,35 @@ void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i)
 	}
 }
 
-/*
-// Control function for drawing to an image
-void	draw_control(t_map *map, t_fdf *fdf)
+t_cam	*cam_init(void)
 {
-	// Attaches the initial map to top left corner
-//	iso(map->point, map);
-	(void)map;
-	rotate_xyz(fdf);
+	t_cam	*cam;
+
+	cam = malloc(sizeof(t_cam));
+	cam->z_scale = 4;
+	cam->alpha = 0;
+	cam->beta = 0;
+	cam->gamma = 0;
+	cam->move_x = 0;
+	cam->move_y = 0;
+	cam->mouse_press = 0;
+	cam->mouse_x = 0;
+	cam->mouse_y = 0;
+	cam->iso = 1;
+	return (cam);
 }
-*/
 
 int main(int ac, char **av)
 {
 	t_fdf	*fdf;
 	t_map	*map;
+	t_cam	*cam;
 
 	(void)ac;
+	cam = cam_init();
 	map = map_init(av);
-	fdf = fdf_init(map);
-	rotate_xyz(fdf);
+	fdf = fdf_init(map, cam);
+	rotate_xyz(fdf, fdf->map, fdf->cam);
 	//Mouse presses
 	mlx_hook(fdf->win_ptr, 4, 0, mouse_press, fdf);
 	mlx_mouse_hook(fdf->win_ptr, mouse_press, fdf);
