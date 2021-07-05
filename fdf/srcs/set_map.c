@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 11:34:29 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 12:47:40 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ void	get_map_dim(char **av, t_map *map)
 		if (gnl_ret > 0)
 			map->height++;
 	}
+	window_sizing(map);
 	close(fd);
 }

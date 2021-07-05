@@ -6,14 +6,11 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 11:57:14 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 12:44:07 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-
-void	coord_to_point(t_map *map, t_point *point);
-void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i);
 
 void	update_p(t_fdf *fdf, t_map *map, t_cam *cam)
 {
