@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 21:10:08 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 11:24:47 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 17:46:26 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,10 @@ void	color_point(t_map *map, t_point *point)
 {
 	int	i;
 	int	max_z;
-	int	maxc; //255 when z is max
-	int	minc; //255 when z is min
+	int	maxc;
+	int	minc;
 
 	max_z = map->big_z - map->small_z;
-
 	i = 0;
 	while (i < map->point_amt)
 	{

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   controls.c                                         :+:      :+:    :+:   */
+/*   key_control.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 11:36:02 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 13:38:52 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 17:35:12 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,8 @@ void	key_projection(int keycode, t_fdf *fdf)
 
 int	key_press(int keycode, t_fdf *fdf)
 {
-	printf("keycode: %d\n", keycode);
 	if (keycode == MAIN_ESC)
-	{
-		mlx_destroy_window(fdf->mlx_ptr, fdf->win_ptr);
-		exit(0);
-	}
+		close_window(fdf);
 	key_rotation(keycode, fdf);
 	key_translation(keycode, fdf);
 	if (keycode == MAIN_I || keycode == MAIN_P)

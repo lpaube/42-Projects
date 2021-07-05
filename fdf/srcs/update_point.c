@@ -6,11 +6,28 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 15:14:23 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 15:38:08 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 17:53:10 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+
+void	iso(t_point *point, t_map *map)
+{
+	double	tmp_x;
+	double	tmp_y;
+	int		i;
+
+	i = 0;
+	while (i < map->point_amt)
+	{
+		tmp_x = point[i].x;
+		tmp_y = point[i].y;
+		point[i].x = (tmp_x - tmp_y) * cos(0.523599);
+		point[i].y = -point[i].z + (tmp_x + tmp_y) * sin(0.523599);
+		i++;
+	}
+}
 
 void	update_movements(t_map *map, t_cam *cam)
 {

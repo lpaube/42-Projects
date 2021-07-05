@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 11:11:12 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 11:22:10 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 17:46:52 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 	int	pxl_pos;
 
 	pxl_pos = (y * fdf->ln_len) + (x * (fdf->px_bits / 8));
-
 	if (fdf->endian == 1)
 	{
 		fdf->addr[pxl_pos + 0] = (color >> 24);
@@ -92,7 +91,6 @@ void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i)
 	}
 	if (i < map->point_amt)
 	{
-		//Drawing lines
 		if (point[i].row < map->height - 1)
 		{
 			draw_line_dda(fdf, point[i], point[i + map->width]);

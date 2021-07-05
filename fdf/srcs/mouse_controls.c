@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 13:45:03 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 15:11:33 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 17:17:12 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ void	cam_zoom(int button, t_fdf *fdf)
 
 int	mouse_press(int button, int x, int y, t_fdf *fdf)
 {
-	//SCROLL TO ZOOM
 	cam_zoom(button, fdf);
-	//MOUSE CLICK AND HOLD TO ROTATE
 	if (button == 1)
 	{
 		fdf->cam->mouse_press = 1;

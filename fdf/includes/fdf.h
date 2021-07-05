@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 15:01:17 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 17:44:33 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,6 @@ int		mouse_release(int button, int x, int y, t_fdf *fdf);
 int		mouse_move(int x, int y, t_fdf *fdf);
 void	update_p(t_fdf *fdf, t_map *map, t_cam *cam);
 void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i);
+void	close_window(t_fdf *fdf);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 12:53:58 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 16:55:42 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	get_line_len(t_map *map)
 	int	len_y;
 
 	map->margin = 0;
+	if (map->width <= 1 || map->height <= 1)
+		terminate(ERR_INVALID_MAP);
 	len_x = (map->w_width - map->margin * 2) / (map->width - 1);
 	len_y = (map->w_height - map->margin * 2) / (map->height - 1);
 	if (len_x < len_y)
@@ -46,13 +48,25 @@ void	window_sizing(t_map *map)
 	}
 }
 
+void	increase_height(t_map *map, int gnl_ret, int tmp_width)
+{
+	if (gnl_ret > 0)
+	{
+		if (map->width != tmp_width)
+			terminate(ERR_MAP_WIDTH);
+		map->height++;
+	}
+}
+
 void	get_map_dim(char **av, t_map *map)
 {
 	int		fd;
 	char	*line;
 	char	**table;
 	int		gnl_ret;
+	int		tmp_width;
 
+	tmp_width = 0;
 	gnl_ret = 1;
 	map->width = 0;
 	map->height = 0;
@@ -60,14 +74,13 @@ void	get_map_dim(char **av, t_map *map)
 	while (gnl_ret > 0)
 	{
 		gnl_ret = get_next_line(fd, &line);
+		table = ft_split(line, ' ');
+		while (*(table++))
+			tmp_width++;
 		if (map->height == 0)
-		{
-			table = ft_split(line, ' ');
-			while (*(table++))
-				map->width++;
-		}
-		if (gnl_ret > 0)
-			map->height++;
+			map->width = tmp_width;
+		increase_height(map, gnl_ret, tmp_width);
+		tmp_width = 0;
 	}
 	window_sizing(map);
 	close(fd);
