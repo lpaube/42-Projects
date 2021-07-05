@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 21:10:08 by laube             #+#    #+#             */
-/*   Updated: 2021/07/04 21:33:27 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 11:24:47 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	clear_img(t_fdf *fdf, t_map *map)
 		clr = 0x00224444;
 	else
 		clr = 0x0015202B;
-	while (i < (map->win_width * map->win_height))
+	while (i < (map->w_width * map->w_height))
 	{
-		ft_put_pixel(fdf, i % map->win_width, i / map->win_width, clr);
+		ft_put_pixel(fdf, i % map->w_width, i / map->w_width, clr);
 		i++;
 	}
 }
@@ -70,24 +70,24 @@ double	percent(int start, int end, int curr)
 	return (placement / distance);
 }
 
-int	get_light(int start, int end, double percentage)
+int	get_light(int start, int end, double perc)
 {
-	return ((int)((1 - percentage) * start + percentage * end));
+	return ((int)((1 - perc) * start + perc * end));
 }
 
 int	get_color(int curr_x, int curr_y, t_point p1, t_point p2)
 {
-	int	red;
-	int	green;
-	int	blue;
-	double	percentage;
+	int		red;
+	int		green;
+	int		blue;
+	double	perc;
 
 	if (p2.x - p1.x > p2.y - p1.y)
-		percentage = percent(p1.x, p2.x, curr_x);
+		perc = percent(p1.x, p2.x, curr_x);
 	else
-		percentage = percent(p1.y, p2.y, curr_y);
-	red = get_light((p1.color >> 16) & 0xFF, (p2.color >> 16) & 0xFF, percentage);
-	green = get_light((p1.color >> 8) & 0xFF, (p2.color >> 8) & 0xFF, percentage);
-	blue = get_light(p1.color & 0xFF, p2.color & 0xFF, percentage);
+		perc = percent(p1.y, p2.y, curr_y);
+	red = get_light((p1.color >> 16) & 0xFF, (p2.color >> 16) & 0xFF, perc);
+	green = get_light((p1.color >> 8) & 0xFF, (p2.color >> 8) & 0xFF, perc);
+	blue = get_light(p1.color & 0xFF, p2.color & 0xFF, perc);
 	return ((red << 16) | (green << 8) | blue);
 }

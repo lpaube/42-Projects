@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 20:48:31 by laube             #+#    #+#             */
-/*   Updated: 2021/07/04 13:00:24 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 11:41:58 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void iso(t_point *point, t_map *map)
 
 void	coord_to_point(t_map *map, t_point *point)
 {
-	(void)map;
 	point->x = map->margin + (point->col * map->line_len);
 	point->y = map->margin + (point->row * map->line_len);
 }

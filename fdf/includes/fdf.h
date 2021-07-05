@@ -6,15 +6,19 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/04 21:32:30 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 11:45:37 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-//# include "./key_codes_mac.h"
-# include "./key_codes_linux.h"
+# define N_WIN	mlx_new_window
+# define N_IMG	mlx_new_image
+# define D_ADDR	mlx_get_data_addr
+
+# include "./key_codes_mac.h"
+//# include "./key_codes_linux.h"
 # include "../libft/libft.h"
 # include "./error_message.h"
 # include "../libft/get_next_line.h"
@@ -38,8 +42,8 @@ typedef struct	s_point
 
 typedef struct	s_map
 {
-	int	win_width;
-	int	win_height;
+	int	w_width;
+	int	w_height;
 	int	width;
 	int	height;
 	int	point_amt;
@@ -74,8 +78,8 @@ typedef struct	s_fdf
 	void	*win_ptr;
 	void	*img_ptr;
 	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
+	int		px_bits;
+	int		ln_len;
 	int		endian;
 	t_map	*map;
 	t_cam	*cam;
@@ -94,14 +98,21 @@ typedef struct	s_dda
 }				t_dda;
 
 t_map	*map_init(char **av);
+t_cam	*cam_init(void);
+t_fdf	*fdf_init(t_map *map, t_cam *cam);
 void	terminate(char *s);
-t_point set_point(t_map *map, char *num, int col, int row);
 void	map_to_point(t_map *map, int fd, int i);
+void	coord_to_point(t_map *map, t_point *point);
+void	get_map_dim(char **av, t_map *map);
+t_point set_point(t_map *map, char *num, int col, int row);
 void 	iso(t_point *point, t_map *map);
 void	get_line_len(t_map *map);
 void	ft_put_pixel(t_fdf *fdf, int x, int y, int color);
 void	clear_img(t_fdf *fdf, t_map *map);
 void	color_point(t_map *map, t_point *point);
 int		get_color(int curr_x, int curr_y, t_point p1, t_point p2);
+int		key_press(int keycode, t_fdf *fdf);
+void	update_p(t_fdf *fdf, t_map *map, t_cam *cam);
+void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i);
 
 #endif
