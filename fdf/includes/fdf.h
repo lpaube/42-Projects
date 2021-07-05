@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 11:45:37 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 15:01:17 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,9 @@ void	clear_img(t_fdf *fdf, t_map *map);
 void	color_point(t_map *map, t_point *point);
 int		get_color(int curr_x, int curr_y, t_point p1, t_point p2);
 int		key_press(int keycode, t_fdf *fdf);
+int		mouse_press(int button, int x, int y, t_fdf *fdf);
+int		mouse_release(int button, int x, int y, t_fdf *fdf);
+int		mouse_move(int x, int y, t_fdf *fdf);
 void	update_p(t_fdf *fdf, t_map *map, t_cam *cam);
 void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i);
 
