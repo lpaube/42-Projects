@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 10:47:57 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 17:31:46 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 21:49:36 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,16 @@ t_fdf	*fdf_init(t_map *map, t_cam *cam)
 	fdf->mlx_ptr = mlx_init();
 	if (fdf->mlx_ptr == NULL)
 		terminate(ERR_MLX);
-	fdf->win_ptr = N_WIN(fdf->mlx_ptr, map->w_width, map->w_height, "LP's FDF");
+	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr,
+			map->w_width, map->w_height, "LP's FDF");
 	if (fdf->win_ptr == NULL)
 		terminate(ERR_WIN);
-	fdf->img_ptr = N_IMG(fdf->mlx_ptr, map->w_width, map->w_height);
+	fdf->img_ptr = mlx_new_image(fdf->mlx_ptr, map->w_width, map->w_height);
 	if (fdf->img_ptr == NULL)
 		terminate(ERR_IMG);
 	img = fdf->img_ptr;
-	fdf->addr = D_ADDR(img, &(fdf->px_bits), &(fdf->ln_len), &(fdf->endian));
+	fdf->addr = mlx_get_data_addr(img, &(fdf->px_bits),
+			&(fdf->ln_len), &(fdf->endian));
 	if (fdf->addr == NULL)
 		terminate(ERR_ADDR);
 	return (fdf);

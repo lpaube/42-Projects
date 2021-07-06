@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 13:55:07 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 16:56:16 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 21:42:51 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define ERR_ADDR			"Could not allocate memory for pixels address"
 # define ERR_POINT			"Could not allocate memory for points"
 # define ERR_POINT_OG		"Could not allocate memory for points_og"
-# define ERR_MAP_WIDTH		"ERROR: The map has varying width. It must have the same width for each line."
+# define ERR_MAP_WIDTH		"ERROR: The map has varying width"
 # define ERR_INVALID_MAP	"ERROR: Invalid map"
 
-# endif
+#endif

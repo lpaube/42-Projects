@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 15:14:23 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 17:53:10 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 21:51:11 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,25 @@ void	update_movements(t_map *map, t_cam *cam)
 	}
 }
 
+void	rotations_helper(t_map *map, t_cam *cam, int i, t_point mid_p)
+{
+	int	tmp_x;
+	int	tmp_y;
+	int	trans_x;
+	int	trans_y;
+
+	trans_x = mid_p.x;
+	trans_y = mid_p.y;
+	tmp_x = map->point[i].x - trans_x;
+	tmp_y = map->point[i].y - trans_y;
+	map->point[i].x = tmp_x * cos(cam->gamma) + tmp_y * sin(cam->gamma);
+	map->point[i].y = tmp_x * -sin(cam->gamma) + tmp_y * cos(cam->gamma);
+	map->point[i].x = tmp_x * cos(cam->beta) + (map->point_og[i].z
+			* cam->z_scale) * -sin(cam->beta) + trans_x;
+	map->point[i].z = tmp_x * sin(cam->beta)
+		+ (map->point_og[i].z * cam->z_scale) * cos(cam->beta);
+}
+
 void	update_rotations(t_map *map, t_cam *cam, t_point mid_p)
 {
 	int	i;
@@ -63,23 +82,20 @@ void	update_rotations(t_map *map, t_cam *cam, t_point mid_p)
 	i = 0;
 	while (i < map->point_amt)
 	{
-		tmp_x = map->point[i].x - trans_x;
-		tmp_y = map->point[i].y - trans_y;
-		map->point[i].x = tmp_x * cos(cam->gamma) + tmp_y * sin(cam->gamma);
-		map->point[i].y = tmp_x * -sin(cam->gamma) + tmp_y * cos(cam->gamma);
-		map->point[i].x = tmp_x * cos(cam->beta) + (map->point_og[i].z * cam->z_scale) * -sin(cam->beta) + trans_x;
-		map->point[i].z = tmp_x * sin(cam->beta) + (map->point_og[i].z * cam->z_scale) * cos(cam->beta);
+		rotations_helper(map, cam, i, mid_p);
 		tmp_x = map->point[i].x;
 		tmp_y = map->point[i].y;
-		map->point[i].y = tmp_y * cos(cam->alpha) + (map->point_og[i].z * cam->z_scale) * sin(cam->alpha) + trans_y;
-		map->point[i].z = tmp_y * -sin(cam->alpha) + (map->point_og[i].z * cam->z_scale) * cos(cam->alpha);
+		map->point[i].y = tmp_y * cos(cam->alpha)
+			+ (map->point_og[i].z * cam->z_scale) * sin(cam->alpha) + trans_y;
+		map->point[i].z = tmp_y * -sin(cam->alpha)
+			+ (map->point_og[i].z * cam->z_scale) * cos(cam->alpha);
 		i++;
 	}
 }
 
 void	update_p(t_fdf *fdf, t_map *map, t_cam *cam)
 {
-	int	i;
+	int		i;
 	t_point	mid_p;
 
 	clear_img(fdf, map);

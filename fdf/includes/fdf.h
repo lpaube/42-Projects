@@ -6,17 +6,13 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 17:44:33 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/05 22:07:14 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
-
-# define N_WIN	mlx_new_window
-# define N_IMG	mlx_new_image
-# define D_ADDR	mlx_get_data_addr
-
+# define MENU_WIDTH	50
 # include "./key_codes_mac.h"
 //# include "./key_codes_linux.h"
 # include "../libft/libft.h"
@@ -28,7 +24,7 @@
 # include <math.h>
 # include <errno.h>
 
-typedef struct	s_point
+typedef struct s_point
 {
 	int	x;
 	int	y;
@@ -40,39 +36,38 @@ typedef struct	s_point
 	int	expl_color_set;
 }	t_point;
 
-typedef struct	s_map
+typedef struct s_map
 {
-	int	w_width;
-	int	w_height;
-	int	width;
-	int	height;
-	int	point_amt;
-	int	line_len;
-	int	margin;
-	int	first;
-	int	big_z;
-	int	small_z;
+	int		w_width;
+	int		w_height;
+	int		width;
+	int		height;
+	int		point_amt;
+	int		line_len;
+	int		margin;
+	int		first;
+	int		big_z;
+	int		small_z;
 	char	bg_color;
 	t_point	*point;
-	t_point *point_og;
+	t_point	*point_og;
 }				t_map;
 
-typedef struct	s_cam
+typedef struct s_cam
 {
-	
 	double	z_scale;
 	double	alpha;
 	double	beta;
 	double	gamma;
-	int	move_x;
-	int	move_y;
-	int	mouse_press;
-	int	mouse_x;
-	int	mouse_y;
-	int	iso;
+	int		move_x;
+	int		move_y;
+	int		mouse_press;
+	int		mouse_x;
+	int		mouse_y;
+	int		iso;
 }				t_cam;
 
-typedef struct	s_fdf
+typedef struct s_fdf
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
@@ -85,8 +80,7 @@ typedef struct	s_fdf
 	t_cam	*cam;
 }				t_fdf;
 
-
-typedef struct	s_dda
+typedef struct s_dda
 {
 	double	delta_x;
 	double	delta_y;
@@ -104,8 +98,8 @@ void	terminate(char *s);
 void	map_to_point(t_map *map, int fd, int i);
 void	coord_to_point(t_map *map, t_point *point);
 void	get_map_dim(char **av, t_map *map);
-t_point set_point(t_map *map, char *num, int col, int row);
-void 	iso(t_point *point, t_map *map);
+t_point	set_point(t_map *map, char *num, int col, int row);
+void	iso(t_point *point, t_map *map);
 void	get_line_len(t_map *map);
 void	ft_put_pixel(t_fdf *fdf, int x, int y, int color);
 void	clear_img(t_fdf *fdf, t_map *map);
