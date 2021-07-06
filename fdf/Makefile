@@ -14,7 +14,7 @@ SRCS =		fdf.c \
 			update_point.c \
 
 CC =		gcc
-CFLAGS =	-Wall -Werror -Wextra -c
+CFLAGS =	-Wall -Werror -Wextra -g -c
 INCLUDES =	-Imlx_mac -Iincludes
 LIBS =		-Lmlx_mac -lmlx -Llibft -lft -framework OpenGL -framework AppKit
 OBJS =		$(SRCS:.c=.o)
