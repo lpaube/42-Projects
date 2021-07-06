@@ -1,27 +1,66 @@
 NAME =		fdf
-
-SRCS =		fdf.c \
-
-OBJS =		$(SRCS:.c=.o)
-
-SRC_DIR =	srcs/
 OBJ_DIR =	obj/
-INC_DIR =	includes/
+SRC_DIR =	srcs/
 LIBFT =		libft/
 
+SRCS =		fdf.c \
+			coloring.c \
+			draw.c \
+			init.c \
+			key_control.c \
+			mouse_controls.c \
+			set_map.c \
+			set_point.c \
+			update_point.c \
 
-linux: 
-	make re -C ./libft
-	gcc -Wall -Wextra -Werror -g srcs/*.c -Imlx_linux -Lmlx_linux -Llibft -lft -lmlx -lX11 -lm -lz -lXext
+CC =		gcc
+CFLAGS =	-Wall -Werror -Wextra -c
+INCLUDES =	-Imlx_mac -Iincludes
+LIBS =		-Lmlx_mac -lmlx -Llibft -lft -framework OpenGL -framework AppKit
+OBJS =		$(SRCS:.c=.o)
 
-test-linux:
-	make re -C ./libft
-	gcc -Wall -Wextra -Werror -g mlx_tests/*.c -Imlx_linux -Lmlx_linux -Llibft -lft -lmlx -lX11 -lm -lz -lXext
+SRC_PATH =	$(addprefix srcs/, $(SRCS))
+OBJ_PATH =	$(addprefix obj/, $(OBJS))
 
-test-mac:
-	make re -C ./libft
-	gcc -Wall -Wextra -Werror -g mlx_tests/*.c -Imlx_mac -Lmlx_mac -lmlx -Llibft -lft -framework OpenGL -framework AppKit
+all: $(OBJ_DIR) $(NAME)
 
-mac:
-	make re -C ./libft
-	gcc -Wall -Wextra -Werror -g srcs/*.c -Imlx_mac -Lmlx_mac -lmlx -Llibft -lft -framework OpenGL -framework AppKit
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+	@echo Created: Object directory
+
+$(NAME): $(OBJS)
+	@make re --no-print-directory -C ./libft
+	@$(CC) $(OBJ_PATH) $(LIBS) -o $(NAME)
+	@echo "\\n\033[32;1m FDF HAS BEEN GENERATED \033[0m \\n"
+
+$(OBJS): $(SRC_PATH)
+	@echo "Created: obj/$@\033[1A\033[M"
+	@$(CC) $(CFLAGS) $(INCLUDES) srcs/$(@:.o=.c) -o obj/$@
+
+clean:
+	@make clean --no-print-directory -C ./libft
+	@rm -rf $(OBJ_PATH) $(OBJ_DIR)
+	@echo "\033[34;1m CLEANED OBJECT FILES \033[0m"
+
+fclean: clean
+	@make fclean --no-print-directory -C ./libft
+	@rm -f $(NAME)
+	@echo "\033[34;1m CLEANED PUSH_SWAP \033[0m"
+
+re: fclean all
+
+#linux: 
+#	make re -C ./libft
+#	gcc -Wall -Wextra -Werror -g srcs/*.c -Imlx_linux -Lmlx_linux -Llibft -lft -lmlx -lX11 -lm -lz -lXext
+#
+#test-linux:
+#	make re -C ./libft
+#	gcc -Wall -Wextra -Werror -g mlx_tests/*.c -Imlx_linux -Lmlx_linux -Llibft -lft -lmlx -lX11 -lm -lz -lXext
+#
+#test-mac:
+#	make re -C ./libft
+#	gcc -Wall -Wextra -Werror -g mlx_tests/*.c -Imlx_mac -Lmlx_mac -lmlx -Llibft -lft -framework OpenGL -framework AppKit
+#
+#mac:
+#	make re -C ./libft
+#	gcc -Wall -Wextra -Werror -g srcs/*.c -Imlx_mac -Lmlx_mac -lmlx -Llibft -lft -framework OpenGL -framework AppKit
