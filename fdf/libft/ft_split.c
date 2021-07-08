@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 23:25:59 by laube             #+#    #+#             */
-/*   Updated: 2021/05/06 13:33:12 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/07 21:57:38 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**ft_split(char const *s, char c)
 {
 	char	**table;
 
-	table = malloc((table_size(s, c) * (sizeof(*table))) + 1);
+	table = malloc((table_size(s, c) + 1) * sizeof(*table));
 	if (!table)
 		return (NULL);
 	str_alloc(table, s, c);
@@ -67,7 +67,7 @@ static void	str_alloc(char **table, char const *s, char c)
 		}
 		if ((!*(s + 1) && state == 1) || (*s == c && state == 1))
 		{
-			*table = malloc((counter * sizeof(char)) + 1);
+			*table = malloc((counter + 1) * (sizeof(**table)));
 			table++;
 			counter = 0;
 			state = 0;

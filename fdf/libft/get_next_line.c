@@ -6,11 +6,13 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 17:46:17 by laube             #+#    #+#             */
-/*   Updated: 2021/06/20 14:12:21 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/07 23:31:24 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
+#include "libft.h"
 
 int	norm_killer(int fd, char *buff, int buff_size, int *bytes)
 {
@@ -19,7 +21,7 @@ int	norm_killer(int fd, char *buff, int buff_size, int *bytes)
 	return (*bytes);
 }
 
-char	*ft_strdup(char *s1)
+char	*ft_gnl_strdup(char *s1)
 {
 	char	*res;
 	int		i;
@@ -37,25 +39,28 @@ char	*ft_strdup(char *s1)
 	return (res);
 }
 
-char	*get_line(char **holder, char **line, char c)
+char	*get_line(char **holder, char **line, char c, int st)
 {
 	int		i;
 	char	*res;
 
 	res = 0;
 	i = 0;
-	while ((*holder)[i] != c && (*holder)[i] && (*holder)[i] != 0)
+	printf("holder_len: %d\n",ft_strlen(*holder));
+	while (st == 0 && (*holder)[i] != c && (*holder)[i] && (*holder)[i] != 0)
 		i++;
-	*line = gnl_calloc(i + 1, sizeof(char));
+	*line = gnl_calloc(i + 1, sizeof(**line));
+	printf("Allocated (i + 1): %d\n", i + 1);
 	i = 0;
-	while ((*holder)[i] != c && (*holder)[i] && (*holder)[i] != 0)
+	while (st == 0 && (*holder)[i] != c && (*holder)[i] && (*holder)[i] != 0)
 	{
 		(*line)[i] = (*holder)[i];
 		i++;
 	}
-	if ((*holder)[i + 1] != 0)
+	printf("Assigned (i): %d\n", i);
+	if (st == 0 && (*holder)[i + 1] != 0)
 	{
-		res = ft_strdup(&((*holder)[i + 1]));
+		res = ft_gnl_strdup(&((*holder)[i + 1]));
 	}
 	gnl_free_it(holder, 0);
 	return (res);
@@ -66,7 +71,7 @@ int	do_holder(char *buff, char **holder, char **line)
 	*holder = gnl_strjoin(holder, buff);
 	if (gnl_strchr(*holder, '\n'))
 	{
-		*holder = get_line(holder, line, '\n');
+		*holder = get_line(holder, line, '\n', 0);
 		return (1);
 	}
 	return (0);
@@ -92,9 +97,9 @@ int	get_next_line(int fd, char **line)
 		return (gnl_free_it(&holder, bytes));
 	if (gnl_strchr(holder, '\n'))
 	{
-		holder = get_line(&holder, line, '\n');
+		holder = get_line(&holder, line, '\n', 0);
 		return (1);
 	}
-	holder = get_line(&holder, line, '\n');
+	holder = get_line(&holder, line, '\n', 1);
 	return (gnl_free_it(&holder, 0));
 }

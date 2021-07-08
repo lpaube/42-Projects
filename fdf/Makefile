@@ -14,7 +14,7 @@ SRCS =		fdf.c \
 			update_point.c \
 
 CC =		gcc
-CFLAGS =	-Wall -Werror -Wextra -g -c
+CFLAGS =	-Wall -Werror -Wextra -c -g
 INCLUDES =	-Imlx_mac -Iincludes
 LIBS =		-Lmlx_mac -lmlx -Llibft -lft -framework OpenGL -framework AppKit
 OBJS =		$(SRCS:.c=.o)
@@ -61,6 +61,6 @@ re: fclean all
 #	make re -C ./libft
 #	gcc -Wall -Wextra -Werror -g mlx_tests/*.c -Imlx_mac -Lmlx_mac -lmlx -Llibft -lft -framework OpenGL -framework AppKit
 #
-#mac:
-#	make re -C ./libft
-#	gcc -Wall -Wextra -Werror -g srcs/*.c -Imlx_mac -Lmlx_mac -lmlx -Llibft -lft -framework OpenGL -framework AppKit
+mac:
+	make re -C ./libft
+	gcc -Wall -Wextra -Werror -g srcs/*.c libft/*.c -Imlx_mac -Lmlx_mac -lmlx -Ilibft -framework OpenGL -framework AppKit
