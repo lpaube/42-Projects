@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 22:12:06 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/09 16:29:20 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,16 @@ void	get_map_dim(char **av, t_map *map)
 	{
 		gnl_ret = get_next_line(fd, &line);
 		table = ft_split(line, ' ');
-		while (*(table++))
+		while (*(table))
+		{
 			tmp_width++;
+			free(*(table++));
+		}
 		if (map->height == 0)
 			map->width = tmp_width;
 		increase_height(map, gnl_ret, tmp_width);
 		tmp_width = 0;
+		free(line);
 	}
 	window_sizing(map);
 	close(fd);

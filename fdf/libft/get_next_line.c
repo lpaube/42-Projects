@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 17:46:17 by laube             #+#    #+#             */
-/*   Updated: 2021/07/07 23:31:24 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/09 14:27:04 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,15 @@ char	*get_line(char **holder, char **line, char c, int st)
 
 	res = 0;
 	i = 0;
-	printf("holder_len: %d\n",ft_strlen(*holder));
 	while (st == 0 && (*holder)[i] != c && (*holder)[i] && (*holder)[i] != 0)
 		i++;
 	*line = gnl_calloc(i + 1, sizeof(**line));
-	printf("Allocated (i + 1): %d\n", i + 1);
 	i = 0;
 	while (st == 0 && (*holder)[i] != c && (*holder)[i] && (*holder)[i] != 0)
 	{
 		(*line)[i] = (*holder)[i];
 		i++;
 	}
-	printf("Assigned (i): %d\n", i);
 	if (st == 0 && (*holder)[i + 1] != 0)
 	{
 		res = ft_gnl_strdup(&((*holder)[i + 1]));

@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 20:48:31 by laube             #+#    #+#             */
-/*   Updated: 2021/07/07 23:21:19 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/09 16:34:04 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	map_to_point(t_map *map, int fd, int i)
 	curr_row = 0;
 	map->point_og = malloc(map->point_amt *sizeof(*(map->point_og)));
 	map->point = malloc(map->point_amt *sizeof(*(map->point)));
-	
 	while (gnl_ret)
 	{
 		curr_col = 0;
@@ -110,10 +109,12 @@ void	map_to_point(t_map *map, int fd, int i)
 		while (*row)
 		{
 			map->point_og[i] = set_point(map, *row, curr_col, curr_row);
+			free(*(row++));
 			curr_col++;
-			row++;
 			i++;
 		}
+		free(line);
 		curr_row++;
 	}
+	free(row);
 }

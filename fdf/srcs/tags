@@ -1,0 +1,51 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/Users/laube/Desktop/42_projects/fdf/srcs/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/1469a65f/
+cam_init	init.c	/^t_cam	*cam_init(void)$/;"	f	typeref:typename:t_cam *
+cam_zoom	mouse_controls.c	/^void	cam_zoom(int button, t_fdf *fdf)$/;"	f	typeref:typename:void
+clear_img	coloring.c	/^void	clear_img(t_fdf *fdf, t_map *map)$/;"	f	typeref:typename:void
+click_close	fdf.c	/^int	click_close(void *param)$/;"	f	typeref:typename:int
+close_window	fdf.c	/^void	close_window(t_fdf *fdf)$/;"	f	typeref:typename:void
+color_point	coloring.c	/^void	color_point(t_map *map, t_point *point)$/;"	f	typeref:typename:void
+coord_to_point	set_point.c	/^void	coord_to_point(t_map *map, t_point *point)$/;"	f	typeref:typename:void
+draw_line_dda	draw.c	/^int	draw_line_dda(t_fdf *fdf, t_point p1, t_point p2)$/;"	f	typeref:typename:int
+draw_point	draw.c	/^void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i)$/;"	f	typeref:typename:void
+explicit_color	set_point.c	/^void	explicit_color(char *num, t_point *point)$/;"	f	typeref:typename:void
+fdf_init	init.c	/^t_fdf	*fdf_init(t_map *map, t_cam *cam)$/;"	f	typeref:typename:t_fdf *
+ft_put_pixel	draw.c	/^void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)$/;"	f	typeref:typename:void
+get_color	coloring.c	/^int	get_color(int curr_x, int curr_y, t_point p1, t_point p2)$/;"	f	typeref:typename:int
+get_dda	draw.c	/^t_dda	get_dda(t_point p1, t_point p2)$/;"	f	typeref:typename:t_dda
+get_light	coloring.c	/^int	get_light(int start, int end, double perc)$/;"	f	typeref:typename:int
+get_line_len	set_map.c	/^void	get_line_len(t_map *map)$/;"	f	typeref:typename:void
+get_map_dim	set_map.c	/^void	get_map_dim(char **av, t_map *map)$/;"	f	typeref:typename:void
+hex_to_dec	set_point.c	/^int	hex_to_dec(char *num)$/;"	f	typeref:typename:int
+hook_functions	fdf.c	/^void	hook_functions(t_fdf *fdf)$/;"	f	typeref:typename:void
+increase_height	set_map.c	/^void	increase_height(t_map *map, int gnl_ret, int tmp_width)$/;"	f	typeref:typename:void
+iso	update_point.c	/^void	iso(t_point *point, t_map *map)$/;"	f	typeref:typename:void
+key_press	key_control.c	/^int	key_press(int keycode, t_fdf *fdf)$/;"	f	typeref:typename:int
+key_projection	key_control.c	/^void	key_projection(int keycode, t_fdf *fdf)$/;"	f	typeref:typename:void
+key_rotation	key_control.c	/^void	key_rotation(int keycode, t_fdf *fdf)$/;"	f	typeref:typename:void
+key_translation	key_control.c	/^void	key_translation(int keycode, t_fdf *fdf)$/;"	f	typeref:typename:void
+main	fdf.c	/^int	main(int ac, char **av)$/;"	f	typeref:typename:int
+map_init	init.c	/^t_map	*map_init(char **av)$/;"	f	typeref:typename:t_map *
+map_init_helper	init.c	/^void	map_init_helper(t_map *map)$/;"	f	typeref:typename:void
+map_to_point	set_point.c	/^void	map_to_point(t_map *map, int fd, int i)$/;"	f	typeref:typename:void
+mouse_move	mouse_controls.c	/^int	mouse_move(int x, int y, t_fdf *fdf)$/;"	f	typeref:typename:int
+mouse_press	mouse_controls.c	/^int	mouse_press(int button, int x, int y, t_fdf *fdf)$/;"	f	typeref:typename:int
+mouse_release	mouse_controls.c	/^int	mouse_release(int button, int x, int y, t_fdf *fdf)$/;"	f	typeref:typename:int
+percent	coloring.c	/^double	percent(int start, int end, int curr)$/;"	f	typeref:typename:double
+rotations_helper	update_point.c	/^void	rotations_helper(t_map *map, t_cam *cam, int i, t_point mid_p)$/;"	f	typeref:typename:void
+set_point	set_point.c	/^t_point	set_point(t_map *map, char *num, int col, int row)$/;"	f	typeref:typename:t_point
+terminate	fdf.c	/^void	terminate(char *s)$/;"	f	typeref:typename:void
+update_movements	update_point.c	/^void	update_movements(t_map *map, t_cam *cam)$/;"	f	typeref:typename:void
+update_p	update_point.c	/^void	update_p(t_fdf *fdf, t_map *map, t_cam *cam)$/;"	f	typeref:typename:void
+update_rotations	update_point.c	/^void	update_rotations(t_map *map, t_cam *cam, t_point mid_p)$/;"	f	typeref:typename:void
+window_sizing	set_map.c	/^void	window_sizing(t_map *map)$/;"	f	typeref:typename:void
