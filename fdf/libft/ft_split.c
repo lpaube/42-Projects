@@ -1,106 +1,106 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/26 23:25:59 by laube             #+#    #+#             */
+/*   Updated: 2021/07/13 16:34:30 by laube            ###   ########.fr       */
+/*                                                                           */
+/* ************************************************************************** */
+
 #include "libft.h"
-#include <stdlib.h>
-#include <stdbool.h>
 
-static size_t	ft_count_words(const char *s, const char c)
+static void		str_alloc(char **table, char const *s, char c);
+static int		table_size(char const *s, char c);
+static void		split_it(char **table, char const *s, char c);
+
+char	**ft_split(char const *s, char c)
 {
-	size_t		count;
-	const char	*w_start;
-	bool		in_word;
+	char	**table;
 
-	count = 0;
-	in_word = 0;
-	w_start = s;
+	table = malloc((table_size(s, c) * (sizeof(*table))) + 1);
+	if (!table)
+		return (NULL);
+	str_alloc(table, s, c);
+	split_it(table, s, c);
+	return (table);
+}
+
+static int	table_size(char const *s, char c)
+{
+	int	counter;
+	int	state;
+
+	counter = 0;
+	state = 1;
 	while (*s)
 	{
-		if (in_word && *s == c)
-			++count;
-		if (*s == c)
-			in_word = false;
-		else
-			in_word = true;
-		if (!in_word)
-			w_start = s;
-		++s;
-	}
-	if (in_word)
-		++count;
-	return (count);
-}
-
-static char	*ft_get_word(const char *s, int len, char c)
-{
-	char	*word;
-
-	if (*s == c)
-	{
-		++s;
-		--len;
-	}
-	word = (char *)ft_calloc(len + 1, sizeof(char));
-	if (!word)
-		return (NULL);
-	ft_strlcpy(word, s, (len + 1) * sizeof(char));
-	return (word);
-}
-
-static void	ft_append_words(char **arr, const char *s, char c)
-{
-	const char	*w_start;
-	int			i;
-	bool		in_word;
-
-	w_start = s;
-	in_word = false;
-	i = 0;
-	while (*s)
-	{
-		if (in_word && *s == c)
-			arr[i++] = ft_get_word(w_start, s - w_start, c);
-		if (*s == c)
-			in_word = false;
-		else
-			in_word = true;
-		if (!in_word)
-			w_start = s;
-		++s;
-	}
-	if (in_word)
-		arr[i++] = ft_get_word(w_start, s - w_start, c);
-}
-
-static void	ft_free_str_array(char **arr, size_t size)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < size)
-	{
-		if (arr[i] != NULL)
-			free(arr[i]);
-		++i;
-	}
-}
-
-char	**ft_split(const char *s, char c)
-{
-	char	**ret;
-	size_t	word_count;
-	size_t	i;
-
-	word_count = ft_count_words(s, c);
-	ret = (char **)ft_calloc(word_count + 1, sizeof(char *));
-	if (!ret)
-		return (NULL);
-	ft_append_words(ret, s, c);
-	i = 0;
-	while (i < word_count)
-	{
-		if (ret[i++] == NULL)
+		if (*s != c && state == 1)
 		{
-			ft_free_str_array(ret, word_count);
-			return (NULL);
+			counter++;
+			state = 0;
 		}
+		else if (*s == c && state == 0)
+		{
+			state = 1;
+		}
+		s++;
 	}
-	return (ret);
+	return (counter);
+}
+
+static void	str_alloc(char **table, char const *s, char c)
+{
+	int	state;
+	int	counter;
+
+	counter = 0;
+	state = 0;
+	while (*s)
+	{
+		if (*s != c)
+		{
+			counter++;
+			state = 1;
+		}
+		if ((!*(s + 1) && state == 1) || (*s == c && state == 1))
+		{
+			*table = malloc((counter * sizeof(char)) + 1);
+			table++;
+			counter = 0;
+			state = 0;
+		}
+		s++;
+	}
+}
+
+static void	split_it(char **table, char const *s, char c)
+{
+	int	state;
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	state = 0;
+	while (*s)
+	{
+		if (*s != c)
+		{
+			table[i][j] = *s;
+			j++;
+			state = 1;
+		}
+		if ((!*(s + 1) || *s == c) && state == 1)
+		{
+			table[i][j] = '\0';
+			i++;
+			j = 0;
+			state = 0;
+		}
+		s++;
+	}
+	table[i] = 0;
 }
