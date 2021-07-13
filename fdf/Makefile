@@ -12,6 +12,7 @@ SRCS =		fdf.c \
 			set_map.c \
 			set_point.c \
 			update_point.c \
+			utils.c \
 
 CC =		clang
 CFLAGS =	-Wall -Werror -Wextra -c -g

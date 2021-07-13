@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/07/13 14:52:01 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/13 16:09:23 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,20 +64,10 @@ int	map_dim_helper(char **table, int tmp_width, t_map *map)
 	{
 		tmp_width++;
 		table++;
-//		free(*(table++));
 	}
 	if (map->height == 0)
 		map->width = tmp_width;
 	return (tmp_width);
-}
-
-void	free_table(char **table)
-{
-	int	i;
-
-	i = 0;
-	while (table[i])
-		free(table[i++]);
 }
 
 void	get_map_dim(char **av, t_map *map)

@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/13 12:09:22 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/13 16:16:00 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_map	*map_init(char **av);
 t_cam	*cam_init(void);
 t_fdf	*fdf_init(t_map *map, t_cam *cam);
 void	terminate(char *s);
-void	map_to_point(t_map *map, int fd, int i);
+void	map_to_point(t_map *map, int fd, int i, int gnl_ret);
 void	coord_to_point(t_map *map, t_point *point);
 void	get_map_dim(char **av, t_map *map);
 t_point	set_point(t_map *map, char *num, int col, int row);
@@ -112,5 +112,6 @@ int		mouse_move(int x, int y, t_fdf *fdf);
 void	update_p(t_fdf *fdf, t_map *map, t_cam *cam);
 void	draw_point(t_fdf *fdf, t_map *map, t_point *point, int i);
 void	close_window(t_fdf *fdf);
+void	free_table(char **table);
 
 #endif

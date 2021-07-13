@@ -6,13 +6,11 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 20:48:31 by laube             #+#    #+#             */
-/*   Updated: 2021/07/13 15:02:07 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/13 16:15:17 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-
-void	free_table(char **table);
 
 void	coord_to_point(t_map *map, t_point *point)
 {
@@ -89,16 +87,14 @@ t_point	set_point(t_map *map, char *num, int col, int row)
 }
 
 // Makes array of points with correct number relative to num of points on map
-void	map_to_point(t_map *map, int fd, int i)
+void	map_to_point(t_map *map, int fd, int i, int gnl_ret)
 {
-	int		gnl_ret;
 	int		curr_col;
 	int		curr_row;
 	char	**row;
 	char	*line;
 	char	**row_og;
 
-	gnl_ret = 1;
 	curr_row = -1;
 	while (gnl_ret && curr_row++ > -10)
 	{
@@ -112,7 +108,6 @@ void	map_to_point(t_map *map, int fd, int i)
 		{
 			map->point_og[i] = set_point(map, *row, curr_col, curr_row);
 			row++;
-			//free(*(row++));
 		}
 		free_table(row_og);
 		free(row_og);

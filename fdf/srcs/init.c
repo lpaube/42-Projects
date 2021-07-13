@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 10:47:57 by laube             #+#    #+#             */
-/*   Updated: 2021/07/13 12:18:03 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/13 16:15:11 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ t_map	*map_init(char **av)
 	int		fd;
 	int		i;
 	t_map	*map;
+	int		gnl_ret;
 
+	gnl_ret = 1;
 	map = malloc(sizeof(t_map));
 	if (map == NULL)
 		terminate(ERR_MAP);
@@ -91,7 +93,7 @@ t_map	*map_init(char **av)
 	if (fd == -1)
 		terminate(ERR_MAP_OPEN);
 	i = -1;
-	map_to_point(map, fd, i);
+	map_to_point(map, fd, i, gnl_ret);
 	close(fd);
 	return (map);
 }
