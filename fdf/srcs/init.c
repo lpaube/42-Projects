@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 10:47:57 by laube             #+#    #+#             */
-/*   Updated: 2021/07/13 16:15:11 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/13 19:38:05 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_map	*map_init(char **av)
 	map = malloc(sizeof(t_map));
 	if (map == NULL)
 		terminate(ERR_MAP);
-	get_map_dim(av, map);
+	get_map_dim(av, map, 0);
 	get_line_len(map);
 	map->point_amt = map->width * map->height;
 	map_init_helper(map);

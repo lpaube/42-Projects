@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/07/13 16:09:23 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/13 19:37:57 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,19 @@ int	map_dim_helper(char **table, int tmp_width, t_map *map)
 	return (tmp_width);
 }
 
-void	get_map_dim(char **av, t_map *map)
+void	get_map_dim(char **av, t_map *map, int tmp_width)
 {
 	int		fd;
 	char	*line;
 	char	**table;
 	int		gnl_ret;
-	int		tmp_width;
 
-	tmp_width = 0;
 	gnl_ret = 1;
 	map->width = 0;
 	map->height = 0;
 	fd = open(av[1], O_RDONLY);
+	if (fd == -1)
+		terminate(ERR_MAP_OPEN);
 	while (gnl_ret > 0)
 	{
 		gnl_ret = get_next_line(fd, &line);

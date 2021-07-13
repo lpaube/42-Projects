@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/13 16:16:00 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/13 19:38:36 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_fdf	*fdf_init(t_map *map, t_cam *cam);
 void	terminate(char *s);
 void	map_to_point(t_map *map, int fd, int i, int gnl_ret);
 void	coord_to_point(t_map *map, t_point *point);
-void	get_map_dim(char **av, t_map *map);
+void	get_map_dim(char **av, t_map *map, int tmp_width);
 t_point	set_point(t_map *map, char *num, int col, int row);
 void	iso(t_point *point, t_map *map);
 void	get_line_len(t_map *map);
