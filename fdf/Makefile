@@ -13,7 +13,7 @@ SRCS =		fdf.c \
 			set_point.c \
 			update_point.c \
 
-CC =		gcc
+CC =		clang
 CFLAGS =	-Wall -Werror -Wextra -c -g
 INCLUDES =	-Imlx_mac -Iincludes
 LIBS =		-Lmlx_mac -lmlx -Llibft -lft -framework OpenGL -framework AppKit

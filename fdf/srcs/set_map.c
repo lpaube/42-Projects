@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 19:03:43 by laube             #+#    #+#             */
-/*   Updated: 2021/07/09 16:29:20 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/13 14:52:01 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,28 @@ void	increase_height(t_map *map, int gnl_ret, int tmp_width)
 	}
 }
 
+int	map_dim_helper(char **table, int tmp_width, t_map *map)
+{
+	while (*(table))
+	{
+		tmp_width++;
+		table++;
+//		free(*(table++));
+	}
+	if (map->height == 0)
+		map->width = tmp_width;
+	return (tmp_width);
+}
+
+void	free_table(char **table)
+{
+	int	i;
+
+	i = 0;
+	while (table[i])
+		free(table[i++]);
+}
+
 void	get_map_dim(char **av, t_map *map)
 {
 	int		fd;
@@ -75,15 +97,11 @@ void	get_map_dim(char **av, t_map *map)
 	{
 		gnl_ret = get_next_line(fd, &line);
 		table = ft_split(line, ' ');
-		while (*(table))
-		{
-			tmp_width++;
-			free(*(table++));
-		}
-		if (map->height == 0)
-			map->width = tmp_width;
+		tmp_width = map_dim_helper(table, tmp_width, map);
 		increase_height(map, gnl_ret, tmp_width);
 		tmp_width = 0;
+		free_table(table);
+		free(table);
 		free(line);
 	}
 	window_sizing(map);

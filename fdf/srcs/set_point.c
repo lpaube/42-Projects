@@ -6,11 +6,13 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 20:48:31 by laube             #+#    #+#             */
-/*   Updated: 2021/07/09 16:34:04 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/13 15:02:07 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+
+void	free_table(char **table);
 
 void	coord_to_point(t_map *map, t_point *point)
 {
@@ -94,27 +96,26 @@ void	map_to_point(t_map *map, int fd, int i)
 	int		curr_row;
 	char	**row;
 	char	*line;
+	char	**row_og;
 
 	gnl_ret = 1;
-	curr_row = 0;
-	map->point_og = malloc(map->point_amt *sizeof(*(map->point_og)));
-	map->point = malloc(map->point_amt *sizeof(*(map->point)));
-	while (gnl_ret)
+	curr_row = -1;
+	while (gnl_ret && curr_row++ > -10)
 	{
-		curr_col = 0;
+		curr_col = -1;
 		gnl_ret = get_next_line(fd, &line);
 		if (gnl_ret < 0)
 			terminate(ERR_MAP_READ);
 		row = ft_split(line, ' ');
-		while (*row)
+		row_og = row;
+		while (*row && curr_col++ > -10 && i++ > -10)
 		{
 			map->point_og[i] = set_point(map, *row, curr_col, curr_row);
-			free(*(row++));
-			curr_col++;
-			i++;
+			row++;
+			//free(*(row++));
 		}
+		free_table(row_og);
+		free(row_og);
 		free(line);
-		curr_row++;
 	}
-	free(row);
 }

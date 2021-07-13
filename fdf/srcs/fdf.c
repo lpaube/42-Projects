@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 12:14:48 by laube             #+#    #+#             */
-/*   Updated: 2021/07/09 16:57:17 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/13 14:35:52 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	close_window(t_fdf *fdf)
 	free(fdf->cam);
 	free(fdf->map->point_og);
 	free(fdf->map);
+	mlx_destroy_image(fdf->mlx_ptr, fdf->img_ptr);
 	mlx_destroy_window(fdf->mlx_ptr, fdf->win_ptr);
 	free(fdf);
-	fscanf(stdin, "c");
 	exit(0);
 }
 

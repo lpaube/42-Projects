@@ -6,17 +6,17 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/12 16:29:35 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 22:07:14 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/13 12:09:22 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 # define MENU_WIDTH	50
-# include "./key_codes_mac.h"
+# include "key_codes_mac.h"
 //# include "./key_codes_linux.h"
 # include "../libft/libft.h"
-# include "./error_message.h"
+# include "error_message.h"
 # include "../libft/get_next_line.h"
 # include "../mlx_mac/mlx.h"
 # include <stdio.h>
