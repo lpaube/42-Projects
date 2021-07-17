@@ -1,7 +1,7 @@
 NAME =		fdf
-OBJ_DIR =	obj/
-SRC_DIR =	srcs/
-LIBFT =		libft/
+OBJS_PATH =	objs
+SRCS_PATH =	srcs
+LIBFT =		libft
 
 SRCS =		fdf.c \
 			coloring.c \
@@ -14,39 +14,39 @@ SRCS =		fdf.c \
 			update_point.c \
 			utils.c \
 
-CC =		clang
+CC =		gcc
 CFLAGS =	-Wall -Werror -Wextra -c -g
 INCLUDES =	-Imlx_mac -Iincludes
 LIBS =		-Lmlx_mac -lmlx -Llibft -lft -framework OpenGL -framework AppKit
 OBJS =		$(SRCS:.c=.o)
 
-SRC_PATH =	$(addprefix srcs/, $(SRCS))
-OBJ_PATH =	$(addprefix obj/, $(OBJS))
+SRCS_FULL =	$(addprefix srcs/, $(SRCS))
+OBJS_FULL =	$(addprefix objs/, $(OBJS))
 
-all: $(OBJ_DIR) $(NAME)
+all: $(OBJS_PATH) $(NAME)
 
-$(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
+$(OBJS_PATH):
+	@mkdir -p $(OBJS_PATH)
 	@echo Created: Object directory
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS_FULL)
 	@make re --no-print-directory -C ./libft
-	@$(CC) $(OBJ_PATH) $(LIBS) -o $(NAME)
+	@$(CC) $(OBJS_FULL) $(LIBS) -o $(NAME)
 	@echo "\\n\033[32;1m FDF HAS BEEN GENERATED \033[0m \\n"
 
-$(OBJS): $(SRC_PATH)
-	@echo "Created: obj/$@\033[1A\033[M"
-	@$(CC) $(CFLAGS) $(INCLUDES) srcs/$(@:.o=.c) -o obj/$@
+$(OBJS_PATH)/%.o: $(SRCS_PATH)/%.c
+	@echo "Created: $@\033[1A\033[M"
+	@$(CC) $(CFLAGS) $(INCLUDES) $< -o $@
 
 clean:
 	@make clean --no-print-directory -C ./libft
-	@rm -rf $(OBJ_PATH) $(OBJ_DIR)
+	@rm -rf $(OBJS_FULL) $(OBJS_PATH) 
 	@echo "\033[34;1m CLEANED OBJECT FILES \033[0m"
 
 fclean: clean
 	@make fclean --no-print-directory -C ./libft
 	@rm -f $(NAME)
-	@echo "\033[34;1m CLEANED PUSH_SWAP \033[0m"
+	@echo "\033[34;1m CLEANED FDF \033[0m"
 
 re: fclean all
 
