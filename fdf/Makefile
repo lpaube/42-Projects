@@ -50,6 +50,8 @@ fclean: clean
 
 re: fclean all
 
+.PHONY: all clean fclean re
+
 #linux: 
 #	make re -C ./libft
 #	gcc -Wall -Wextra -Werror -g srcs/*.c -Imlx_linux -Lmlx_linux -Llibft -lft -lmlx -lX11 -lm -lz -lXext
