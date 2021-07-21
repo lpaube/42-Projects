@@ -6,27 +6,11 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 23:25:59 by laube             #+#    #+#             */
-/*   Updated: 2021/05/06 13:33:12 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/20 20:31:27 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-static void		str_alloc(char **table, char const *s, char c);
-static int		table_size(char const *s, char c);
-static void		split_it(char **table, char const *s, char c);
-
-char	**ft_split(char const *s, char c)
-{
-	char	**table;
-
-	table = malloc((table_size(s, c) * (sizeof(*table))) + 1);
-	if (!table)
-		return (NULL);
-	str_alloc(table, s, c);
-	split_it(table, s, c);
-	return (table);
-}
+#include "../incls/pipex.h"
 
 static int	table_size(char const *s, char c)
 {
@@ -103,4 +87,16 @@ static void	split_it(char **table, char const *s, char c)
 		s++;
 	}
 	table[i] = 0;
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	**table;
+
+	table = malloc((table_size(s, c) * (sizeof(*table))) + 1);
+	if (!table)
+		return (NULL);
+	str_alloc(table, s, c);
+	split_it(table, s, c);
+	return (table);
 }

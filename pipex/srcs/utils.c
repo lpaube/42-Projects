@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 18:26:31 by laube             #+#    #+#             */
-/*   Updated: 2021/07/19 18:32:27 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/20 20:40:36 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,29 @@
 
 void	check_access(char *path, int write)
 {
-	if (access(path, F_OK) == -1)
-		terminate(ERR_MISSING_FILE);
-	if (access(path, W_OK) == -1 && write == 1)
-		terminate(ERR_WRITE_FILE);
-	if (access(path, R_OK) == -1 && write == 0)
-		terminate(ERR_READ_FILE);
+	if (write == 0)
+	{
+		if (access(path, F_OK) == -1)
+			terminate(ERR_READ);
+		if (access(path, R_OK) == -1)
+			terminate(ERR_READ);
+	}
+	else if (write == 1)
+	{
+		if (access(path, F_OK) != -1)
+		{
+			if (access(path, W_OK) == -1)
+				terminate(ERR_WRITE);
+		}
+	}
 }
 
 void	terminate(char *errstr)
 {
-	(void)errstr;
 	if (errno != 0)
-	{
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd(": ", 2);
-	}
+		perror(errstr);
 	else
+		ft_putstr_fd(errstr, 2);
 	exit(0);
 }
 

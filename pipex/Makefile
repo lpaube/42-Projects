@@ -3,7 +3,8 @@ NAME =			pipex
 SRC_DIR =		srcs
 OBJ_DIR =		objs
 
-SRCS =			pipex.c utils.c
+SRCS =			pipex.c utils.c ft_split.c ft_strnstr.c ft_strjoin.c \
+				ft_putstr_fd.c ft_strchr.c ft_strlen.c
 OBJS =			$(SRCS:.c=.o)
 
 SRCS_PATH =		$(addprefix $(SRC_DIR)/, $(SRCS))
@@ -13,8 +14,7 @@ CC =			gcc
 CFLAGS =		-Wall -Werror -Wextra -g
 
 $(NAME): $(OBJ_DIR) $(OBJS_PATH)
-	@make re --no-print-directory -C ./libft
-	@$(CC) $(OBJS_PATH) -Llibft -lft -o $(NAME)
+	@$(CC) $(OBJS_PATH) -o $(NAME)
 	@echo "\\n\033[32;1m PIPEX HAS BEEN GENERATED \033[0m \\n"
 	
 $(OBJ_DIR):
@@ -28,12 +28,10 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 all: $(NAME)
 
 clean:
-	@make clean --no-print-directory -C ./libft
 	@rm -rf $(OBJS_PATH) $(OBJ_DIR)
 	@echo "\033[34;1m CLEANED OBJECT FILES \033[0m"
 
 fclean: clean
-	@make fclean --no-print-directory -C ./libft
 	@rm -f $(NAME)
 	@echo "\033[34;1m CLEANED PIPEX \033[0m"
 

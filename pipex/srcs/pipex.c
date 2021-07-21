@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 16:44:58 by laube             #+#    #+#             */
-/*   Updated: 2021/07/19 18:30:35 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/20 20:41:04 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	pipe_write(char **argv, char **envp, int *fd)
 {
-	int	input_fd;
-	char **cmd;
+	int		input_fd;
+	char	**cmd;
 
 	close(fd[0]);
 	dup2(fd[1], 1);
@@ -23,26 +23,26 @@ void	pipe_write(char **argv, char **envp, int *fd)
 	check_access(argv[0], 0);
 	input_fd = open(argv[0], O_RDONLY);
 	if (input_fd == -1)
-		terminate(ERR_INPUT_FD);
-	// Replacing stdin by file 1
+		terminate(ERR_OPEN);
 	dup2(input_fd, 0);
 	cmd = ft_split(argv[1], ' ');
 	if (execve(bin_path(envp, cmd), cmd, envp) == -1)
 	{
 		free_table(&cmd);
-		terminate(ERR_EXEC1);
+		terminate(ERR_EXEC);
 	}
 }
 
 void	pipe_read(char **argv, char **envp, int *fd)
 {
-	int	output_fd;
+	int		output_fd;
 	char	**cmd;
 
+	wait(0);
 	check_access(argv[1], 1);
-	output_fd = open(argv[1], O_RDWR);
+	output_fd = open(argv[1], O_RDWR | O_CREAT | O_TRUNC, 777);
 	if (output_fd < 0)
-		terminate(ERR_OUTPUT_FD);
+		terminate(ERR_OPEN);
 	close(fd[1]);
 	dup2(fd[0], 0);
 	close(fd[0]);
@@ -51,7 +51,7 @@ void	pipe_read(char **argv, char **envp, int *fd)
 	if (execve(bin_path(envp, cmd), cmd, envp) == -1)
 	{
 		free_table(&cmd);
-		terminate(ERR_EXEC2);
+		terminate(ERR_EXEC);
 	}
 }
 
@@ -63,14 +63,14 @@ int	main(int argc, char **argv, char **envp)
 	errno = 0;
 	if (argc)
 	{
-		//Create pipe (fd[0]: Read | fd[1]: Write)
 		if (pipe(fd) == -1)
-			return (-1);
-		//Create child 1 (write)
+			terminate("pipe");
 		pid1 = fork();
 		if (pid1 == 0)
 			pipe_write(&argv[1], envp, fd);
 		else if (pid1 > 0)
 			pipe_read(&argv[3], envp, fd);
+		else if (pid1 < 0)
+			terminate("fork");
 	}
 }

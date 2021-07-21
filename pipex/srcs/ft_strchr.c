@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
+/*   By: laube <louis-philippe.aube@hotma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 00:24:09 by laube             #+#    #+#             */
-/*   Updated: 2021/05/15 16:44:22 by laube            ###   ########.fr       */
+/*   Created: 2021/05/10 17:53:40 by laube             #+#    #+#             */
+/*   Updated: 2021/07/20 20:36:45 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../incls/pipex.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+char	*ft_strchr(const char *s, int c)
 {
-	int	i;
-
-	i = 0;
-	c = (unsigned char)c;
-	while (len > 0)
+	while (*s)
 	{
-		((char *)b)[i] = c;
-		i++;
-		len--;
+		if (*s == c)
+			return ((char *)s);
+		s++;
 	}
-	return ((char *)b);
+	if (*s == c)
+		return ((char *)s);
+	return (NULL);
 }
