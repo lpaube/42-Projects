@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 16:44:58 by laube             #+#    #+#             */
-/*   Updated: 2021/07/20 20:41:04 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/20 21:13:14 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	pipe_read(char **argv, char **envp, int *fd)
 
 	wait(0);
 	check_access(argv[1], 1);
-	output_fd = open(argv[1], O_RDWR | O_CREAT | O_TRUNC, 777);
+	output_fd = open(argv[1], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (output_fd < 0)
 		terminate(ERR_OPEN);
 	close(fd[1]);
@@ -61,7 +61,7 @@ int	main(int argc, char **argv, char **envp)
 	int	pid1;
 
 	errno = 0;
-	if (argc)
+	if (argc == 5)
 	{
 		if (pipe(fd) == -1)
 			terminate("pipe");
@@ -73,4 +73,6 @@ int	main(int argc, char **argv, char **envp)
 		else if (pid1 < 0)
 			terminate("fork");
 	}
+	else
+		terminate("Usage: ./pipex <file1> <cmd1> <cmd2> <file2>\n");
 }
