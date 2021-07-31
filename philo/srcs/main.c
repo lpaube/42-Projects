@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:07:05 by laube             #+#    #+#             */
-/*   Updated: 2021/07/30 23:37:45 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/31 00:06:54 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,18 +110,34 @@ void	*routine(void *philo)
 
 	phil = (struct s_philos *)philo;
 	conf = phil->configs;
-	pthread_mutex_lock(&conf->mutex);
-	if (phil->state == 't' && conf->forks[phil->id])
+
+	while (1)
 	{
-		if (conf->forks[(phil->id + 1) % conf->phils_num])
+		pthread_mutex_lock(&conf->mutex);
+
+		// To eat
+		if (phil->state == 't' && conf->forks[phil->id])
 		{
-			conf->forks[phil->id] = 0;
-			printf("%d %d has taken a fork\n", get_time() - conf->start_time, phil->id + 1);
-			conf->forks[(phil->id + 1) % conf->phils_num] = 0;
-			printf("%d %d has taken a fork\n", get_time() - conf->start_time, phil->id + 1);
+			if (conf->forks[(phil->id + 1) % conf->phils_num])
+			{
+				conf->forks[phil->id] = 0;
+				conf->forks[(phil->id + 1) % conf->phils_num] = 0;
+				printf("%d %d has taken the left and right fork\n", get_time() - conf->start_time, phil->id + 1);
+				phil->state = 'e';
+				printf("%d %d is eating\n", get_time() - conf->start_time, phil->id + 1);
+				phil->state_time = get_time();
+			}
 		}
+		// To sleep
+		if (phil->state == 'e' && get_time() - phil->state_time >= conf->eat_time)
+		{
+			conf->forks[phil->id] = 1;
+			conf->forks[(phil->id + 1) % conf->phils_num] = 1;
+			phil->state = 's';
+			printf("%d %d is sleeping\n", get_time() - conf->start_time, phil->id + 1);
+		}
+		pthread_mutex_unlock(&conf->mutex);
 	}
-	pthread_mutex_unlock(&conf->mutex);
 	return (NULL);
 }
 
