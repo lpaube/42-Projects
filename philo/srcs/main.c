@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:07:05 by laube             #+#    #+#             */
-/*   Updated: 2021/07/31 00:06:54 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/31 01:03:14 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ t_configs	*init_configs(int argc, char **argv)
 	i = 0;
 	configs = malloc(sizeof(t_configs));
 	configs->phils_num = ft_atoi(argv[1]);
-	configs->forks_num = configs->phils_num + 1;
 	configs->die_time = ft_atoi(argv[2]);
 	configs->eat_time = ft_atoi(argv[3]);
 	configs->sleep_time = ft_atoi(argv[4]);
@@ -97,6 +96,9 @@ void	*init_philos(int argc, char **argv)
 		philos[i].id = i;
 		philos[i].holds_left = 0;
 		philos[i].holds_right = 0;
+		philos[i].state_time = 0;
+		philos[i].ate_num = 0;
+		philos[i].last_meal_time = get_time();
 		philos[i].configs = configs;
 		i++;
 	}
@@ -118,23 +120,52 @@ void	*routine(void *philo)
 		// To eat
 		if (phil->state == 't' && conf->forks[phil->id])
 		{
+		//	printf("eat_active: %d | ate_num: %d | eat_num: %d\n", conf->eat_num_active, phil->ate_num, conf->eat_num);
+			//printf("fork: %d\n", conf->forks[(phil->id + 1) % conf->phils_num]);
 			if (conf->forks[(phil->id + 1) % conf->phils_num])
 			{
-				conf->forks[phil->id] = 0;
-				conf->forks[(phil->id + 1) % conf->phils_num] = 0;
-				printf("%d %d has taken the left and right fork\n", get_time() - conf->start_time, phil->id + 1);
-				phil->state = 'e';
-				printf("%d %d is eating\n", get_time() - conf->start_time, phil->id + 1);
-				phil->state_time = get_time();
+				if (!(conf->eat_num_active && phil->ate_num >= conf->eat_num))
+				{
+					conf->forks[phil->id] = 0;
+					conf->forks[(phil->id + 1) % conf->phils_num] = 0;
+					printf("%d %d has taken his left and right fork\n", get_time() - conf->start_time, phil->id + 1);
+					phil->state = 'e';
+					printf("%d %d is eating\n", get_time() - conf->start_time, phil->id + 1);
+					phil->ate_num++;
+					phil->state_time = get_time();
+					phil->last_meal_time = get_time();
+				}
 			}
 		}
+
 		// To sleep
 		if (phil->state == 'e' && get_time() - phil->state_time >= conf->eat_time)
 		{
+			if (conf->eat_num_active && phil->ate_num >= conf->eat_num)
+			{
+				printf("%d %d can't ever take any more food\n", get_time() - conf->start_time, phil->id + 1);
+			}
+
 			conf->forks[phil->id] = 1;
 			conf->forks[(phil->id + 1) % conf->phils_num] = 1;
+			printf("%d %d has put down his forks\n", get_time() - conf->start_time, phil->id + 1);
 			phil->state = 's';
 			printf("%d %d is sleeping\n", get_time() - conf->start_time, phil->id + 1);
+			phil->state_time = get_time();
+		}
+
+		// To think
+		if (phil->state == 's' && get_time() - phil->state_time >= conf->sleep_time)
+		{
+			phil->state = 't';
+			printf("%d %d is thinking\n", get_time() - conf->start_time, phil->id + 1);
+		}
+
+		// To die
+		if (get_time() - phil->last_meal_time >= conf->die_time)
+		{
+			phil->state = 'd';
+			printf("%d %d is dead\n", get_time() - conf->start_time, phil->id + 1);
 		}
 		pthread_mutex_unlock(&conf->mutex);
 	}

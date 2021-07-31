@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 18:55:24 by laube             #+#    #+#             */
-/*   Updated: 2021/07/30 23:40:48 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/31 00:28:16 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ typedef struct	s_configs
 {
 	unsigned int	start_time;
 	int	phils_num;
-	int	forks_num;
 	int	die_time;
 	int	eat_time;
 	int	sleep_time;
@@ -38,7 +37,9 @@ typedef struct	s_philos
 	char		state; // e: eating | t: thinking | s: sleeping | d: dead
 	int			holds_left;
 	int			holds_right;
+	int			ate_num;
 	unsigned int	state_time;
+	unsigned int	last_meal_time;
 	t_configs	*configs;
 }				t_philos;
 
