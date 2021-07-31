@@ -23,7 +23,7 @@ $(NAME): $(OBJS_FULL)
 	@echo "\\n\033[32;1m PHILO HAS BEEN GENERATED \033[0m \\n"
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-	@echo "Created: :$@"
+	@echo "Created: $@"
 	@$(CC) $(CFLAGS) $< -o $@
 
 clean:

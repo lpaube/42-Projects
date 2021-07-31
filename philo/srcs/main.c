@@ -6,14 +6,11 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:07:05 by laube             #+#    #+#             */
-/*   Updated: 2021/07/30 16:33:04 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/30 23:37:45 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incls/philo.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <pthread.h>
 
 int	ft_atoi(const char *str)
 {
@@ -38,7 +35,6 @@ int	ft_atoi(const char *str)
 	return (curr_num * state);
 }
 
-
 int	*init_forks(int	num)
 {
 	int	i;
@@ -47,8 +43,18 @@ int	*init_forks(int	num)
 	forks = malloc(sizeof(int) * num);
 	i = 0;
 	while (i < num)
-		forks[i++] = 0;
+		forks[i++] = 1;
 	return (forks);
+}
+
+unsigned int	get_time(void)
+{
+	struct timeval	time;
+	unsigned int	milli_time;
+
+	gettimeofday(&time, NULL);
+	milli_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	return (milli_time);
 }
 
 t_configs	*init_configs(int argc, char **argv)
@@ -65,6 +71,8 @@ t_configs	*init_configs(int argc, char **argv)
 	configs->sleep_time = ft_atoi(argv[4]);
 	configs->eat_num = 0;
 	configs->eat_num_active = 0;
+	configs->start_time = get_time();
+	pthread_mutex_init(&configs->mutex, NULL);
 	configs->forks = init_forks(configs->phils_num + 1);
 	if (argc == 6)
 	{
@@ -97,7 +105,23 @@ void	*init_philos(int argc, char **argv)
 
 void	*routine(void *philo)
 {
-	printf("id of philo: %d\n", ((struct s_philos *)philo)->id);
+	t_configs	*conf;
+	t_philos	*phil;
+
+	phil = (struct s_philos *)philo;
+	conf = phil->configs;
+	pthread_mutex_lock(&conf->mutex);
+	if (phil->state == 't' && conf->forks[phil->id])
+	{
+		if (conf->forks[(phil->id + 1) % conf->phils_num])
+		{
+			conf->forks[phil->id] = 0;
+			printf("%d %d has taken a fork\n", get_time() - conf->start_time, phil->id + 1);
+			conf->forks[(phil->id + 1) % conf->phils_num] = 0;
+			printf("%d %d has taken a fork\n", get_time() - conf->start_time, phil->id + 1);
+		}
+	}
+	pthread_mutex_unlock(&conf->mutex);
 	return (NULL);
 }
 
@@ -130,4 +154,5 @@ int	main(int argc, char **argv)
 		return (printf("Number of args is %d: should be 5 or 6\n", argc));
 	philos = init_philos(argc, argv);
 	init_threads(philos);
+	pthread_mutex_destroy(&philos->configs->mutex);
 }
