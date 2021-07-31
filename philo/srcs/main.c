@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:07:05 by laube             #+#    #+#             */
-/*   Updated: 2021/07/31 01:03:14 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/31 15:35:45 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_configs	*init_configs(int argc, char **argv)
 	configs->sleep_time = ft_atoi(argv[4]);
 	configs->eat_num = 0;
 	configs->eat_num_active = 0;
+	configs->gameover = 0;
 	configs->start_time = get_time();
 	pthread_mutex_init(&configs->mutex, NULL);
 	configs->forks = init_forks(configs->phils_num + 1);
@@ -89,6 +90,7 @@ void	*init_philos(int argc, char **argv)
 
 	configs = init_configs(argc, argv);
 	philos = malloc(sizeof(t_philos) * configs->phils_num);
+	configs->philos = philos;
 	i = 0;
 	while (i < configs->phils_num)
 	{
@@ -105,6 +107,20 @@ void	*init_philos(int argc, char **argv)
 	return (philos);
 }
 
+int	meal_quota(t_configs *conf)
+{
+	int	i;
+
+	i = 0;
+	while (i < conf->phils_num)
+	{
+		if (conf->philos[i].ate_num < conf->eat_num && conf->eat_num_active)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	*routine(void *philo)
 {
 	t_configs	*conf;
@@ -116,41 +132,41 @@ void	*routine(void *philo)
 	while (1)
 	{
 		pthread_mutex_lock(&conf->mutex);
+		if (conf->gameover == 1)
+		{
+			pthread_mutex_unlock(&conf->mutex);
+			return (NULL);
+		}
 
 		// To eat
 		if (phil->state == 't' && conf->forks[phil->id])
 		{
-		//	printf("eat_active: %d | ate_num: %d | eat_num: %d\n", conf->eat_num_active, phil->ate_num, conf->eat_num);
-			//printf("fork: %d\n", conf->forks[(phil->id + 1) % conf->phils_num]);
 			if (conf->forks[(phil->id + 1) % conf->phils_num])
 			{
-				if (!(conf->eat_num_active && phil->ate_num >= conf->eat_num))
+				conf->forks[phil->id] = 0;
+				conf->forks[(phil->id + 1) % conf->phils_num] = 0;
+				phil->state = 'e';
+				printf("%d\t%d has taken his left and right fork and is eating \U0001F35C\n", get_time() - conf->start_time, phil->id + 1);
+				phil->ate_num++;
+				if (meal_quota(conf))
 				{
-					conf->forks[phil->id] = 0;
-					conf->forks[(phil->id + 1) % conf->phils_num] = 0;
-					printf("%d %d has taken his left and right fork\n", get_time() - conf->start_time, phil->id + 1);
-					phil->state = 'e';
-					printf("%d %d is eating\n", get_time() - conf->start_time, phil->id + 1);
-					phil->ate_num++;
-					phil->state_time = get_time();
-					phil->last_meal_time = get_time();
+					conf->gameover = 1;
+					printf("%d\tAll the meals have been eaten. The philosophers feel quite full.\n", get_time() - conf->start_time);
+					pthread_mutex_unlock(&conf->mutex);
+					return (NULL);
 				}
+				phil->state_time = get_time();
+				phil->last_meal_time = get_time();
 			}
 		}
 
 		// To sleep
 		if (phil->state == 'e' && get_time() - phil->state_time >= conf->eat_time)
 		{
-			if (conf->eat_num_active && phil->ate_num >= conf->eat_num)
-			{
-				printf("%d %d can't ever take any more food\n", get_time() - conf->start_time, phil->id + 1);
-			}
-
 			conf->forks[phil->id] = 1;
 			conf->forks[(phil->id + 1) % conf->phils_num] = 1;
-			printf("%d %d has put down his forks\n", get_time() - conf->start_time, phil->id + 1);
 			phil->state = 's';
-			printf("%d %d is sleeping\n", get_time() - conf->start_time, phil->id + 1);
+			printf("%d\t%d has put down his forks and gone to sleep \U0001F4A4\n", get_time() - conf->start_time, phil->id + 1);
 			phil->state_time = get_time();
 		}
 
@@ -158,14 +174,15 @@ void	*routine(void *philo)
 		if (phil->state == 's' && get_time() - phil->state_time >= conf->sleep_time)
 		{
 			phil->state = 't';
-			printf("%d %d is thinking\n", get_time() - conf->start_time, phil->id + 1);
+			printf("%d\t%d is thinking \U0001F914\n", get_time() - conf->start_time, phil->id + 1);
 		}
 
 		// To die
 		if (get_time() - phil->last_meal_time >= conf->die_time)
 		{
 			phil->state = 'd';
-			printf("%d %d is dead\n", get_time() - conf->start_time, phil->id + 1);
+			conf->gameover = 1;
+			printf("%d\t%d is dead \U0001F480\n", get_time() - conf->start_time, phil->id + 1);
 		}
 		pthread_mutex_unlock(&conf->mutex);
 	}

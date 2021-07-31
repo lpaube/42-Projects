@@ -32,7 +32,7 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "\033[34;1m CLEANED FDF \033[0m"
+	@echo "\033[34;1m CLEANED PHILO \033[0m"
 
 re: fclean all
 
