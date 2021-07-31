@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 18:55:24 by laube             #+#    #+#             */
-/*   Updated: 2021/07/31 15:03:21 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/31 18:56:11 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ struct	s_configs
 	int	eat_num;
 	int	eat_num_active;
 	int	gameover;
-	pthread_mutex_t	mutex;
+	pthread_mutex_t	*f_mutex;
+	pthread_mutex_t	*mutex;
 	int	*forks; // 0: in use | 1: available
 	t_philos	*philos;
 };
