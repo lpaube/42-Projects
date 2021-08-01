@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/31 21:46:19 by laube             #+#    #+#             */
-/*   Updated: 2021/07/31 21:53:11 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/31 23:20:41 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,18 @@ pthread_mutex_t	*init_mutex(int	num)
 	return (mutex);
 }
 
+int	*init_queue(t_configs *conf)
+{
+	int	*queue;
+	int	i;
+
+	i = 0;
+	queue = malloc(sizeof(int) * conf->phils_num);
+	while (i < conf->phils_num)
+		queue[i++] = -1;
+	return (queue);
+}
+
 t_configs	*init_configs(int argc, char **argv)
 {
 	t_configs	*configs;
@@ -56,6 +68,7 @@ t_configs	*init_configs(int argc, char **argv)
 	configs->f_mutex = init_mutex(configs->phils_num);
 	configs->mutex = init_mutex(1);
 	configs->forks = init_forks(configs->phils_num);
+	configs->queue = init_queue(configs);
 	if (argc == 6)
 	{
 		configs->eat_num = ft_atoi(argv[5]);

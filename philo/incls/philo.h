@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 18:55:24 by laube             #+#    #+#             */
-/*   Updated: 2021/07/31 22:04:27 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/31 23:19:18 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ struct	s_configs
 	pthread_mutex_t	*f_mutex;
 	pthread_mutex_t	*mutex;
 	int	*forks; // 0: in use | 1: available
+	int	*queue;
 	t_philos	*philos;
 };
 
