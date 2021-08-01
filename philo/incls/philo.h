@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 18:55:24 by laube             #+#    #+#             */
-/*   Updated: 2021/07/31 18:56:11 by laube            ###   ########.fr       */
+/*   Updated: 2021/07/31 22:04:27 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,13 @@ struct	s_philos
 	unsigned int	last_meal_time;
 	t_configs	*configs;
 };
+
+int	init_threads(t_philos *philos);
+void	*init_philos(int argc, char **argv);
+int	ft_atoi(const char *str);
+unsigned int	get_time(void);
+void	*routine(void *philo);
+void	destroy_mutex(int mutex_num, pthread_mutex_t *mutex);
+int	meal_quota(t_configs *conf);
 
 # endif
