@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/31 21:55:31 by laube             #+#    #+#             */
-/*   Updated: 2021/08/01 15:03:43 by laube            ###   ########.fr       */
+/*   Updated: 2021/08/02 13:08:57 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,11 @@ void	get_in_queue(t_philos *phil, t_configs *conf)
 {
 	int	i;
 
-	/*
-	printf("getinQueue before: (id: %d) [", phil->id);
-	for (int j = 0; j < conf->phils_num; j++)
-		printf("%d, ", conf->queue[j]);
-	printf("]\n");
-	*/
 	i = 0;
 	while (i < conf->phils_num)
 	{
 		if (phil->id == conf->queue[i])
 		{
-			/*
-			printf("getinQueue after (id: %d alin | fork lef: %d | fork ri: %d): [", phil->id, conf->forks[phil->id], conf->forks[(phil->id + 1) % conf->phils_num]);
-			for (int j = 0; j < conf->phils_num; j++)
-				printf("%d, ", conf->queue[j]);
-			printf("]\n");
-			*/
 			return ;
 		}
 		// Placing ID at end of queue
@@ -43,12 +31,6 @@ void	get_in_queue(t_philos *phil, t_configs *conf)
 		}
 		i++;
 	}
-	/*
-	printf("getinQueue after: (id: %d) [", phil->id);
-	for (int j = 0; j < conf->phils_num; j++)
-		printf("%d, ", conf->queue[j]);
-	printf("]\n");
-//	*/
 }
 
 int	check_queue(t_philos *phil, t_configs *conf)
@@ -56,12 +38,6 @@ int	check_queue(t_philos *phil, t_configs *conf)
 	int	i;
 	int	id;
 
-	/*
-	printf("checkQueue before: (id: %d) [", phil->id);
-	for (int j = 0; j < conf->phils_num; j++)
-		printf("%d, ", conf->queue[j]);
-	printf("]\n");
-//	*/
 	i = 0;
 	while (i < conf->phils_num && conf->queue[i] != -1)
 	{
@@ -82,12 +58,6 @@ int	check_queue(t_philos *phil, t_configs *conf)
 		}
 		i++;
 	}
-	/*
-	printf("checkQueue is not in: (id: %d) [", phil->id);
-	for (int j = 0; j < conf->phils_num; j++)
-		printf("%d, ", conf->queue[j]);
-	printf("]\n");
-//	*/
 	return (1);
 }
 
