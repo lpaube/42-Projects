@@ -10,7 +10,7 @@ SRCS_FULL =	$(addprefix srcs/, $(SRCS))
 OBJS_FULL =	$(addprefix objs/, $(OBJS))
 
 CC =		gcc
-CFLAGS =	-pthread -g -c#-Wall -Werror -Wextra -c -pthread -g
+CFLAGS =	-pthread -Wall -Werror -Wextra -c
 
 all: $(OBJS_DIR) $(NAME)
 

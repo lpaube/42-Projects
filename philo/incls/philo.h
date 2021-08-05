@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 18:55:24 by laube             #+#    #+#             */
-/*   Updated: 2021/08/05 11:39:27 by laube            ###   ########.fr       */
+/*   Updated: 2021/08/05 11:51:46 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ struct	s_configs
 {
 	unsigned int	start_time;
 	int				phils_num;
-	int				die_time;
-	int				eat_time;
-	int				sleep_time;
+	unsigned int	die_time;
+	unsigned int	eat_time;
+	unsigned int	sleep_time;
 	int				eat_num;
 	int				eat_num_active;
 	int				gameover;
