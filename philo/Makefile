@@ -2,7 +2,7 @@ NAME =		philo
 OBJS_DIR =	objs
 SRCS_DIR =	srcs
 
-SRCS =		main.c init.c action.c utils.c
+SRCS =		main.c init.c action.c utils.c init2.c routine.c
 
 OBJS =		$(SRCS:.c=.o)
 

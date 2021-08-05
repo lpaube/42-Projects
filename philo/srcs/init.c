@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/31 21:46:19 by laube             #+#    #+#             */
-/*   Updated: 2021/08/02 13:47:30 by laube            ###   ########.fr       */
+/*   Updated: 2021/08/04 14:17:09 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	*init_forks(int	num)
 pthread_mutex_t	*init_mutex(int	num)
 {
 	pthread_mutex_t	*mutex;
-	int	i;
+	int				i;
 
 	mutex = malloc(sizeof(pthread_mutex_t) * num);
 	i = 0;
@@ -75,50 +75,4 @@ t_configs	*init_configs(int argc, char **argv)
 		configs->eat_num_active = 1;
 	}
 	return (configs);
-}
-
-void	*init_philos(int argc, char **argv)
-{
-	t_philos	*philos;
-	t_configs	*configs;
-	int			i;
-
-	configs = init_configs(argc, argv);
-	philos = malloc(sizeof(t_philos) * configs->phils_num);
-	configs->philos = philos;
-	i = 0;
-	while (i < configs->phils_num)
-	{
-		philos[i].state = 't';
-		philos[i].id = i;
-		philos[i].holds_left = 0;
-		philos[i].holds_right = 0;
-		philos[i].state_time = 0;
-		philos[i].ate_num = 0;
-		philos[i].last_meal_time = get_time();
-		philos[i].configs = configs;
-		i++;
-	}
-	return (philos);
-}
-
-int	init_threads(t_philos *philos)
-{
-	pthread_t	*tid;
-	int			i;
-
-	tid = malloc(sizeof(tid) * philos->configs->phils_num);
-	i = 0;
-	while (i < philos->configs->phils_num)
-	{
-		pthread_create(&tid[i], NULL, &routine, &philos[i]);
-		i++;
-	}
-	i = 0;
-	while (i < philos->configs->phils_num)
-	{
-		pthread_join(tid[i], NULL);
-		i++;
-	}
-	return (0);
 }

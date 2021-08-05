@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/31 22:01:26 by laube             #+#    #+#             */
-/*   Updated: 2021/07/31 22:03:30 by laube            ###   ########.fr       */
+/*   Updated: 2021/08/05 11:15:28 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,18 @@ void	destroy_mutex(int mutex_num, pthread_mutex_t *mutex)
 	i = 0;
 	while (i < mutex_num)
 		pthread_mutex_destroy(&mutex[i++]);
+}
+
+void	print_msg(char c, unsigned int time, int id)
+{
+	if (c == 'f')
+		printf("%d %d has taken a fork\n", time, id);
+	else if (c == 'e')
+		printf("%d %d is eating\n", time, id);
+	else if (c == 's')
+		printf("%d %d is sleeping\n", time, id);
+	else if (c == 't')
+		printf("%d %d is thinking\n", time, id);
+	else if (c == 'd')
+		printf("%d %d died\n", time, id);
 }
