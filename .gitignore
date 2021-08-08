@@ -2,3 +2,4 @@ ft_printf_test
 *.o
 a.out*
 tags
+stranger*
