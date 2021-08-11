@@ -6,7 +6,7 @@
 /*   By: laube <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 11:11:12 by laube             #+#    #+#             */
-/*   Updated: 2021/07/05 17:46:52 by laube            ###   ########.fr       */
+/*   Updated: 2021/08/11 13:01:56 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ft_put_pixel(t_fdf *fdf, int x, int y, int color)
 {
 	int	pxl_pos;
 
+	if (x >= fdf->map->w_width || y >= fdf->map->w_height)
+		return ;
 	pxl_pos = (y * fdf->ln_len) + (x * (fdf->px_bits / 8));
 	if (fdf->endian == 1)
 	{
