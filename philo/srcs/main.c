@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:07:05 by laube             #+#    #+#             */
-/*   Updated: 2021/08/02 14:04:42 by laube            ###   ########.fr       */
+/*   Updated: 2021/08/13 12:24:12 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	free_stuff(t_philos **philos)
 	phils_num = (*philos)->configs->phils_num;
 	free((*philos)->configs->forks);
 	free((*philos)->configs->queue);
+	free((*philos)->configs->mutex);
+	free((*philos)->configs->f_mutex);
 	free((*philos)->configs);
 	free(*philos);
 }

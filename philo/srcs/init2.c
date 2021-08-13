@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 14:16:44 by laube             #+#    #+#             */
-/*   Updated: 2021/08/04 14:17:15 by laube            ###   ########.fr       */
+/*   Updated: 2021/08/13 12:44:01 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ int	init_threads(t_philos *philos)
 		pthread_join(tid[i], NULL);
 		i++;
 	}
+	free(tid);
 	return (0);
 }
