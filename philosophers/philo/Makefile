@@ -19,12 +19,12 @@ $(OBJS_DIR):
 	@echo Created: Object directory
 
 $(NAME): $(OBJS_FULL)
-	@$(CC) $(OBJS_FULL) -o $(NAME)
+	@$(CC) -pthread $(OBJS_FULL) -o $(NAME)
 	@echo "\\n\033[32;1m PHILO HAS BEEN GENERATED \033[0m \\n"
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-	@echo "Created: $@"
 	@$(CC) $(CFLAGS) $< -o $@
+	@echo "Created: $@"
 
 clean:
 	@rm -rf $(OBJS_FULL) $(OBJS_DIR)

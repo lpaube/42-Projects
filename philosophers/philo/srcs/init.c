@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/31 21:46:19 by laube             #+#    #+#             */
-/*   Updated: 2021/08/04 14:17:09 by laube            ###   ########.fr       */
+/*   Updated: 2021/08/18 12:32:07 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,7 @@ int	*init_queue(t_configs *conf)
 t_configs	*init_configs(int argc, char **argv)
 {
 	t_configs	*configs;
-	int			i;
 
-	i = 0;
 	configs = malloc(sizeof(t_configs));
 	configs->phils_num = ft_atoi(argv[1]);
 	configs->die_time = ft_atoi(argv[2]);
