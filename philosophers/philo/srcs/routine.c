@@ -6,7 +6,7 @@
 /*   By: laube <louis-philippe.aube@hotmail.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 11:14:08 by laube             #+#    #+#             */
-/*   Updated: 2021/08/18 01:26:32 by laube            ###   ########.fr       */
+/*   Updated: 2021/08/23 16:55:03 by laube            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ void	get_in_queue(t_philos *phil, t_configs *conf)
 	}
 }
 
+int	get_id(int id, int phils_num)
+{
+	return (((id % phils_num) + phils_num) % phils_num);
+}
+
 int	check_queue(t_philos *phil, t_configs *conf)
 {
 	int	i;
@@ -63,6 +68,11 @@ int	check_queue(t_philos *phil, t_configs *conf)
 	while (i < conf->phils_num && conf->queue[i] != -1)
 	{
 		id = conf->queue[i];
+		if (id == get_id(phil->id + 1, conf->phils_num)
+			|| id == get_id(phil->id - 1, conf->phils_num))
+		{
+			return (0);
+		}
 		if (id == phil->id)
 		{
 			while (i < conf->phils_num - 1)
@@ -72,10 +82,6 @@ int	check_queue(t_philos *phil, t_configs *conf)
 			}
 			conf->queue[i] = -1;
 			return (1);
-		}
-		if (conf->forks[id] && conf->forks[(id + 1) % conf->phils_num])
-		{
-			return (0);
 		}
 		i++;
 	}
